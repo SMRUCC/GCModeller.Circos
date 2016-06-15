@@ -1,0 +1,426 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Circos">
+    <Position X="34.25" Y="21.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AgAAAIYAAGVAgAAgAAEgAhQYAAABRjAwBAAQA0IAUAg=</HashCode>
+      <FileName>ConfFiles\Circos.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.ConfigDoc">
+    <Position X="31.75" Y="17.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAEAQAAAAQABQAAEAAAAAAAAAAAABgAAAAAgg=</HashCode>
+      <FileName>ConfFiles\ComponentModels.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.DoorOperon">
+    <Position X="12.75" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAABQAAAAAEAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Karyotype\DoorOperon.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.GeneObjectPttMark">
+    <Position X="30.75" Y="5.75" Width="6" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABQAgEAIEAAACAAIAAAAAAQAAAAAAEACQgA=</HashCode>
+      <FileName>Karyotype\GeneObjectPttMark.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.KaryotypeDocument">
+    <Position X="41.75" Y="0.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAABQAQAAAEAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Karyotype\KaryotypeDocument.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.CircosDocument">
+    <Position X="13.75" Y="10.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ConfFiles\ComponentModels.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Ticks">
+    <Position X="29.25" Y="21.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAABIAAAQQAAAAAAAAAEAAAAAAECAAAAAAAAAAACAg=</HashCode>
+      <FileName>ConfFiles\Ticks.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Ideogram">
+    <Position X="39.25" Y="21.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>gAAAAIAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>ConfFiles\Ideogram.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.SystemPrefixConfigDoc">
+    <Position X="24.25" Y="21.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAQCAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAg=</HashCode>
+      <FileName>ConfFiles\ComponentModels.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.GeneGCContent">
+    <Position X="4.25" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABQAAAAEEAAACAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Karyotype\GCContent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.GenomeGCContent">
+    <Position X="7" Y="3.5" Width="5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAABQAAAAEEAAACAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Karyotype\GCContent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.GCSkew">
+    <Position X="15.5" Y="3.5" Width="6.25" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAABQAAAAEEAAACAgAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Karyotype\GCContent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.GenomeDescription">
+    <Position X="31.5" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAQAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Karyotype\KaryotypeDocument.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.PhenotypeRegulation">
+    <Position X="37.5" Y="5.75" Width="5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABQAgAAAUAAACAAAAAAAIAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Karyotype\PhenotypeRegulation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.My.MySettings" Collapsed="true">
+    <Position X="86" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.DeltaDiff">
+    <Position X="46.75" Y="3.5" Width="5.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABQAAAAAEAAACAgAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Karyotype\GCContent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.GeneMark">
+    <Position X="27.75" Y="5.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABQAgAAAEAAACAAAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Karyotype\GeneObjectPttMark.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights.Highlights">
+    <Position X="66.5" Y="3.5" Width="3.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAEAAIAAABQAAAAAEAAACAAAAAAAAAACAAAAAAAAIAA=</HashCode>
+      <FileName>Karyotype\Highlights\Highlights.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights.GeneMark">
+    <Position X="61.75" Y="7" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Karyotype\Highlights\Gene.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights.HighlightLabel">
+    <Position X="78" Y="7" Width="5.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAAAAACAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Karyotype\Highlights\Labels.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.BasicGenome">
+    <Position X="22.5" Y="5.75" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABQAgAAAEAAACABAAAAAAAAQAAAAgAAAAAA=</HashCode>
+      <FileName>Karyotype\KaryotypeDocument.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights.GradientMappings">
+    <Position X="52.75" Y="7" Width="8.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Karyotype\Highlights\GradientMappings.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Repeat" Collapsed="true">
+    <Position X="84.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAACAAAAAAAAAACAAAAZAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repeat.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.CircosAttribute" Collapsed="true">
+    <Position X="84.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ConfFiles\Circos.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights.BlastMaps">
+    <Position X="72.5" Y="7" Width="4.75" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAEABRAAAAEEAAACAAAAAQAAAAAAAAggAAAAAA=</HashCode>
+      <FileName>Karyotype\Highlights\BlastMaps\BlastMaps.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights.IdentityColors">
+    <Position X="4.5" Y="26.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Karyotype\Highlights\BlastMaps\IdentityColors.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights.IdentityLevels">
+    <Position X="0.75" Y="28.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Karyotype\Highlights\BlastMaps\IdentityColors.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights.IdentityGradients">
+    <Position X="4" Y="28.5" Width="6.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAQAAAAAAAAAAIAAAAAAACEAAAAIAAAAAA=</HashCode>
+      <FileName>Karyotype\Highlights\BlastMaps\IdentityColors.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights.Repeat">
+    <Position X="67" Y="7" Width="4.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Karyotype\Highlights\Repeat.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Colors.Mappings" Collapsed="true">
+    <Position X="84.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACEAAAAAAAAAAAAACABAAAAgAAAAAA=</HashCode>
+      <FileName>Colors\GradientMaps.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots.Plot">
+    <Position X="9.5" Y="16.5" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>AgCBGoEAAAWQIAAEAAAAABAACAAFAAAAIRAIAEAAAAg=</HashCode>
+      <FileName>ConfFiles\Nodes\Base\Plots.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots.HeatMap">
+    <Position X="13.25" Y="22.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAACACAAAAAAAAAAAAAAAAAAAAAAACAAQAAAAAAAAA=</HashCode>
+      <FileName>ConfFiles\Nodes\Base\Plots.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots.Histogram">
+    <Position X="16.5" Y="22.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>ConfFiles\Nodes\Base\Plots.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots.TextLabel">
+    <Position X="19.5" Y="22.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAiAIAEAAACABAAIAAgEAAAgAACCCAAQACAgCCAAA=</HashCode>
+      <FileName>ConfFiles\Nodes\Base\Plots.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots.ConditionalRule">
+    <Position X="5.75" Y="12.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAQAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>ConfFiles\Nodes\Base\Rule.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots.Connector">
+    <Position X="1.25" Y="22.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>ConfFiles\Nodes\Connector.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots.Connection" Collapsed="true">
+    <Position X="86" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgEAAAAAAAAAAAAEAAAAAAAEAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ConfFiles\Nodes\Connector.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots.HighLight">
+    <Position X="4.75" Y="22.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAAAAAAAAAAAACAQAAAAAAAAA=</HashCode>
+      <FileName>ConfFiles\Nodes\HighLight.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots.Lines.Line">
+    <Position X="8" Y="22.75" Width="4.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAACAAQAAAAAAAAEAAAAAAACAAQBAAAAAAAA=</HashCode>
+      <FileName>ConfFiles\Nodes\Line\Line.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots.SeperatorCircle">
+    <Position X="16.25" Y="25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAIAAAAAAg=</HashCode>
+      <FileName>ConfFiles\Nodes\SeperatorCircle.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Spacing">
+    <Position X="21.75" Y="12.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAQAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ConfFiles\Nodes\Ideogram.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Ideogram">
+    <Position X="25.75" Y="12.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAIEwAMACAUAAAAIAAAAAAAACCQQAAAAAAgAAEIAAAA=</HashCode>
+      <FileName>ConfFiles\Nodes\Ideogram.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Ticks">
+    <Position X="9.75" Y="12.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AJAEAAMACAQAAAAAAMAAAEAAAAAgSACAAAAAAIAAAAA=</HashCode>
+      <FileName>ConfFiles\Nodes\Ticks.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Tick">
+    <Position X="17.75" Y="12.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAKAAAYEAAAAAAAACAAAAAAQAACAAAAAAAAgAEA=</HashCode>
+      <FileName>ConfFiles\Nodes\Ticks.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Connector">
+    <Position X="43.25" Y="3.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABQAAAAAEAAACAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Karyotype\Connector.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights.HighLightsMeta" Collapsed="true">
+    <Position X="87.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAEAAAAAAAAAAAAAIAACACggAAAAAA=</HashCode>
+      <FileName>Karyotype\Highlights\HighLightsMeta.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights.LocusLabels.Name" Collapsed="true">
+    <Position X="87.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAQUAASAAAAAAAAAAAAAAAQAAEAAAAAggABAAAAAAAA=</HashCode>
+      <FileName>Karyotype\Highlights\HighLightsMeta.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots.Lines.Axis">
+    <Position X="1.75" Y="12.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAQAAAAAAAAAAAAAAAAAAACAAAAAAAAAAEA=</HashCode>
+      <FileName>ConfFiles\Nodes\Line\Nodes.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots.Lines.Background">
+    <Position X="13.75" Y="12.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAgAACAAQAAAAAAAAA=</HashCode>
+      <FileName>ConfFiles\Nodes\Line\Nodes.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.ICircosDocNode">
+    <Position X="1" Y="6.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ConfFiles\ComponentModels.vb</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.ICircosDocument">
+    <Position X="0.5" Y="8.25" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ConfFiles\ComponentModels.vb</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Module Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.GCContent" Collapsed="true">
+    <Position X="87.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>GC.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.My.Resources.Resources" Collapsed="true">
+    <Position X="87.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACEABQABEAABAQAAAACAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.My.MySettingsProperty" Collapsed="true">
+    <Position X="86" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Tools" Collapsed="true">
+    <Position X="84.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Tools.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.CircosAPI" Collapsed="true">
+    <Position X="84.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>DiAEAAIMgoAMACCAGAAKIIKNAIQhCgMBBAAAAECIwgI=</HashCode>
+      <FileName>CircosAPI.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Colors.CircosColor" Collapsed="true">
+    <Position X="86" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACCAAAAAAAAAAAAAAAAAIAAAIQBAUAAAIACAg=</HashCode>
+      <FileName>Colors\CircosColor.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Colors.GradientMaps" Collapsed="true">
+    <Position X="84.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAQAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Colors\GradientMaps.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Font Name="Calibri" Size="8.25" />
+</ClassDiagram>
