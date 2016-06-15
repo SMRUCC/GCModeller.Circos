@@ -3,6 +3,7 @@ Imports System.Text
 Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
 Imports LANS.SystemsBiology.DatabaseServices
 Imports LANS.SystemsBiology.InteractionModel
+Imports LANS.SystemsBiology.InteractionModel.Regulon
 
 Namespace Documents.Karyotype
 

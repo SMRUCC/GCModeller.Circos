@@ -10,6 +10,7 @@ Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
 Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
 Imports LANS.SystemsBiology.DatabaseServices.Regprecise
 Imports LANS.SystemsBiology.InteractionModel
+Imports LANS.SystemsBiology.InteractionModel.Regulon
 Imports LANS.SystemsBiology.SequenceModel
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
