@@ -15,7 +15,7 @@ Namespace Documents.Configurations
         ''' 文档的对其他的配置文件的引用列表
         ''' </summary>
         ''' <returns></returns>
-        Public Property IncludeList As List(Of ConfigDoc)
+        Public Property Includes As List(Of ConfigDoc)
 
         ''' <summary>
         ''' 主配置文件Circos.conf
@@ -44,13 +44,13 @@ Namespace Documents.Configurations
         End Sub
 
         Protected Function GenerateIncludes() As String
-            If IncludeList.IsNullOrEmpty Then
+            If Includes.IsNullOrEmpty Then
                 Return ""
             End If
 
             Dim sBuilder As StringBuilder = New StringBuilder(1024)
 
-            For Each includeFile As ConfigDoc In IncludeList
+            For Each includeFile As ConfigDoc In Includes
                 Dim refPath As String = Tools.TrimPath(includeFile)
                 Call sBuilder.AppendLine($"<<include {refPath}>>")
                 Call includeFile.Save(Encoding:=Encoding.ASCII)

@@ -1,7 +1,13 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports System.Text
+
 Namespace Documents.Configurations
 
+    ''' <summary>
+    ''' The ``&lt;ideogram>`` block defines the position, size, labels and other
+    ''' properties Of the segments On which data are drawn. These segments
+    ''' are usually chromosomes, but can be any Integer axis.
+    ''' </summary>
     Public Class Ideogram : Inherits ConfigDoc
         Implements ICircosDocument
 

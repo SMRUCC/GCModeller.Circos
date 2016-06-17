@@ -2,6 +2,11 @@
 
 Namespace Documents.Configurations.Nodes
 
+    ''' <summary>
+    ''' Spacing between ideograms. Suffix "r" denotes a relative value. It
+    ''' Is relative To circle circumference (e.g. space Is 0.5% Of
+    ''' circumference).
+    ''' </summary>
     Public Class Spacing : Inherits CircosDocument
         Implements ICircosDocNode
 
@@ -17,7 +22,11 @@ Namespace Documents.Configurations.Nodes
         Implements ICircosDocNode
 
         ''' <summary>
-        ''' # thickness (px) of chromosome ideogram
+        ''' thickness (px) of chromosome ideogram
+        ''' 
+        ''' Thickness of ideograms, which can be absolute (e.g. pixels, "p"
+        ''' suffix) Or relative ("r" suffix). When relative, it Is a fraction Of
+        ''' image radius.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
@@ -32,6 +41,17 @@ Namespace Documents.Configurations.Nodes
         ''' <returns></returns>
         ''' <remarks></remarks>
         <SimpleConfig> Public Property stroke_color As String = "black"
+        ''' <summary>
+        ''' Ideograms can be drawn as filled, outlined, or both. When filled,
+        ''' the color will be taken from the last field In the karyotype file,
+        ''' Or Set by chromosomes_colors. Color names are discussed In
+        '''
+        ''' http://www.circos.ca/documentation/tutorials/configuration/configuration_files
+        '''
+        ''' When ``stroke_thickness=0p`` Or If the parameter Is missing, the ideogram Is
+        ''' has no outline And the value Of stroke_color Is Not used.
+        ''' </summary>
+        ''' <returns></returns>
         <SimpleConfig> Public Property fill As String = yes
 
         ''' <summary>
@@ -44,7 +64,11 @@ Namespace Documents.Configurations.Nodes
         <SimpleConfig> Public Property fill_color As String = "black"
 
         ''' <summary>
-        ''' # fractional radius position of chromosome ideogram within image
+        ''' Fractional radius position of chromosome ideogram within image.
+        ''' 
+        ''' Spacing between ideograms. Suffix "r" denotes a relative value. It
+        ''' Is relative To circle circumference (e.g. space Is 0.5% Of
+        ''' circumference).
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>

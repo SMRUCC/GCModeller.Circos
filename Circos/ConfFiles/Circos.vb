@@ -40,7 +40,7 @@ Namespace Documents.Configurations
         Implements ICircosDocument
 
         ''' <summary>
-        ''' The basically genome structure plots.(基本的数据文件)
+        ''' The basically genome structure plots: Chromosome name, size and color definition.(基本的数据文件)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
@@ -144,11 +144,11 @@ Namespace Documents.Configurations
 
         Public Overloads Shared Function CreateObject() As Circos
             Dim CircosConfig As Circos = New Circos With {
-                .IncludeList = New List(Of ConfigDoc)
+                .Includes = New List(Of ConfigDoc)
             }
 
-            Call CircosConfig.IncludeList.Add(SystemPrefixConfigDoc.ColorFontsPatterns)
-            Call CircosConfig.IncludeList.Add(SystemPrefixConfigDoc.HouseKeeping)
+            Call CircosConfig.Includes.Add(SystemPrefixConfigDoc.ColorFontsPatterns)
+            Call CircosConfig.Includes.Add(SystemPrefixConfigDoc.HouseKeeping)
 
             Return CircosConfig
         End Function
@@ -209,45 +209,47 @@ Namespace Documents.Configurations
         End Sub
 
         ''' <summary>
-        ''' 不可以使用并行拓展，因为有顺序之分
-        ''' 
-        ''' {SpeciesName, Color}
+        ''' The remaining content Is standard And required. It Is imported from
+        ''' Default files In the Circos distribution.
+        '''
+        ''' These should be present In every Circos configuration file And
+        ''' overridden As required. To see the content Of these files, 
+        ''' look In ``etc/`` In the Circos distribution.
+        '''
+        ''' It's best to include these files using relative paths. This way, the
+        ''' files If Not found under your current directory will be drawn from
+        ''' the Circos distribution. 
+        '''
+        ''' As always, centralize all your inputs As much As possible.
         ''' </summary>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Function GetBlastAlignmentData() As KeyValuePair(Of String, String)()
-            Dim LQuery = (From item In Me._plots
-                          Where String.Equals(item.type, "highlight", StringComparison.OrdinalIgnoreCase) AndAlso
-                              TypeOf item.KaryotypeDocumentData Is BlastMaps
-                          Let Alignment = DirectCast(item.KaryotypeDocumentData, BlastMaps)
-                          Select New KeyValuePair(Of String, String)(Alignment.SubjectSpecies, Alignment.SpeciesColor)).ToArray
-            Return LQuery
-        End Function
+        Const image As String =
+            "<image>" & vbCrLf &
+            "    <<include etc/image.conf>>" & vbCrLf &
+            "</image>"
 
         Protected Friend Overrides Function GenerateDocument(IndentLevel As Integer) As String
-            Dim sBuilder As StringBuilder = New StringBuilder(1024)
-            Call sBuilder.AppendLine(Me.GenerateIncludes)
-            Call sBuilder.AppendLine("<image>" & vbCrLf &
-                                     "  <<include etc/image.conf>>" & vbCrLf &
-                                     "</image>" & vbCrLf)
+            Dim sb As StringBuilder = New StringBuilder(1024)
+            Call sb.AppendLine(Me.GenerateIncludes)
+            Call sb.AppendLine(image)
+            Call sb.AppendLine()
 
             For Each Line As String In SimpleConfig.GenerateConfigurations(Of Circos)(Me)
-                Call sBuilder.AppendLine(Line)
+                Call sb.AppendLine(Line)
             Next
 
             If Not _plots.IsNullOrEmpty Then
-                Call sBuilder.AppendLine(vbCrLf & "<plots>")
+                Call sb.AppendLine(vbCrLf & "<plots>")
 
                 For Each plotRule In _plots
-                    Call sBuilder.AppendLine()
-                    Call sBuilder.AppendLine(plotRule.GenerateDocument(IndentLevel + 2))
+                    Call sb.AppendLine()
+                    Call sb.AppendLine(plotRule.GenerateDocument(IndentLevel + 2))
                 Next
 
-                Call sBuilder.AppendLine()
-                Call sBuilder.AppendLine("</plots>")
+                Call sb.AppendLine()
+                Call sb.AppendLine("</plots>")
             End If
 
-            Return sBuilder.ToString
+            Return sb.ToString
         End Function
     End Class
 End Namespace

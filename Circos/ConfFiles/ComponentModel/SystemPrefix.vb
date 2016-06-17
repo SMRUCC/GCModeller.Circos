@@ -19,8 +19,30 @@ Namespace Documents.Configurations
             Call MyBase.New(Path, Circos:=Nothing)
         End Sub
 
+        ''' <summary>
+        ''' Debugging, I/O an dother system parameters included from Circos distribution.
+        ''' </summary>
+        ''' <returns></returns>
         Public Shared ReadOnly Property HouseKeeping As SystemPrefixConfigDoc =
             New SystemPrefixConfigDoc("etc/housekeeping.conf")
+
+        ''' <summary>
+        ''' RGB/HSV color definitions, color lists, location of fonts, fill
+        ''' patterns. Included from Circos distribution.
+        '''
+        ''' In older versions Of Circos, colors, fonts And patterns were
+        ''' included individually. Now, this Is done from a central file. Make
+        ''' sure that you're not importing these values twice by having
+        '''
+        ''' ```
+        ''' *** Do Not Do THIS ***
+        ''' &lt;colors>
+        '''     &lt;&lt;include etc/colors.conf>>
+        ''' &lt;colors>
+        ''' **********************
+        ''' ```
+        ''' </summary>
+        ''' <returns></returns>
         Public Shared ReadOnly Property ColorFontsPatterns As SystemPrefixConfigDoc =
             New SystemPrefixConfigDoc("etc/colors_fonts_patterns.conf")
 
