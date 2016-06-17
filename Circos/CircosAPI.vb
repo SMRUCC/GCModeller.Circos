@@ -1032,6 +1032,9 @@ SET_END:    Dim ends = i
 
     Public Const yes As String = "yes"
     Public Const no As String = "no"
+    ''' <summary>
+    ''' This property have no data value
+    ''' </summary>
     Public Const null As String = ""
 
     Dim Margin As Integer = 200

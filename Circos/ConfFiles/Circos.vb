@@ -4,6 +4,7 @@ Imports System.Text
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights
 Imports Microsoft.VisualBasic.Language
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes
 
 Namespace Documents.Configurations
 
@@ -66,11 +67,79 @@ Namespace Documents.Configurations
         ''' </summary>
         ''' <returns></returns>
         <Circos> Public Property chromosomes_units As String = "5000"
+        ''' <summary>
+        ''' The default behaviour is to display all chromosomes defined in the
+        ''' karyotype file. In this example, I Select only a subset.
+        '''
+        ''' The 'chromosomes' parameter has several uses, and selecting which
+        ''' chromosomes To show Is one Of them. You can list them
+        '''
+        ''' ```
+        ''' hs1;hs2;hs3;hs4
+        ''' ```
+        ''' 
+        ''' Or provide a regular expression that selects them based On a successful match
+        ''' 
+        ''' ```
+        ''' /hs[1-4]$/
+        ''' ```
+        ''' 
+        ''' The ``$`` anchor Is necessary, otherwise chromosomes Like *hs10, hs11 And
+        ''' hs20* are also matched.
+        ''' </summary>
+        ''' <returns></returns>
         <Circos> Public Property chromosomes_display_default As String = yes
         <Circos> Public Property chromosomes As String = null
+        ''' <summary>
+        ''' By default, the scale progression is clockwise. You can set the
+        ''' Global angle progression Using 'angle_orientation' in the ``&lt;image>``
+        ''' block (clockwise Or counterclockwise). To reverse it For one Or
+        ''' several ideograms, use 'chromosomes-reverse'
+        ''' </summary>
+        ''' <returns></returns>
         <Circos> Public Property chromosomes_reverse As String = null
+        ''' <summary>
+        ''' The default radial position for all ideograms is set by 'radius' in
+        ''' the ``&lt;ideogram>`` block (see ideogram.conf). To change the value For
+        ''' specific ideograms, use chromosomes_radius.
+        ''' </summary>
+        ''' <returns></returns>
         <Circos> Public Property chromosomes_radius As String = null
+        ''' <summary>
+        ''' The size of the ideogram on the figure can be adjusted using an
+        ''' absolute Or relative magnification. Absolute scaling,
+        '''
+        ''' ```
+        ''' hs1=0.5
+        ''' ```
+        ''' 
+        ''' shrinks Or expands the ideogram by a fixed factor. When the "r"
+        ''' suffix Is used, the magnification becomes relative To the
+        ''' circumference Of the figure. Thus, 
+        '''
+        ''' ```
+        ''' hs1=0.5r
+        ''' ```
+        ''' 
+        ''' makes ``hs1`` To occupy 50% Of the figure. To uniformly distribute
+        ''' several ideogram within a fraction Of the figure, use a regular
+        ''' expression that selects the ideograms And the "rn" suffix (relative
+        ''' normalized).
+        '''
+        ''' ```
+        ''' /hs[234]/=0.5Rn
+        ''' ```
+        ''' 
+        ''' Will match ``hs2, hs3, hs4`` And divide them evenly into 50% Of the figure. 
+        ''' Each ideogram will be about **16%** Of the figure.
+        ''' </summary>
+        ''' <returns></returns>
         <Circos> Public Property chromosomes_scale As String = null
+        ''' <summary>
+        ''' The color of each ideogram is taken from the karyotype file. To
+        ''' change it, use 'chromosomes_color'.
+        ''' </summary>
+        ''' <returns></returns>
         <Circos> Public Property chromosomes_color As String = null
         <Circos> Public Property chromosomes_order As String = null
         <Circos> Public Property chromosomes_breaks As String = null
@@ -89,6 +158,8 @@ Namespace Documents.Configurations
         <Circos> Public Property track_width As String = null
         <Circos> Public Property track_start As String = null
         <Circos> Public Property track_step As String = null
+
+        Public Property colors As OverwritesColors
 
         ''' <summary>
         ''' 基因组的骨架信息
@@ -193,8 +264,8 @@ Namespace Documents.Configurations
             Dim plotElements As TracksPlot() =
                 LinqAPI.Exec(Of TracksPlot) <= From plotUnit As TracksPlot
                                          In Me._plots
-                                         Where plotUnit.KaryotypeCanBeAutoLayout
-                                         Select plotUnit
+                                               Where plotUnit.KaryotypeCanBeAutoLayout
+                                               Select plotUnit
 
             If plotElements.Length > 1 Then
                 Call ForceAutoLayout(plotElements)
@@ -253,7 +324,11 @@ Namespace Documents.Configurations
                 Call sb.AppendLine(Line)
             Next
 
-            If Not _plots.IsNullOrEmpty Then
+            If Not colors Is Nothing Then
+                Call sb.AppendLine(colors.GetConfigsValue)
+            End If
+
+            If Not Plots.IsNullOrEmpty Then
                 Call sb.AppendLine(vbCrLf & "<plots>")
 
                 For Each plotRule In _plots

@@ -80,6 +80,15 @@ Namespace Documents.Configurations.Nodes
         ''' </summary>
         ''' <returns></returns>
         <Circos> Public Property label_font As String = "default"
+        ''' <summary>
+        ''' if ideogram radius is constant, and you'd like labels close to image edge, 
+        ''' use the ``dims()`` Function To access the size Of the image
+        ''' 
+        ''' ``
+        ''' label_radius  = dims(image,radius) - 60p
+        ''' ``
+        ''' </summary>
+        ''' <returns></returns>
         <Circos> Public Property label_radius As String = "dims(ideogram,radius) + 0.05r"
         <Circos> Public Property label_size As String = "36"
         <Circos> Public Property label_parallel As String = yes
