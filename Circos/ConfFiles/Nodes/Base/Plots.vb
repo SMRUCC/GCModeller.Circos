@@ -101,13 +101,39 @@ Namespace Documents.Configurations.Nodes.Plots
         End Function
     End Class
 
-    Public Class TextLabel : Inherits TracksPlot
+    ''' <summary>
+    ''' Like with other tracks, text is limited to a radial range by setting
+    ''' ``r0`` And ``r1``.
+    '''
+    ''' Individual labels can be repositioned automatically With In a
+    ''' position window To fit more labels, without overlap. This Is an
+    ''' advanced feature - see the 2D Track text tutorials.
+    ''' </summary>
+    Public Class TextLabel : Inherits TracksPlot(Of TextTrackData)
 
         <Circos> Public Property color As String = "black"
         <Circos> Public Property label_size As String = "16"
+        ''' <summary>
+        ''' For a list of fonts, see ``etc/fonts.conf`` in the Circos distribution.
+        ''' </summary>
+        ''' <returns></returns>
         <Circos> Public Property label_font As String = "light"
+        ''' <summary>
+        ''' text margin in angular direction
+        ''' </summary>
+        ''' <returns></returns>
         <Circos> Public Property padding As String = "5p"
+        ''' <summary>
+        ''' text margin in radial direction
+        ''' </summary>
+        ''' <returns></returns>
         <Circos> Public Property rpadding As String = "5p"
+        ''' <summary>
+        ''' Short lines can be placed before the label to connect them to the
+        ''' label's position. This is most useful when the labels are
+        ''' rearranged.
+        ''' </summary>
+        ''' <returns></returns>
         <Circos> Public Property show_links As String = yes
         <Circos> Public Property link_dims As String = "5p,4p,8p,4p,0p"
         <Circos> Public Property link_thickness As String = "1p"
@@ -120,14 +146,8 @@ Namespace Documents.Configurations.Nodes.Plots
         <Circos> Public Property snuggle_link_overlap_tolerance As String = "2p"
         <Circos> Public Property snuggle_refine As String = yes
 
-        Public ReadOnly Property Labels As Karyotype.Highlights.HighlightLabel
-            Get
-                Return Me.KaryotypeDocumentData.As(Of Karyotype.Highlights.HighlightLabel)
-            End Get
-        End Property
-
-        Sub New(Data As Documents.Karyotype.Highlights.HighlightLabel)
-            Call MyBase.New(Data)
+        Sub New(data As IEnumerable(Of TextTrackData))
+            Call MyBase.New(data)
         End Sub
 
         <Circos> Public Overrides ReadOnly Property type As String
