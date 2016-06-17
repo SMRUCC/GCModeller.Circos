@@ -16,7 +16,7 @@ Namespace Documents.Configurations.Nodes.Plots
             Call MyBase.New(HighlightsDataModel)
         End Sub
 
-        <SimpleConfig()> Public Overrides ReadOnly Property Type As String
+        <SimpleConfig()> Public Overrides ReadOnly Property type As String
             Get
                 Return "highlight"
             End Get

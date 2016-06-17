@@ -8,11 +8,11 @@ Namespace Documents.Configurations.Nodes.Plots
     Public MustInherit Class Plot
         Implements ICircosDocument
 
-        <Circos> Public MustOverride ReadOnly Property Type As String
+        <Circos> Public MustOverride ReadOnly Property type As String
 
-        <Circos> Public Property File As String
+        <Circos> Public Property file As String
             Get
-                Return Tools.TrimPath(_karyotypeDocData.FileName)
+                Return Tools.TrimPath(_karyotypeDocData.FilePath)
             End Get
             Set(value As String)
                 _karyotypeDocData.FilePath = value
@@ -70,7 +70,7 @@ Namespace Documents.Configurations.Nodes.Plots
         End Sub
 
         Public Overrides Function ToString() As String
-            Return String.Format("({0}  --> {1})  {2}", Me.Type, Me._karyotypeDocData.GetType.Name, Me._karyotypeDocData.ToString)
+            Return String.Format("({0}  --> {1})  {2}", Me.type, Me._karyotypeDocData.GetType.Name, Me._karyotypeDocData.ToString)
         End Function
 
         Protected Overridable Function GetMaxValue() As String
@@ -145,7 +145,7 @@ Namespace Documents.Configurations.Nodes.Plots
             Call MyBase.New(Data)
         End Sub
 
-        <Circos> Public Overrides ReadOnly Property Type As String
+        <Circos> Public Overrides ReadOnly Property type As String
             Get
                 Return "heatmap"
             End Get
@@ -158,7 +158,7 @@ Namespace Documents.Configurations.Nodes.Plots
 
     Public Class Histogram : Inherits Plot
 
-        <Circos> Public Overrides ReadOnly Property Type As String
+        <Circos> Public Overrides ReadOnly Property type As String
             Get
                 Return "histogram"
             End Get
@@ -202,7 +202,7 @@ Namespace Documents.Configurations.Nodes.Plots
             Call MyBase.New(Data)
         End Sub
 
-        <Circos> Public Overrides ReadOnly Property Type As String
+        <Circos> Public Overrides ReadOnly Property type As String
             Get
                 Return "text"
             End Get

@@ -120,7 +120,7 @@ Namespace Documents.Configurations
 
             For i As Integer = 0 To _plots.Count - 1
                 Dim x As Plot = _plots(i)
-                Dim FileName As String = $"data/{x.Type}_data_{i}.txt"
+                Dim FileName As String = $"data/{x.type}_data_{i}.txt"
                 Call x.Save(FileName, System.Text.Encoding.ASCII)
             Next
 
@@ -206,7 +206,7 @@ Namespace Documents.Configurations
         ''' <remarks></remarks>
         Public Function GetBlastAlignmentData() As KeyValuePair(Of String, String)()
             Dim LQuery = (From item In Me._plots
-                          Where String.Equals(item.Type, "highlight", StringComparison.OrdinalIgnoreCase) AndAlso
+                          Where String.Equals(item.type, "highlight", StringComparison.OrdinalIgnoreCase) AndAlso
                               TypeOf item.KaryotypeDocumentData Is BlastMaps
                           Let Alignment = DirectCast(item.KaryotypeDocumentData, BlastMaps)
                           Select New KeyValuePair(Of String, String)(Alignment.SubjectSpecies, Alignment.SpeciesColor)).ToArray
