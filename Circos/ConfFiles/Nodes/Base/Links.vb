@@ -23,6 +23,10 @@ Namespace Documents.Configurations.Nodes.Plots
             End Get
         End Property
 
+        Public Property radius As String = "0.8r"
+        Public Property bezier_radius As String = "0r"
+        Public Property color As String = "black_a4"
+
         Sub New(data As IEnumerable(Of TrackDatas.link))
             Call MyBase.New(data)
         End Sub

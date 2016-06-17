@@ -6,28 +6,34 @@ Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.D
 
 Namespace Documents.Configurations.Nodes.Plots
 
-    Public MustInherit Class TracksPlot(Of T As TrackData)
-        Implements ICircosDocument
-
-        <Circos> Public MustOverride ReadOnly Property type As String
+    Public Interface ITrackPlot
+        <Circos> ReadOnly Property type As String
 
         ''' <summary>
         ''' 输入的路径会根据配置情况转换为相对路径或者绝对路径
         ''' </summary>
         ''' <returns></returns>
-        <Circos> Public Property file As String
+        <Circos> Property file As String
+        Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
+    End Interface
+
+    Public MustInherit Class TracksPlot(Of T As ITrackData)
+        Implements ICircosDocument
+        Implements ITrackPlot
+
+        <Circos> Public MustOverride ReadOnly Property type As String Implements ITrackPlot.type
+
+        ''' <summary>
+        ''' 输入的路径会根据配置情况转换为相对路径或者绝对路径
+        ''' </summary>
+        ''' <returns></returns>
+        <Circos> Public Property file As String Implements ITrackPlot.file
             Get
-                Return Tools.TrimPath(_karyotypeDocData.FilePath)
+                Return Tools.TrimPath(TracksData.FileName)
             End Get
             Set(value As String)
-                _karyotypeDocData.FilePath = value
+                TracksData.FileName = value
             End Set
-        End Property
-
-        Public ReadOnly Property KaryotypeCanBeAutoLayout As Boolean
-            Get
-                Return _karyotypeDocData.AutoLayout
-            End Get
         End Property
 
         ''' <summary>
@@ -83,7 +89,7 @@ Namespace Documents.Configurations.Nodes.Plots
         End Sub
 
         Public Overrides Function ToString() As String
-            Return String.Format("({0}  --> {1})  {2}", Me.type, Me._karyotypeDocData.GetType.Name, Me._karyotypeDocData.ToString)
+            Return $"({type}  --> {Me.TracksData.GetType.Name})  {Me.TracksData.ToString}"
         End Function
 
         Protected Overridable Function GetMaxValue() As String
@@ -99,7 +105,7 @@ Namespace Documents.Configurations.Nodes.Plots
             Dim sb As StringBuilder = New StringBuilder(IndentBlanks & "<plot>" & vbCrLf, 1024)
 
             Call sb.AppendLine()
-            Call sb.AppendLine(String.Format("{0}#   --> ""{1}""", IndentBlanks, _karyotypeDocData.GetType.FullName))
+            Call sb.AppendLine(String.Format("{0}#   --> ""{1}""", IndentBlanks, TracksData.GetType.FullName))
             Call sb.AppendLine()
 
             Me.max = GetMaxValue()
@@ -116,8 +122,8 @@ Namespace Documents.Configurations.Nodes.Plots
                 For Each item In PlotElements
                     Call sb.AppendLine(vbCrLf & IndentBlanks & String.Format("<{0}>", item.Key))
 
-                    For Each Element In item.Value
-                        Call sb.AppendLine(Element.GenerateDocument(IndentLevel + 2))
+                    For Each o As CircosDocument In item.Value
+                        Call sb.AppendLine(o.GenerateDocument(IndentLevel + 2))
                     Next
 
                     Call sb.AppendLine(IndentBlanks & String.Format("</{0}>", item.Key))
@@ -144,8 +150,8 @@ Namespace Documents.Configurations.Nodes.Plots
             End If
         End Function
 
-        Public Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean Implements ICircosDocument.Save
-            Return _karyotypeDocData.Save(FilePath, Encoding)
+        Public Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean Implements ICircosDocument.Save, ITrackPlot.Save
+            Return TracksData.GetDocumentText.SaveTo(FilePath, Encoding)
         End Function
     End Class
 End Namespace

@@ -186,13 +186,13 @@ Namespace Documents.Configurations
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public ReadOnly Property Plots As TracksPlot()
+        Public ReadOnly Property Plots As ITrackPlot()
             Get
                 Return _plots.ToArray
             End Get
         End Property
 
-        Dim _plots As New List(Of TracksPlot)
+        Dim _plots As New List(Of ITrackPlot)
 
         Public Overrides ReadOnly Property IsSystemConfig As Boolean
             Get
@@ -217,16 +217,16 @@ Namespace Documents.Configurations
             App.CurrentDirectory = outDIR
 
             For i As Integer = 0 To _plots.Count - 1
-                Dim x As TracksPlot = _plots(i)
+                Dim x As ITrackPlot = _plots(i)
                 Dim FileName As String = $"data/{x.type}_data_{i}.txt"
-                Call x.Save(FileName, System.Text.Encoding.ASCII)
+                Call x.Save(FileName, Encoding.ASCII)
             Next
 
-            Call _BasicKaryotypeData.Save(karyotype, Encoding:=System.Text.Encoding.ASCII)
+            Call _BasicKaryotypeData.Save(karyotype, Encoding:=Encoding.ASCII)
 
             App.CurrentDirectory = outDIR
 
-            Return GenerateDocument(0).SaveTo(FilePath, System.Text.Encoding.ASCII)
+            Return GenerateDocument(0).SaveTo(FilePath, Encoding.ASCII)
         End Function
 
         Public Overloads Shared Function CreateObject() As Circos

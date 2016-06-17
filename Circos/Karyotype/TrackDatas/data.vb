@@ -13,10 +13,22 @@ Namespace Documents.Karyotype.TrackDatas
 
         Public Property FileName As String
 
+        ''' <summary>
+        ''' Gets the element type <typeparamref name="T"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overloads Function [GetType]() As Type
+            Return GetType(T)
+        End Function
+
         Sub New(source As IEnumerable(Of T))
             Call MyBase.New(source)
         End Sub
 
+        ''' <summary>
+        ''' <see cref="GetJson"/>
+        ''' </summary>
+        ''' <returns></returns>
         Public Overrides Function ToString() As String
             Return Me.GetJson
         End Function
