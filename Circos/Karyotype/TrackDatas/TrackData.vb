@@ -1,6 +1,23 @@
 ﻿Imports System.Text
 
-Namespace Documents.Karyotype.Data
+Namespace Documents.Karyotype.TrackDatas
+
+    ''' <summary>
+    ''' + Finally, links are a special track type which associates two ranges together. The format For links Is analogous To other data types, 
+    ''' except now two coordinates are specified.
+    ''' 
+    ''' ```
+    ''' chr12 1000 5000 chr15 5000 7000
+    ''' ```
+    ''' </summary>
+    Public Structure link
+        Dim a As TrackData
+        Dim b As TrackData
+
+        Public Overrides Function ToString() As String
+            Return a.ToString & " " & b.ToString
+        End Function
+    End Structure
 
     ''' <summary>
     ''' Data for tracks is loaded from a plain-text file. Each data point is stored on a 
@@ -87,6 +104,7 @@ Namespace Documents.Karyotype.Data
         Public Property start As Integer
         Public Property [end] As Integer
         Public Property formatting As Formatting
+        Public Property comment As String
 
         ''' <summary>
         ''' Using <see cref="ToString()"/> method for creates tracks data document.
@@ -105,31 +123,6 @@ Namespace Documents.Karyotype.Data
 
         Protected MustOverride Function __trackData() As String
 
-    End Class
-
-    ''' <summary>
-    ''' Tracks such As scatter plot, line plot, histogram Or heat map, associate a value With Each range. The input To this kind Of track would be
-    ''' 
-    ''' ```
-    ''' # scatter, line, histogram And heat maps require a value
-    ''' chr12 1000 5000 0.25
-    ''' ```
-    ''' </summary>
-    ''' <remarks>
-    ''' In addition to the chromosome, range And (if applicable) value, each data point can be annotated with formatting parameters that control how the point Is drawn. 
-    ''' The parameters need to be compatible with the track type for which the file Is destined. Thus, a scatter plot data point might have
-    ''' 
-    ''' ```
-    ''' chr12 1000 5000 0.25 glyph_size=10p,glyph=circle
-    ''' ```
-    ''' </remarks>
-    Public Class ValueTrackData : Inherits TrackData
-
-        Public Property value As Double
-
-        Protected Overrides Function __trackData() As String
-            Return $"{chr} {start} {[end]} {value}"
-        End Function
     End Class
 
     ''' <summary>
@@ -173,6 +166,31 @@ Namespace Documents.Karyotype.Data
             End If
         End Sub
     End Structure
+
+    ''' <summary>
+    ''' Tracks such As scatter plot, line plot, histogram Or heat map, associate a value With Each range. The input To this kind Of track would be
+    ''' 
+    ''' ```
+    ''' # scatter, line, histogram And heat maps require a value
+    ''' chr12 1000 5000 0.25
+    ''' ```
+    ''' </summary>
+    ''' <remarks>
+    ''' In addition to the chromosome, range And (if applicable) value, each data point can be annotated with formatting parameters that control how the point Is drawn. 
+    ''' The parameters need to be compatible with the track type for which the file Is destined. Thus, a scatter plot data point might have
+    ''' 
+    ''' ```
+    ''' chr12 1000 5000 0.25 glyph_size=10p,glyph=circle
+    ''' ```
+    ''' </remarks>
+    Public Class ValueTrackData : Inherits TrackData
+
+        Public Property value As Double
+
+        Protected Overrides Function __trackData() As String
+            Return $"{chr} {start} {[end]} {value}"
+        End Function
+    End Class
 
     ''' <summary>
     ''' The exception Is a stacked histogram, which associates a list Of values With a range.
