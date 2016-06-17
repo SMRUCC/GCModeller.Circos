@@ -5,6 +5,9 @@ Imports Microsoft.VisualBasic
 
 Namespace Documents.Configurations
 
+    ''' <summary>
+    ''' Abstract of the circos config files.
+    ''' </summary>
     Public MustInherit Class ConfigDoc : Inherits ITextFile
         Implements ICircosDocument
 
@@ -18,7 +21,7 @@ Namespace Documents.Configurations
         ''' 主配置文件Circos.conf
         ''' </summary>
         ''' <returns></returns>
-        Public Property MainEntry As Circos
+        Public Property main As Circos
 
         Public Shadows Property FilePath As String
             Get
@@ -37,7 +40,7 @@ Namespace Documents.Configurations
 
         Sub New(FileName As String, Circos As Circos)
             MyBase.FilePath = FileName
-            Me.MainEntry = Circos
+            Me.main = Circos
         End Sub
 
         Protected Function GenerateIncludes() As String

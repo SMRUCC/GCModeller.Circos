@@ -6,12 +6,12 @@ Namespace Documents.Configurations
     Public Class Ticks : Inherits ConfigDoc
         Implements ICircosDocument
 
-        <SimpleConfig> Public Property show_ticks As String = yes
-        <SimpleConfig> Public Property show_tick_labels As String = yes
+        <Circos> Public Property show_ticks As String = yes
+        <Circos> Public Property show_tick_labels As String = yes
 
-        <SimpleConfig> Public Property show_grid As String = no
-        <SimpleConfig> Public Property grid_start As String = "dims(ideogram,radius_inner)-0.5r"
-        <SimpleConfig> Public Property grid_end As String = "dims(ideogram,radius_inner)"
+        <Circos> Public Property show_grid As String = no
+        <Circos> Public Property grid_start As String = "dims(ideogram,radius_inner)-0.5r"
+        <Circos> Public Property grid_end As String = "dims(ideogram,radius_inner)"
 
         Public Property Ticks As Nodes.Ticks
 

@@ -185,7 +185,7 @@ different with the ideogram configuration document was not included in the circo
                             Return $"{r}r"
                         End Function
 
-        For Each Circle In doc.MainEntry.Plots
+        For Each Circle In doc.main.Plots
             Circle.r0 = GetRadius(Circle.r0)
             Circle.r1 = GetRadius(Circle.r1)
         Next

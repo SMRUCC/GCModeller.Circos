@@ -38,30 +38,30 @@ Namespace Documents.Configurations
         <Circos> Public Property genome As String = null
         <Circos> Public Property use_rules As String = yes
 
-        <CircosAttribute> Public Property chromosomes_units As String = "5000"
-        <CircosAttribute> Public Property chromosomes_display_default As String = yes
-        <CircosAttribute> Public Property chromosomes As String = null
-        <CircosAttribute> Public Property chromosomes_reverse As String = null
-        <CircosAttribute> Public Property chromosomes_radius As String = null
-        <CircosAttribute> Public Property chromosomes_scale As String = null
-        <CircosAttribute> Public Property chromosomes_color As String = null
-        <CircosAttribute> Public Property chromosomes_order As String = null
-        <CircosAttribute> Public Property chromosomes_breaks As String = null
+        <Circos> Public Property chromosomes_units As String = "5000"
+        <Circos> Public Property chromosomes_display_default As String = yes
+        <Circos> Public Property chromosomes As String = null
+        <Circos> Public Property chromosomes_reverse As String = null
+        <Circos> Public Property chromosomes_radius As String = null
+        <Circos> Public Property chromosomes_scale As String = null
+        <Circos> Public Property chromosomes_color As String = null
+        <Circos> Public Property chromosomes_order As String = null
+        <Circos> Public Property chromosomes_breaks As String = null
 
-        <CircosAttribute> Public Property show_scatter As String = yes
-        <CircosAttribute> Public Property show_line As String = yes
-        <CircosAttribute> Public Property show_histogram As String = yes
-        <CircosAttribute> Public Property show_heatmap As String = yes
-        <CircosAttribute> Public Property show_tile As String = yes
-        <CircosAttribute> Public Property show_highlight As String = yes
-        <CircosAttribute> Public Property show_links As String = yes
-        <CircosAttribute> Public Property show_highlights As String = yes
-        <CircosAttribute> Public Property show_text As String = yes
-        <CircosAttribute> Public Property show_heatmaps As String = yes
+        <Circos> Public Property show_scatter As String = yes
+        <Circos> Public Property show_line As String = yes
+        <Circos> Public Property show_histogram As String = yes
+        <Circos> Public Property show_heatmap As String = yes
+        <Circos> Public Property show_tile As String = yes
+        <Circos> Public Property show_highlight As String = yes
+        <Circos> Public Property show_links As String = yes
+        <Circos> Public Property show_highlights As String = yes
+        <Circos> Public Property show_text As String = yes
+        <Circos> Public Property show_heatmaps As String = yes
 
-        <CircosAttribute> Public Property track_width As String = null
-        <CircosAttribute> Public Property track_start As String = null
-        <CircosAttribute> Public Property track_step As String = null
+        <Circos> Public Property track_width As String = null
+        <Circos> Public Property track_start As String = null
+        <Circos> Public Property track_step As String = null
 
         ''' <summary>
         ''' 基因组的骨架信息
@@ -104,7 +104,7 @@ Namespace Documents.Configurations
 
         Sub New()
             Call MyBase.New("circos.conf", Nothing)
-            Me.MainEntry = Me
+            Me.main = Me
         End Sub
 
         Public Overrides Function Save(Optional outDIR As String = "", Optional Encoding As Encoding = Nothing) As Boolean

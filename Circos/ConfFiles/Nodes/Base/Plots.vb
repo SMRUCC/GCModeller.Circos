@@ -8,9 +8,9 @@ Namespace Documents.Configurations.Nodes.Plots
     Public MustInherit Class Plot
         Implements ICircosDocument
 
-        <SimpleConfig()> Public MustOverride ReadOnly Property Type As String
+        <Circos> Public MustOverride ReadOnly Property Type As String
 
-        <SimpleConfig()> Public Property File As String
+        <Circos> Public Property File As String
             Get
                 Return Tools.TrimPath(_karyotypeDocData.FileName)
             End Get
@@ -31,7 +31,7 @@ Namespace Documents.Configurations.Nodes.Plots
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <SimpleConfig()> Public Property r1 As String = "0.75r"
+        <Circos> Public Property r1 As String = "0.75r"
 
         ''' <summary>
         ''' 圈内径(单位 r，请使用格式"&lt;double>r")
@@ -39,18 +39,18 @@ Namespace Documents.Configurations.Nodes.Plots
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <SimpleConfig()> Public Property r0 As String = "0.6r"
-        <SimpleConfig()> Public Property max As String = "1"
-        <SimpleConfig()> Public Property min As String = "0"
-        <SimpleConfig()> Public Property fill_color As String = "orange"
+        <Circos> Public Property r0 As String = "0.6r"
+        <Circos> Public Property max As String = "1"
+        <Circos> Public Property min As String = "0"
+        <Circos> Public Property fill_color As String = "orange"
         ''' <summary>
         ''' 圈的朝向，是<see cref="ORIENTATION_IN"/>向内还是<see cref="ORIENTATION_OUT"/>向外
         ''' </summary>
         ''' <returns></returns>
-        <SimpleConfig()> Public Property orientation As String = "in"
-        <SimpleConfig()> Public Property thickness As String = "2"
-        <SimpleConfig()> Public Property stroke_thickness As String = "0"
-        <SimpleConfig()> Public Property stroke_color As String = "grey"
+        <Circos> Public Property orientation As String = "in"
+        <Circos> Public Property thickness As String = "2"
+        <Circos> Public Property stroke_thickness As String = "0"
+        <Circos> Public Property stroke_color As String = "grey"
 
         Public Const ORIENTATION_OUT As String = "out"
         Public Const ORIENTATION_IN As String = "in"
@@ -145,7 +145,7 @@ Namespace Documents.Configurations.Nodes.Plots
             Call MyBase.New(Data)
         End Sub
 
-        <SimpleConfig()> Public Overrides ReadOnly Property Type As String
+        <Circos> Public Overrides ReadOnly Property Type As String
             Get
                 Return "heatmap"
             End Get
@@ -158,7 +158,7 @@ Namespace Documents.Configurations.Nodes.Plots
 
     Public Class Histogram : Inherits Plot
 
-        <SimpleConfig()> Public Overrides ReadOnly Property Type As String
+        <Circos> Public Overrides ReadOnly Property Type As String
             Get
                 Return "histogram"
             End Get
@@ -202,7 +202,7 @@ Namespace Documents.Configurations.Nodes.Plots
             Call MyBase.New(Data)
         End Sub
 
-        <SimpleConfig()> Public Overrides ReadOnly Property Type As String
+        <Circos> Public Overrides ReadOnly Property Type As String
             Get
                 Return "text"
             End Get

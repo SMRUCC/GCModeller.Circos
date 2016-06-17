@@ -193,6 +193,7 @@
     <Compile Include="ConfFiles\Nodes\Line\Nodes.vb" />
     <Compile Include="ConfFiles\Nodes\Line\Line.vb" />
     <Compile Include="Karyotype\Abstract.vb" />
+    <Compile Include="Karyotype\TrackData.vb" />
     <Compile Include="Karyotype\GeneObjects\PPTMarks.vb" />
     <Compile Include="Karyotype\GeneObjects\ColorAPI.vb" />
     <Compile Include="Karyotype\NtProps\GCSkew.vb" />
