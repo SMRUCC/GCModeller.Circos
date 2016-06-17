@@ -10,7 +10,7 @@ Namespace Documents.Configurations.Nodes.Plots
     ''' </summary>
     Public Class Connector : Inherits Plots.TracksPlot
 
-        <SimpleConfig()> Public Overrides ReadOnly Property type As String
+        <Circos> Public Overrides ReadOnly Property type As String
             Get
                 Return "connector"
             End Get

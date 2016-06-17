@@ -9,7 +9,7 @@ Namespace Documents.Karyotype.TrackDatas
     ''' Tracks data document generator.(使用这个对象生成data文件夹之中的数据文本文件)
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
-    Public Class data(Of T As TrackData) : Inherits List(Of T)
+    Public Class data(Of T As ITrackData) : Inherits List(Of T)
 
         Public Property FileName As String
 
@@ -28,7 +28,7 @@ Namespace Documents.Karyotype.TrackDatas
                 If Not String.IsNullOrEmpty(x.comment) Then
                     Call sb.AppendLine("# " & x.comment)
                 End If
-                Call sb.AppendLine(x.ToString)
+                Call sb.AppendLine(x.GetLineData)
             Next
 
             Return sb.ToString

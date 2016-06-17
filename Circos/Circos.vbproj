@@ -189,6 +189,7 @@
     <Compile Include="ConfFiles\ComponentModel\Interface.vb" />
     <Compile Include="ConfFiles\ComponentModel\DocAbstract.vb" />
     <Compile Include="ConfFiles\Extensions.vb" />
+    <Compile Include="ConfFiles\Nodes\Base\Links.vb" />
     <Compile Include="ConfFiles\Nodes\Base\Plots.vb" />
     <Compile Include="ConfFiles\Nodes\Base\Rule.vb" />
     <Compile Include="ConfFiles\Nodes\Colors.vb" />

@@ -11,14 +11,26 @@ Namespace Documents.Karyotype.TrackDatas
     ''' chr12 1000 5000 chr15 5000 7000
     ''' ```
     ''' </summary>
-    Public Structure link
+    Public Structure link : Implements ITrackData
+
         Dim a As TrackData
         Dim b As TrackData
 
-        Public Overrides Function ToString() As String
+        Public Property comment As String Implements ITrackData.comment
+
+        Public Overrides Function ToString() As String Implements ITrackData.GetLineData
             Return a.ToString & " " & b.ToString
         End Function
     End Structure
+
+    Public Interface ITrackData
+        Property comment As String
+        ''' <summary>
+        ''' Usually Using <see cref="TrackData.ToString()"/> method for creates tracks data document.
+        ''' </summary>
+        ''' <returns></returns>
+        Function GetLineData() As String
+    End Interface
 
     ''' <summary>
     ''' Data for tracks is loaded from a plain-text file. Each data point is stored on a 
@@ -96,7 +108,7 @@ Namespace Documents.Karyotype.TrackDatas
     ''' chr12 1000 5000 0.25 url=http//domain.com/script?start=[start]&amp;end=[end]&amp;chr=[chr]
     ''' ```
     ''' </remarks>
-    Public MustInherit Class TrackData
+    Public MustInherit Class TrackData : Implements ITrackData
 
         ''' <summary>
         ''' Chromosomes name
@@ -105,13 +117,13 @@ Namespace Documents.Karyotype.TrackDatas
         Public Property start As Integer
         Public Property [end] As Integer
         Public Property formatting As Formatting
-        Public Property comment As String
+        Public Property comment As String Implements ITrackData.comment
 
         ''' <summary>
         ''' Using <see cref="ToString()"/> method for creates tracks data document.
         ''' </summary>
         ''' <returns></returns>
-        Public Overrides Function ToString() As String
+        Public Overrides Function ToString() As String Implements ITrackData.GetLineData
             Dim s As String = __trackData()
             Dim format As String = formatting.ToString
 

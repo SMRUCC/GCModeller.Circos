@@ -19,7 +19,7 @@ Namespace Documents.Configurations.Nodes.Plots.Lines
             Me.Backgrounds = New List(Of Background) From {New Background}
         End Sub
 
-        <SimpleConfig()> Public Overrides ReadOnly Property type As String
+        <Circos> Public Overrides ReadOnly Property type As String
             Get
                 Return "line"
             End Get
