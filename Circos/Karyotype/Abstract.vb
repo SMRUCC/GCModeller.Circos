@@ -1,14 +1,18 @@
 ﻿Imports System.Text
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.TrackDatas
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic
 
 Namespace Documents.Karyotype
 
     ''' <summary>
-    ''' 必须要在SubNew之中设置参数，然后重写<see cref="KaryotypeDocument.generatedocument">文件数据生成</see>方法
+    ''' 必须要在SubNew之中设置参数，然后重写<see cref="TrackDataDocument.Generatedocument">文件数据生成</see>方法
     ''' </summary>
     ''' <remarks></remarks>
-    Public MustInherit Class KaryotypeDocument : Inherits ITextFile
+    Public MustInherit Class TrackDataDocument(Of T As TrackData) : Inherits ITextFile
+
+        Protected __meta As List(Of T)
 
         ''' <summary>
         ''' 这个文档所描绘的图形是否接受系统的自动位置的计算
@@ -32,8 +36,8 @@ Namespace Documents.Karyotype
             End Set
         End Property
 
-        Public NotOverridable Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Text.Encoding = Nothing) As Boolean
-            Return Me.GenerateDocument.SaveTo(Path:=getPath(FilePath), Encoding:=Encoding)
+        Public NotOverridable Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
+            Return Me.GenerateDocument.SaveTo(path:=getPath(FilePath), encoding:=Encoding)
         End Function
 
         Public Overridable Function LegendsDrawing(ref As Drawing.Point, ByRef Device As GDIPlusDeviceHandle) As Drawing.Point
@@ -41,7 +45,7 @@ Namespace Documents.Karyotype
         End Function
     End Class
 
-    Public MustInherit Class GenomeDescription : Inherits KaryotypeDocument
+    Public MustInherit Class GenomeDescription : Inherits TrackDataDocument(Of ValueTrackData)
 
         ''' <summary>
         ''' 基因组的大小

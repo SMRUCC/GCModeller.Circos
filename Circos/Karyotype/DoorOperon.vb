@@ -6,7 +6,7 @@ Namespace Documents.Karyotype
     ''' <summary>
     ''' 最外层的Ideogram，
     ''' </summary>
-    Public Class DoorOperon : Inherits KaryotypeDocument
+    Public Class DoorOperon : Inherits TrackDataDocument
 
         Dim Door As DOOR
 

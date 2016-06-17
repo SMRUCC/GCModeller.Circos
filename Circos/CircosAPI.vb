@@ -768,17 +768,17 @@ SET_END:    Dim ends = i
     End Function
 
     <ExportAPI("Karyotype.As.Heatmap")>
-    Public Function KaryotypeAsHeatmap(doc As KaryotypeDocument) As Plots.HeatMap
+    Public Function KaryotypeAsHeatmap(doc As TrackDataDocument) As Plots.HeatMap
         Return New Plots.HeatMap(doc)
     End Function
 
     <ExportAPI("Karyotype.As.Histogram")>
-    Public Function KaryotypeAsHistogram(doc As KaryotypeDocument) As Plots.Histogram
+    Public Function KaryotypeAsHistogram(doc As TrackDataDocument) As Plots.Histogram
         Return New Plots.Histogram(doc)
     End Function
 
     <ExportAPI("Karyotype.As.Line")>
-    Public Function KaryotypeAsLine(doc As KaryotypeDocument) As Lines.Line
+    Public Function KaryotypeAsLine(doc As TrackDataDocument) As Lines.Line
         Return New Lines.Line(doc)
     End Function
 

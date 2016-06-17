@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 
 Namespace Documents.Karyotype
 
-    Public Class Connector : Inherits KaryotypeDocument
+    Public Class Connector : Inherits TrackDataDocument
 
         Dim data As Connection()
 

@@ -2,12 +2,11 @@
 Imports System.Text.RegularExpressions
 Imports System.Drawing
 Imports LANS.SystemsBiology.ComponentModel
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.TrackDatas
 
 Namespace Documents.Karyotype.Highlights
 
-    Public MustInherit Class Highlights : Inherits Documents.Karyotype.KaryotypeDocument
-
-        Protected _highLights As HighLightsMeta()
+    Public MustInherit Class Highlights : Inherits TrackDataDocument(Of ValueTrackData)
 
         Public ReadOnly Property Highlights As HighLightsMeta()
             Get

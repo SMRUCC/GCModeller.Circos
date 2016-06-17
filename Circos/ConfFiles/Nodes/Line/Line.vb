@@ -12,7 +12,7 @@ Namespace Documents.Configurations.Nodes.Plots.Lines
         Public Property Backgrounds As List(Of Background)
         Public Property Axes As List(Of Axis)
 
-        Public Sub New(Data As Karyotype.KaryotypeDocument)
+        Public Sub New(Data As Karyotype.TrackDataDocument)
             Call MyBase.New(Data)
 
             Me.Axes = New List(Of Axis) From {New Axis}

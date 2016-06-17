@@ -6,7 +6,7 @@ Imports LANS.SystemsBiology.SequenceModel
 
 Namespace Documents.Karyotype.NtProps
 
-    Public Class GenomeGCContent : Inherits KaryotypeDocument
+    Public Class GenomeGCContent : Inherits TrackDataDocument
 
         Dim GC_Contents As GCContent.NASegment_GC()
         Dim Steps As Integer

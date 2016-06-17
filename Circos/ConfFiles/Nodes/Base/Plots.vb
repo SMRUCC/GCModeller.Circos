@@ -57,15 +57,15 @@ Namespace Documents.Configurations.Nodes.Plots
 
         Public Property Rules As List(Of ConditionalRule)
 
-        Protected _karyotypeDocData As Documents.Karyotype.KaryotypeDocument
+        Protected _karyotypeDocData As Documents.Karyotype.TrackDataDocument
 
-        Public ReadOnly Property KaryotypeDocumentData As Documents.Karyotype.KaryotypeDocument
+        Public ReadOnly Property KaryotypeDocumentData As Documents.Karyotype.TrackDataDocument
             Get
                 Return _karyotypeDocData
             End Get
         End Property
 
-        Public Sub New(Data As Documents.Karyotype.KaryotypeDocument)
+        Public Sub New(Data As Documents.Karyotype.TrackDataDocument)
             Me._karyotypeDocData = Data
         End Sub
 
@@ -141,7 +141,7 @@ Namespace Documents.Configurations.Nodes.Plots
         <SimpleConfig> Public Property color As String = "spectral-7-div"
         <SimpleConfig> Public Property scale_log_base As String = "0.25"
 
-        Public Sub New(Data As Documents.Karyotype.KaryotypeDocument)
+        Public Sub New(Data As Documents.Karyotype.TrackDataDocument)
             Call MyBase.New(Data)
         End Sub
 
@@ -164,7 +164,7 @@ Namespace Documents.Configurations.Nodes.Plots
             End Get
         End Property
 
-        Public Sub New(Data As Documents.Karyotype.KaryotypeDocument)
+        Public Sub New(Data As Documents.Karyotype.TrackDataDocument)
             Call MyBase.New(Data)
         End Sub
 

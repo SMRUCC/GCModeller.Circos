@@ -10,7 +10,7 @@ Namespace Documents.Karyotype.NtProps
     ''' G+C/G-C偏移量
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class GCSkew : Inherits KaryotypeDocument
+    Public Class GCSkew : Inherits TrackDataDocument
 
         Dim _Steps As Integer
         Dim ChunkBuffer As Double()

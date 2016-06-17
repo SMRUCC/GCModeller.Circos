@@ -7,7 +7,7 @@ Imports LANS.SystemsBiology.SequenceModel.FASTA
 
 Namespace Documents.Karyotype.NtProps
 
-    Public Class GeneGCContent : Inherits KaryotypeDocument
+    Public Class GeneGCContent : Inherits TrackDataDocument
 
         Dim SourceFasta As FastaToken
 
