@@ -86,12 +86,24 @@ Namespace Documents.Karyotype.Data
         Public Property chr As String
         Public Property start As Integer
         Public Property [end] As Integer
+        Public Property formatting As Formatting
 
         ''' <summary>
         ''' Using <see cref="ToString()"/> method for creates tracks data document.
         ''' </summary>
         ''' <returns></returns>
-        Public MustOverride Overrides Function ToString() As String
+        Public Overrides Function ToString() As String
+            Dim s As String = __trackData()
+            Dim format As String = formatting.ToString
+
+            If Not String.IsNullOrEmpty(format) Then
+                s &= " " & format
+            End If
+
+            Return s
+        End Function
+
+        Protected MustOverride Function __trackData() As String
 
     End Class
 
@@ -114,17 +126,9 @@ Namespace Documents.Karyotype.Data
     Public Class ValueTrackData : Inherits TrackData
 
         Public Property value As Double
-        Public Property formatting As Formatting
 
-        Public Overrides Function ToString() As String
-            Dim format As String = formatting.ToString
-            Dim s As String = $"{chr} {start} {[end]} {value}"
-
-            If Not String.IsNullOrEmpty(format) Then
-                s &= " " & format
-            End If
-
-            Return s
+        Protected Overrides Function __trackData() As String
+            Return $"{chr} {start} {[end]} {value}"
         End Function
     End Class
 
@@ -134,14 +138,20 @@ Namespace Documents.Karyotype.Data
     Public Structure Formatting
 
         ''' <summary>
-        ''' example is ``10p``
+        ''' Only works in scatter, example is ``10p``
         ''' </summary>
         Dim glyph_size As String
         ''' <summary>
-        ''' example is ``circle``
+        ''' Only works in scatter, example is ``circle``
         ''' </summary>
         Dim glyph As String
+        ''' <summary>
+        ''' Works on histogram
+        ''' </summary>
         Dim fill_color As String
+        ''' <summary>
+        ''' Works on any <see cref="Trackdata"/> data type.
+        ''' </summary>
         Dim URL As String
 
         Public Overrides Function ToString() As String
@@ -176,7 +186,7 @@ Namespace Documents.Karyotype.Data
 
         Public Property values As Double()
 
-        Public Overrides Function ToString() As String
+        Protected Overrides Function __trackData() As String
             Dim values As String = Me.values.Select(Function(d) d.ToString).JoinBy(",")
             Return $"{chr} {start} {[end]} {values}"
         End Function
@@ -194,7 +204,7 @@ Namespace Documents.Karyotype.Data
 
         Public Property text As String
 
-        Public Overrides Function ToString() As String
+        Protected Overrides Function __trackData() As String
             Return $"{chr} {start} {[end]} {text}"
         End Function
     End Class
