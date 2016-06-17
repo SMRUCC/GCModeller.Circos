@@ -291,7 +291,7 @@ different with the ideogram configuration document was not included in the circo
 
         For Each genome In alignment
             Dim Document As New BlastMaps(genome.Group.ToArray, Colors(i), Color)
-            Dim PlotElement As New Plots.HighLight(Document)
+            Dim PlotElement As New Nodes.Plots.HighLight(Document)
 
             Call doc.AddPlotElement(PlotElement)
 
@@ -306,8 +306,8 @@ different with the ideogram configuration document was not included in the circo
 
     <ExportAPI("Plots.New.Seperator",
                Info:="Creates a new seperator object in the circos plot with the specific width of the line, default is ZERO, not display.")>
-    Public Function PlotsSeperatorLine(Length As Integer, Optional width As Integer = 0) As Plots.SeperatorCircle
-        Return New Plots.SeperatorCircle(Length, width)
+    Public Function PlotsSeperatorLine(Length As Integer, Optional width As Integer = 0) As Nodes.Plots.SeperatorCircle
+        Return New Nodes.Plots.SeperatorCircle(Length, width)
     End Function
 
     ''' <summary>
@@ -396,7 +396,7 @@ different with the ideogram configuration document was not included in the circo
                                         Optional replaceBase As Boolean = False,
                                         Optional extTails As Boolean = False) As Configurations.Circos
         Dim node = New GradientMappings(values, doc.Size, mapName, winSize, replaceBase, extTails)
-        Dim Document As New Plots.HighLight(node)
+        Dim Document As New Nodes.Plots.HighLight(node)
         Call doc.AddPlotElement(plotElement:=Document)
         Return doc
     End Function
@@ -409,7 +409,7 @@ different with the ideogram configuration document was not included in the circo
                                         Optional replaceBase As Boolean = False,
                                         Optional extTails As Boolean = False) As Configurations.Circos
         Dim node = New GradientMappings(values, doc.Size, mapName, winSize, replaceBase, extTails)
-        Dim Document As New Plots.HighLight(node)
+        Dim Document As New Nodes.Plots.HighLight(node)
         Call doc.AddPlotElement(plotElement:=Document)
         Return doc
     End Function
@@ -552,7 +552,7 @@ SET_END:    Dim ends = i
             Return
         End If
 
-        Dim LabelDocument = New Plots.TextLabel(New HighlightLabel(LabelGenes))
+        Dim LabelDocument = New Nodes.Plots.TextLabel(New HighlightLabel(LabelGenes))
         LabelDocument.r0 = "0.90r"
         LabelDocument.r1 = "0.995r"
 
@@ -569,7 +569,7 @@ SET_END:    Dim ends = i
     ''' <param name="Strands"></param>
     ''' <param name="splitOverlaps">假若检测到基因有重叠的情况，是否分开为多个圆圈显示？</param>
     ''' <returns></returns>
-    Private Function __geneHighlights(anno As IEnumerable(Of GeneDumpInfo), Colors As Dictionary(Of String, String), Strands As Strands, splitOverlaps As Boolean) As Plots.HighLight()
+    Private Function __geneHighlights(anno As IEnumerable(Of GeneDumpInfo), Colors As Dictionary(Of String, String), Strands As Strands, splitOverlaps As Boolean) As Nodes.Plots.HighLight()
         If Not splitOverlaps Then
             Return {__geneHighlights(anno, Colors, Strands)}
         End If
@@ -585,7 +585,7 @@ SET_END:    Dim ends = i
             List = anno.ToList
         End If
 
-        Dim circles As New List(Of Plots.HighLight)
+        Dim circles As New List(Of HighLight)
 
         Do While Not List.IsNullOrEmpty
             Dim genes As New List(Of GeneDumpInfo)
@@ -610,7 +610,7 @@ SET_END:    Dim ends = i
                 End If
             Next
 
-            Dim Document As Plots.HighLight = New Plots.HighLight(New Karyotype.Highlights.GeneMark(genes, Colors))
+            Dim Document As Nodes.Plots.HighLight = New Nodes.Plots.HighLight(New Karyotype.Highlights.GeneMark(genes, Colors))
             Call circles.Add(Document)
         Loop
 
@@ -625,7 +625,7 @@ SET_END:    Dim ends = i
     ''' <param name="Colors"></param>
     ''' <param name="Strands"></param>
     ''' <returns></returns>
-    Private Function __geneHighlights(anno As IEnumerable(Of GeneDumpInfo), Colors As Dictionary(Of String, String), Strands As Strands) As Plots.HighLight
+    Private Function __geneHighlights(anno As IEnumerable(Of GeneDumpInfo), Colors As Dictionary(Of String, String), Strands As Strands) As Nodes.Plots.HighLight
         Dim List As GeneDumpInfo()
         If Strands <> Strands.Unknown Then
             List = (From GeneObject In anno
@@ -635,7 +635,7 @@ SET_END:    Dim ends = i
             List = anno.ToArray
         End If
 
-        Dim Document As Plots.HighLight = New Plots.HighLight(New Karyotype.Highlights.GeneMark(List, Colors))
+        Dim Document As Nodes.Plots.HighLight = New Nodes.Plots.HighLight(New Karyotype.Highlights.GeneMark(List, Colors))
         Return Document
     End Function
 
@@ -659,7 +659,7 @@ SET_END:    Dim ends = i
             (From GeneObject In GeneObjects
              Where Not String.IsNullOrEmpty(GeneObject.LocusID)
              Select GeneObject).ToArray)
-        Dim LabelDocument As New Plots.TextLabel(highlightLabel)
+        Dim LabelDocument As New Nodes.Plots.TextLabel(highlightLabel)
         LabelDocument.r0 = "0.8r"
         LabelDocument.r1 = "0.85r"
         Call doc.AddPlotElement(LabelDocument)
@@ -682,20 +682,20 @@ SET_END:    Dim ends = i
     End Function
 
     <ExportAPI("Plots.Element.Set.Position")>
-    Public Function SetPlotElementPosition(Element As Plots.Plot,
+    Public Function SetPlotElementPosition(Element As Nodes.Plots.TracksPlot,
                                            <Parameter("r.Outside", "The radius value of the outside for this circle element.")>
                                            rOutside As String,
                                            <Parameter("r.Inner", "The radius value of the inner circle of this element.")>
-                                           rInner As String) As Plots.Plot
+                                           rInner As String) As Nodes.Plots.TracksPlot
         Element.r1 = rOutside
         Element.r0 = rInner
         Return Element
     End Function
 
     <ExportAPI("Plots.Element.Set.Fill_Color", Info:="Invoke set the color of the circle element on the circos plots.")>
-    Public Function SetPlotElementFillColor(Element As Plots.Plot,
+    Public Function SetPlotElementFillColor(Element As Nodes.Plots.TracksPlot,
                                             <Parameter("Color", "The name of the color in the circos program.")>
-                                            Color As String) As Plots.Plot
+                                            Color As String) As Nodes.Plots.TracksPlot
         Element.fill_color = Color
         Return Element
     End Function
@@ -708,7 +708,7 @@ SET_END:    Dim ends = i
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("Plots.Element.Set.Orientation", Info:="ori = ""in"" or ""out""")>
-    Public Function SetPlotElementOrientation(Element As Plots.Plot, Orientation As String) As Plots.Plot
+    Public Function SetPlotElementOrientation(Element As Nodes.Plots.TracksPlot, Orientation As String) As Nodes.Plots.TracksPlot
         Element.orientation = Orientation
         Return Element
     End Function
@@ -720,9 +720,9 @@ SET_END:    Dim ends = i
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("Plots.DOOR")>
-    Public Function DoorOperon(<Parameter("DOOR", "The file path of the DOOR database file.")> DOOR As String) As Plots.Plot
+    Public Function DoorOperon(<Parameter("DOOR", "The file path of the DOOR database file.")> DOOR As String) As Nodes.Plots.TracksPlot
         Dim Data = New Documents.Karyotype.DoorOperon(DOOR)
-        Dim HeatMap = New Plots.HeatMap(Data)
+        Dim HeatMap = New Nodes.Plots.HeatMap(Data)
         HeatMap.r0 = "1.3r"
         HeatMap.r1 = "1.1r"
 
@@ -768,13 +768,13 @@ SET_END:    Dim ends = i
     End Function
 
     <ExportAPI("Karyotype.As.Heatmap")>
-    Public Function KaryotypeAsHeatmap(doc As TrackDataDocument) As Plots.HeatMap
-        Return New Plots.HeatMap(doc)
+    Public Function KaryotypeAsHeatmap(doc As TrackDataDocument) As Nodes.Plots.HeatMap
+        Return New Nodes.Plots.HeatMap(doc)
     End Function
 
     <ExportAPI("Karyotype.As.Histogram")>
-    Public Function KaryotypeAsHistogram(doc As TrackDataDocument) As Plots.Histogram
-        Return New Plots.Histogram(doc)
+    Public Function KaryotypeAsHistogram(doc As TrackDataDocument) As Nodes.Plots.Histogram
+        Return New Nodes.Plots.Histogram(doc)
     End Function
 
     <ExportAPI("Karyotype.As.Line")>
@@ -783,7 +783,7 @@ SET_END:    Dim ends = i
     End Function
 
     <ExportAPI("Adds.Plots", Info:="Adds a new circos plots element into the circos.conf object.")>
-    Public Function AddPlotElement(ByRef doc As Configurations.Circos, element As Plots.Plot) As Integer
+    Public Function AddPlotElement(ByRef doc As Configurations.Circos, element As Nodes.Plots.TracksPlot) As Integer
         Call doc.AddPlotElement(element)
         Return doc.Plots.Length
     End Function
@@ -1089,7 +1089,7 @@ then you can using this method to adding the legends on your circos plots image 
 
         If Not doc.Plots.IsNullOrEmpty Then
 
-            For Each PlotElement As Plots.Plot In doc.Plots
+            For Each PlotElement As Nodes.Plots.TracksPlot In doc.Plots
                 refPt = PlotElement.KaryotypeDocumentData.LegendsDrawing(refPt, Device)
             Next
         End If

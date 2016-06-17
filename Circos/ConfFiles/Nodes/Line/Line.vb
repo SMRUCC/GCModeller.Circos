@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic
 
 Namespace Documents.Configurations.Nodes.Plots.Lines
 
-    Public Class Line : Inherits Plot
+    Public Class Line : Inherits TracksPlot
 
         <SimpleConfig> Public Property color As String = "vdgrey"
         <SimpleConfig> Public Property max_gap As String = "1u"

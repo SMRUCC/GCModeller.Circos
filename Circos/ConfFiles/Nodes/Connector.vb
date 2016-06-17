@@ -8,7 +8,7 @@ Namespace Documents.Configurations.Nodes.Plots
     ''' <summary>
     ''' 可以用来表示调控关系
     ''' </summary>
-    Public Class Connector : Inherits Plots.Plot
+    Public Class Connector : Inherits Plots.TracksPlot
 
         <SimpleConfig()> Public Overrides ReadOnly Property type As String
             Get

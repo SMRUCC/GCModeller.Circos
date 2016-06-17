@@ -99,13 +99,13 @@ Namespace Documents.Configurations
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public ReadOnly Property Plots As Plot()
+        Public ReadOnly Property Plots As TracksPlot()
             Get
                 Return _plots.ToArray
             End Get
         End Property
 
-        Dim _plots As New List(Of Plot)
+        Dim _plots As New List(Of TracksPlot)
 
         Public Overrides ReadOnly Property IsSystemConfig As Boolean
             Get
@@ -130,7 +130,7 @@ Namespace Documents.Configurations
             App.CurrentDirectory = outDIR
 
             For i As Integer = 0 To _plots.Count - 1
-                Dim x As Plot = _plots(i)
+                Dim x As TracksPlot = _plots(i)
                 Dim FileName As String = $"data/{x.type}_data_{i}.txt"
                 Call x.Save(FileName, System.Text.Encoding.ASCII)
             Next
@@ -164,7 +164,7 @@ Namespace Documents.Configurations
         ''' </summary>
         ''' <param name="plotElement"></param>
         ''' <remarks></remarks>
-        Public Sub AddPlotElement(plotElement As Plot)
+        Public Sub AddPlotElement(plotElement As TracksPlot)
             Call Me._plots.Add(plotElement)
 
             If Not String.IsNullOrEmpty(stroke_thickness) Then
@@ -174,8 +174,8 @@ Namespace Documents.Configurations
                 plotElement.stroke_color = stroke_color
             End If
 
-            Dim plotElements As Plot() =
-                LinqAPI.Exec(Of Plot) <= From plotUnit As Plot
+            Dim plotElements As TracksPlot() =
+                LinqAPI.Exec(Of TracksPlot) <= From plotUnit As TracksPlot
                                          In Me._plots
                                          Where plotUnit.KaryotypeCanBeAutoLayout
                                          Select plotUnit
@@ -196,7 +196,7 @@ Namespace Documents.Configurations
         ''' 强制所指定的绘图元素自动布局
         ''' </summary>
         ''' <param name="elements"></param>
-        Public Sub ForceAutoLayout(elements As Plot())
+        Public Sub ForceAutoLayout(elements As TracksPlot())
             Dim d = 0.8 / elements.Length / 2
             Dim p As Double = 0.95
 

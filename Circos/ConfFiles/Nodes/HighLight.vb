@@ -4,7 +4,7 @@ Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.D
 
 Namespace Documents.Configurations.Nodes.Plots
 
-    Public Class HighLight : Inherits Plots.Plot
+    Public Class HighLight : Inherits Plots.TracksPlot
 
         Public ReadOnly Property Highlights As Highlights
             Get

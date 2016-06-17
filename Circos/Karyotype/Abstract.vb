@@ -11,6 +11,7 @@ Namespace Documents.Karyotype
     ''' </summary>
     ''' <remarks></remarks>
     Public MustInherit Class TrackDataDocument(Of T As TrackData) : Inherits ITextFile
+        Implements IEnumerable(Of T)
 
         Protected __meta As List(Of T)
 
@@ -24,24 +25,22 @@ Namespace Documents.Karyotype
 
         Protected MustOverride Function GenerateDocument() As String
 
-        Public MustOverride ReadOnly Property Max As Double
-        Public MustOverride ReadOnly Property Min As Double
-
-        Public Shadows Property FilePath As String
-            Get
-                Return MyBase.FilePath
-            End Get
-            Set(value As String)
-                MyBase.FilePath = value
-            End Set
-        End Property
-
         Public NotOverridable Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
             Return Me.GenerateDocument.SaveTo(path:=getPath(FilePath), encoding:=Encoding)
         End Function
 
         Public Overridable Function LegendsDrawing(ref As Drawing.Point, ByRef Device As GDIPlusDeviceHandle) As Drawing.Point
             Return ref
+        End Function
+
+        Public Iterator Function GetEnumerator() As IEnumerator(Of T) Implements IEnumerable(Of T).GetEnumerator
+            For Each x As T In __meta
+                Yield x
+            Next
+        End Function
+
+        Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+            Yield GetEnumerator()
         End Function
     End Class
 

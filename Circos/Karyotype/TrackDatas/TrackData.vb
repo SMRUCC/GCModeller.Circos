@@ -191,27 +191,6 @@ Namespace Documents.Karyotype.TrackDatas
         Protected Overrides Function __trackData() As String
             Return $"{chr} {start} {[end]} {value}"
         End Function
-
-        Public Shared Function FromColorMapping(cl As Circos.Colors.Mappings, idx As Integer, offset As Integer) As ValueTrackData
-            Return New ValueTrackData With {
-                .formatting = New Formatting With {
-                    .fill_color = $"({cl.Color.R},{cl.Color.G},{cl.Color.B})"
-                },
-                .start = idx,
-                .end = idx + 1 + offset,
-                .value = cl.value
-            }
-        End Function
-
-        Public Shared Function Distinct(source As IEnumerable(Of ValueTrackData)) As ValueTrackData()
-            Dim LQuery = (From x As ValueTrackData
-                          In source
-                          Select x,
-                              uid = $"{x.start}..{x.end}"
-                          Group By uid Into Group) _
-                             .ToArray(Function(x) x.Group.First.x)
-            Return LQuery
-        End Function
     End Class
 
     ''' <summary>

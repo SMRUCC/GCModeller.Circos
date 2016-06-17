@@ -6,13 +6,15 @@ Imports Microsoft.VisualBasic.Serialization
 Namespace Documents.Karyotype.TrackDatas
 
     ''' <summary>
-    ''' Tracks data document generator
+    ''' Tracks data document generator.(使用这个对象生成data文件夹之中的数据文本文件)
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     Public Class data(Of T As TrackData) : Inherits List(Of T)
 
-        Sub New()
-            Call MyBase.New(0)
+        Public Property FileName As String
+
+        Sub New(source As IEnumerable(Of T))
+            Call MyBase.New(source)
         End Sub
 
         Public Overrides Function ToString() As String

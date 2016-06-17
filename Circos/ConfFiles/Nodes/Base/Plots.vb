@@ -1,148 +1,41 @@
-﻿Imports System.Text
+﻿Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.TrackDatas
 Imports Microsoft.VisualBasic.ComponentModel.Settings
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Scripting
 
 Namespace Documents.Configurations.Nodes.Plots
 
-    Public MustInherit Class Plot
-        Implements ICircosDocument
-
-        <Circos> Public MustOverride ReadOnly Property type As String
-
-        <Circos> Public Property file As String
-            Get
-                Return Tools.TrimPath(_karyotypeDocData.FilePath)
-            End Get
-            Set(value As String)
-                _karyotypeDocData.FilePath = value
-            End Set
-        End Property
-
-        Public ReadOnly Property KaryotypeCanBeAutoLayout As Boolean
-            Get
-                Return _karyotypeDocData.AutoLayout
-            End Get
-        End Property
+    ''' <summary>
+    ''' Heat maps are used for data types which associate a value with a genomic position, Or region. 
+    ''' As such, this track uses the same data format As histograms.
+    '''
+    ''' The track linearly maps a range Of values [min,max] onto a list Of colors c[n], i=0..N.
+    '''
+    ''' f = (value - min) / ( max - min )
+    ''' n = N * f
+    ''' </summary>
+    Public Class HeatMap : Inherits TracksPlot(Of ValueTrackData)
 
         ''' <summary>
-        ''' 圈外径(单位 r，请使用格式"&lt;double>r")
+        ''' Colors are defined by a combination of lists or CSV. Color lists
+        ''' exist For all Brewer palletes (see etc/colors.brewer.lists.conf) As
+        ''' well As For N-Step hue (hue-sN, e.g. hue-s5 =
+        ''' hue000,hue005,hue010,...) And N-color hue (hue-sN, e.g. hue-3 =
+        ''' hue000,hue120,hue140).
         ''' </summary>
-        ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
-        <Circos> Public Property r1 As String = "0.75r"
-
+        <Circos> Public Property color As String = "hs1_a5,hs1_a4,hs1_a3,hs1_a2,hs1_a1,hs1"
         ''' <summary>
-        ''' 圈内径(单位 r，请使用格式"&lt;double>r")
-        ''' </summary>
-        ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        <Circos> Public Property r0 As String = "0.6r"
-        <Circos> Public Property max As String = "1"
-        <Circos> Public Property min As String = "0"
-        <Circos> Public Property fill_color As String = "orange"
-        ''' <summary>
-        ''' 圈的朝向，是<see cref="ORIENTATION_IN"/>向内还是<see cref="ORIENTATION_OUT"/>向外
+        ''' If scale_log_base is used, the mapping is not linear, but a power law 
+        '''
+        ''' n = N * f**(1/scale_log_base)
+        '''
+        ''' When scale_log_base > 1 the dynamic range For values close To min Is expanded. 
+        ''' When scale_log_base &lt; 1 the dynamic range For values close To max Is expanded. 
         ''' </summary>
         ''' <returns></returns>
-        <Circos> Public Property orientation As String = "in"
-        <Circos> Public Property thickness As String = "2"
-        <Circos> Public Property stroke_thickness As String = "0"
-        <Circos> Public Property stroke_color As String = "grey"
+        <Circos> Public Property scale_log_base As String = "5"
 
-        Public Const ORIENTATION_OUT As String = "out"
-        Public Const ORIENTATION_IN As String = "in"
-
-        Public Property Rules As List(Of ConditionalRule)
-
-        Protected _karyotypeDocData As Documents.Karyotype.TrackDataDocument
-
-        Public ReadOnly Property KaryotypeDocumentData As Documents.Karyotype.TrackDataDocument
-            Get
-                Return _karyotypeDocData
-            End Get
-        End Property
-
-        Public Sub New(Data As Documents.Karyotype.TrackDataDocument)
-            Me._karyotypeDocData = Data
-        End Sub
-
-        Public Overrides Function ToString() As String
-            Return String.Format("({0}  --> {1})  {2}", Me.type, Me._karyotypeDocData.GetType.Name, Me._karyotypeDocData.ToString)
-        End Function
-
-        Protected Overridable Function GetMaxValue() As String
-            Return _karyotypeDocData.Max.ToString
-        End Function
-
-        Protected Overridable Function GetMinValue() As String
-            Return _karyotypeDocData.Min.ToString
-        End Function
-
-        Public Overridable Function GenerateDocument(IndentLevel As Integer) As String Implements ICircosDocument.GenerateDocument
-            Dim IndentBlanks As String = New String(" "c, IndentLevel)
-            Dim sBuilder As StringBuilder = New StringBuilder(IndentBlanks & "<plot>" & vbCrLf, 1024)
-
-            Call sBuilder.AppendLine()
-            Call sBuilder.AppendLine(String.Format("{0}#   --> ""{1}""", IndentBlanks, _karyotypeDocData.GetType.FullName))
-            Call sBuilder.AppendLine()
-
-            Me.max = GetMaxValue()
-            Me.min = GetMinValue()
-
-            For Each strLine As String In GetProperties()
-                Call sBuilder.AppendLine(IndentBlanks & "  " & strLine)
-            Next
-
-            Dim PlotElements = GeneratePlotsElementListChunk()
-
-            If Not PlotElements.IsNullOrEmpty Then
-
-                For Each item In PlotElements
-                    Call sBuilder.AppendLine(vbCrLf & IndentBlanks & String.Format("<{0}>", item.Key))
-
-                    For Each Element In item.Value
-                        Call sBuilder.AppendLine(Element.GenerateDocument(IndentLevel + 2))
-                    Next
-
-                    Call sBuilder.AppendLine(IndentBlanks & String.Format("</{0}>", item.Key))
-                Next
-            End If
-
-            Call sBuilder.AppendLine(IndentBlanks & "</plot>")
-
-            Return sBuilder.ToString
-        End Function
-
-        ''' <summary>
-        ''' SimpleConfig.GenerateConfigurations(Of &lt;PlotType>)(Me)，需要手工复写以得到正确的类型
-        ''' </summary>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Protected MustOverride Function GetProperties() As String()
-
-        Protected Overridable Function GeneratePlotsElementListChunk() As Dictionary(Of String, List(Of CircosDocument))
-            If Not Rules.IsNullOrEmpty Then
-                Return New Dictionary(Of String, List(Of CircosDocument)) From {{"rules", (From item In Rules Select DirectCast(item, CircosDocument)).ToList}}
-            Else
-                Return Nothing
-            End If
-        End Function
-
-        Public Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean Implements ICircosDocument.Save
-            Return _karyotypeDocData.Save(FilePath, Encoding)
-        End Function
-    End Class
-
-    Public Class HeatMap : Inherits Plot
-
-        <SimpleConfig> Public Property color As String = "spectral-7-div"
-        <SimpleConfig> Public Property scale_log_base As String = "0.25"
-
-        Public Sub New(Data As Documents.Karyotype.TrackDataDocument)
-            Call MyBase.New(Data)
+        Public Sub New(data As IEnumerable(Of ValueTrackData))
+            Call MyBase.New(data)
         End Sub
 
         <Circos> Public Overrides ReadOnly Property type As String
@@ -156,7 +49,30 @@ Namespace Documents.Configurations.Nodes.Plots
         End Function
     End Class
 
-    Public Class Histogram : Inherits Plot
+    ''' <summary>
+    ''' Histograms are a type Of track that displays 2D data, which
+    ''' associates a value With a genomic position. Line plots, scatter
+    ''' plots And heat maps are examples Of other 2D tracks.
+    '''
+    ''' The data format For 2D data Is 
+    '''
+    ''' #chr start End value [options]
+    ''' ...
+    ''' hs3 196000000 197999999 71.0000
+    ''' hs3 198000000 199999999 57.0000
+    ''' hs4 0 1999999 28.0000
+    ''' hs4 2000000 3999999 40.0000
+    ''' hs4 4000000 5999999 59.0000
+    ''' ...
+    '''
+    ''' Each histogram Is defined In a ``&lt;plot>`` block within an enclosing ``&lt;plots`` block.
+    ''' </summary>
+    ''' <remarks>
+    ''' Like For links, rules are used To dynamically alter formatting Of
+    ''' Each data point (i.e. histogram bin). Here, I include the ```&lt;rule>```
+    ''' block from a file, which contains the following
+    ''' </remarks>
+    Public Class Histogram : Inherits TracksPlot(Of ValueTrackData)
 
         <Circos> Public Overrides ReadOnly Property type As String
             Get
@@ -164,8 +80,20 @@ Namespace Documents.Configurations.Nodes.Plots
             End Get
         End Property
 
-        Public Sub New(Data As Documents.Karyotype.TrackDataDocument)
-            Call MyBase.New(Data)
+        ''' <summary>
+        ''' Histograms can have both a fill And outline. The Default outline Is 1px thick black. 
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overrides Property fill_color As String = "vdgrey"
+
+        ''' <summary>
+        ''' Do Not join histogram bins that Do Not abut.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property extend_bin As String = no
+
+        Public Sub New(data As IEnumerable(Of ValueTrackData))
+            Call MyBase.New(data)
         End Sub
 
         Protected Overrides Function GetProperties() As String()
@@ -173,24 +101,24 @@ Namespace Documents.Configurations.Nodes.Plots
         End Function
     End Class
 
-    Public Class TextLabel : Inherits Plot
+    Public Class TextLabel : Inherits TracksPlot
 
-        <SimpleConfig> Public Property color As String = "black"
-        <SimpleConfig> Public Property label_size As String = "16"
-        <SimpleConfig> Public Property label_font As String = "light"
-        <SimpleConfig> Public Property padding As String = "5p"
-        <SimpleConfig> Public Property rpadding As String = "5p"
-        <SimpleConfig> Public Property show_links As String = yes
-        <SimpleConfig> Public Property link_dims As String = "5p,4p,8p,4p,0p"
-        <SimpleConfig> Public Property link_thickness As String = "1p"
-        <SimpleConfig> Public Property link_color As String = "dgrey"
-        <SimpleConfig> Public Property label_snuggle As String = yes
-        <SimpleConfig> Public Property max_snuggle_distance As String = "2.0r"
-        <SimpleConfig> Public Property snuggle_sampling As String = "1"
-        <SimpleConfig> Public Property snuggle_tolerance As String = "0.25r"
-        <SimpleConfig> Public Property snuggle_link_overlap_test As String = yes
-        <SimpleConfig> Public Property snuggle_link_overlap_tolerance As String = "2p"
-        <SimpleConfig> Public Property snuggle_refine As String = yes
+        <Circos> Public Property color As String = "black"
+        <Circos> Public Property label_size As String = "16"
+        <Circos> Public Property label_font As String = "light"
+        <Circos> Public Property padding As String = "5p"
+        <Circos> Public Property rpadding As String = "5p"
+        <Circos> Public Property show_links As String = yes
+        <Circos> Public Property link_dims As String = "5p,4p,8p,4p,0p"
+        <Circos> Public Property link_thickness As String = "1p"
+        <Circos> Public Property link_color As String = "dgrey"
+        <Circos> Public Property label_snuggle As String = yes
+        <Circos> Public Property max_snuggle_distance As String = "2.0r"
+        <Circos> Public Property snuggle_sampling As String = "1"
+        <Circos> Public Property snuggle_tolerance As String = "0.25r"
+        <Circos> Public Property snuggle_link_overlap_test As String = yes
+        <Circos> Public Property snuggle_link_overlap_tolerance As String = "2p"
+        <Circos> Public Property snuggle_refine As String = yes
 
         Public ReadOnly Property Labels As Karyotype.Highlights.HighlightLabel
             Get

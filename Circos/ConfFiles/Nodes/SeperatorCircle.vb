@@ -9,7 +9,7 @@ Namespace Documents.Configurations.Nodes.Plots
         Dim Width As Integer
 
         Sub New(Length As Integer, Width As Integer)
-            Call MyBase.New(Data:=NtProps.GCSkew.CreateLineData(Length, Width))
+            Call MyBase.New(data:=NtProps.GCSkew.CreateLineData(Length, Width))
             Me.Width = Width
         End Sub
 
