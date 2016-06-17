@@ -7,18 +7,27 @@ Namespace Documents.Configurations.Nodes
     Public Class Ticks : Inherits CircosDocument
         Implements ICircosDocNode
 
-        <SimpleConfig> Public Property skip_first_label As String = no
-        <SimpleConfig> Public Property skip_last_label As String = no
-        <SimpleConfig> Public Property radius As String = "dims(ideogram,radius_outer)"
-        <SimpleConfig> Public Property tick_separation As String = "2p"
-        <SimpleConfig> Public Property min_label_distance_to_edge As String = "0p"
-        <SimpleConfig> Public Property label_separation As String = "5p"
-        <SimpleConfig> Public Property label_offset As String = "5p"
-        <SimpleConfig> Public Property label_size As String = "36p"
-        <SimpleConfig> Public Property color As String = "black"
-        <SimpleConfig> Public Property multiplier As String = "0.001"
-        <SimpleConfig> Public Property thickness As String = "3p"
-        <SimpleConfig> Public Property size As String = "20p"
+        <Circos> Public Property skip_first_label As String = no
+        <Circos> Public Property skip_last_label As String = no
+        <Circos> Public Property radius As String = "dims(ideogram,radius_outer)"
+        <Circos> Public Property tick_separation As String = "2p"
+        <Circos> Public Property min_label_distance_to_edge As String = "0p"
+        <Circos> Public Property label_separation As String = "5p"
+        <Circos> Public Property label_offset As String = "5p"
+        <Circos> Public Property label_size As String = "36p"
+        <Circos> Public Property color As String = "black"
+        ''' <summary>
+        ''' the tick label is derived by multiplying the tick position
+        ''' by ``<see cref="multiplier"/>`` and casting it in ``<see cref="format"/>``:
+        '''
+        ''' ```
+        ''' sprintf(format,position*multiplier)
+        ''' ```
+        ''' </summary>
+        ''' <returns></returns>
+        <Circos> Public Property multiplier As String = "0.001"
+        <Circos> Public Property thickness As String = "3p"
+        <Circos> Public Property size As String = "20p"
 
         Public Property Ticks As List(Of Tick) = New List(Of Tick)
 
@@ -43,15 +52,32 @@ Namespace Documents.Configurations.Nodes
     Public Class Tick : Inherits CircosDocument
         Implements ICircosDocNode
 
-        <SimpleConfig> Public Property spacing As String = "500u"
-        <SimpleConfig> Public Property color As String = "black"
-        <SimpleConfig> Public Property show_label As String = yes
-        <SimpleConfig> Public Property suffix As String = """ kb"""
-        <SimpleConfig> Public Property label_size As String = "36p"
-        <SimpleConfig> Public Property format As String = "%s"
-        <SimpleConfig> Public Property grid As String = yes
-        <SimpleConfig> Public Property grid_color As String = "black"
-        <SimpleConfig> Public Property grid_thickness As String = "4p"
+        <Circos> Public Property size As String
+        <Circos> Public Property spacing As String = "500u"
+        <Circos> Public Property color As String = "black"
+        <Circos> Public Property show_label As String = yes
+        <Circos> Public Property suffix As String = """ kb"""
+        <Circos> Public Property label_size As String = "36p"
+        ''' <summary>
+        ''' Example as: ``label_offset = 10p``
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property label_offset As String
+        ''' <summary>
+        ''' |format control|types                  |
+        ''' |--------------|-----------------------|
+        ''' |%d            |integer                |
+        ''' |%f            |float                  |
+        ''' |%.1f          |float With one Decimal |
+        ''' |%.2f          |float With two decimals|
+        '''
+        ''' For other formats, see http://perldoc.perl.org/functions/sprintf.html
+        ''' </summary>
+        ''' <returns></returns>
+        <Circos> Public Property format As String = "%s"
+        <Circos> Public Property grid As String = yes
+        <Circos> Public Property grid_color As String = "black"
+        <Circos> Public Property grid_thickness As String = "4p"
 
         Public Overrides Function GenerateDocument(IndentLevel As Integer) As String
             Return Me.GenerateCircosDocumentElement("tick", IndentLevel, Nothing)

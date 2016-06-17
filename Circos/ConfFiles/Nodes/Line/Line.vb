@@ -6,8 +6,8 @@ Namespace Documents.Configurations.Nodes.Plots.Lines
 
     Public Class Line : Inherits TracksPlot
 
-        <SimpleConfig> Public Property color As String = "vdgrey"
-        <SimpleConfig> Public Property max_gap As String = "1u"
+        <Circos> Public Property color As String = "vdgrey"
+        <Circos> Public Property max_gap As String = "1u"
 
         Public Property Backgrounds As List(Of Background)
         Public Property Axes As List(Of Axis)

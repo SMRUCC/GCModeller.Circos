@@ -1030,35 +1030,6 @@ SET_END:    Dim ends = i
         Loop
     End Sub
 
-    <ExportAPI("GenerateDoc", Info:="Generates the docuemtn text data for write circos file.")>
-    <Extension> Public Function GenerateCircosDocumentElement(Of T As CircosDocument) _
-        (data As T,
-         Tag As String,
-         IndentLevel As Integer,
-         InsertElements As IEnumerable(Of ICircosDocNode)) As String
-
-        Dim IndentBlanks As String = New String(" "c, IndentLevel + 2)
-        Dim sBuilder As StringBuilder = New StringBuilder(1024)
-
-        For Each strLine As String In SimpleConfig.GenerateConfigurations(Of T)(data)
-            Call sBuilder.AppendLine($"{IndentBlanks}{strLine}")
-        Next
-
-        If Not InsertElements.IsNullOrEmpty Then
-            Call sBuilder.AppendLine()
-
-            For Each item In InsertElements
-                If item Is Nothing Then
-                    Continue For
-                End If
-
-                Call sBuilder.AppendLine(item.GenerateDocument(IndentLevel + 2))
-            Next
-        End If
-
-        Return String.Format("<{0}>{1}{2}{1}</{0}>", Tag, vbCrLf, sBuilder.ToString)
-    End Function
-
     Public Const yes As String = "yes"
     Public Const no As String = "no"
     Public Const null As String = ""

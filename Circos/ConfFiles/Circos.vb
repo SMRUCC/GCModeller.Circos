@@ -49,6 +49,22 @@ Namespace Documents.Configurations
         <Circos> Public Property genome As String = null
         <Circos> Public Property use_rules As String = yes
 
+        ''' <summary>
+        ''' The chromosomes_unit value is used as a unit (suffix "u") to shorten
+        ''' values In other parts Of the configuration file. Some parameters,
+        ''' such As ideogram And tick spacing, accept "u" suffixes, so instead Of
+        '''
+        ''' ```
+        ''' spacing = 10000000
+        ''' ```
+        ''' 
+        ''' you can write
+        ''' 
+        ''' ```
+        ''' spacing = 10u
+        ''' ```
+        ''' </summary>
+        ''' <returns></returns>
         <Circos> Public Property chromosomes_units As String = "5000"
         <Circos> Public Property chromosomes_display_default As String = yes
         <Circos> Public Property chromosomes As String = null
