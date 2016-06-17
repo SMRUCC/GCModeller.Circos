@@ -24,7 +24,18 @@ Namespace Documents.Configurations
     ''' 
     ''' (Circo基因组绘图程序的主配置文件)
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>
+    ''' ![](https://raw.githubusercontent.com/SMRUCC/GCModeller.Circos/master/manual/workflow.png)
+    ''' 
+    ''' Typically a central configuration file which defines data track information (circos.conf) imports other 
+    ''' configuration files that store parameters that change less frequently 
+    ''' (tick marks, ideogram size, grid, etc). 
+    ''' 
+    ''' Data for each data track Is stored in a file And the same file can be used for multiple tracks.
+    ''' 
+    ''' + PNG image output Is ideal For immediate viewing, web-based reporting Or presentation. 
+    ''' + SVG output Is most suitable For generating very high resolution line art For publication And For customizing aspects Of the figure.
+    ''' </remarks>
     Public Class Circos : Inherits ConfigDoc
         Implements ICircosDocument
 
