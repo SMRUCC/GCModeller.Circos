@@ -194,12 +194,6 @@ Namespace Documents.Configurations
 
         Dim _plots As New List(Of ITrackPlot)
 
-        Public Overrides ReadOnly Property IsSystemConfig As Boolean
-            Get
-                Return False
-            End Get
-        End Property
-
         Sub New()
             Call MyBase.New("circos.conf", Nothing)
             Me.main = Me
@@ -234,8 +228,8 @@ Namespace Documents.Configurations
                 .Includes = New List(Of CircosConfig)
             }
 
-            Call CircosConfig.Includes.Add(SystemPrefixConfigDoc.ColorFontsPatterns)
-            Call CircosConfig.Includes.Add(SystemPrefixConfigDoc.HouseKeeping)
+            Call CircosConfig.Includes.Add(CircosDistributed.ColorFontsPatterns)
+            Call CircosConfig.Includes.Add(CircosDistributed.HouseKeeping)
 
             Return CircosConfig
         End Function
@@ -314,7 +308,7 @@ Namespace Documents.Configurations
             "    <<include etc/image.conf>>" & vbCrLf &
             "</image>"
 
-        Protected Friend Overrides Function GenerateDocument(IndentLevel As Integer) As String
+        Protected Overrides Function GenerateDocument(IndentLevel As Integer) As String
             Dim sb As StringBuilder = New StringBuilder(1024)
             Call sb.AppendLine(Me.GenerateIncludes)
             Call sb.AppendLine(image)

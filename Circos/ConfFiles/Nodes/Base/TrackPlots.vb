@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Scripting
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.TrackDatas
+Imports Microsoft.VisualBasic.ComponentModel
 
 Namespace Documents.Configurations.Nodes.Plots
 
@@ -152,6 +153,10 @@ Namespace Documents.Configurations.Nodes.Plots
 
         Public Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean Implements ICircosDocument.Save, ITrackPlot.Save
             Return TracksData.GetDocumentText.SaveTo(FilePath, Encoding)
+        End Function
+
+        Public Function Save(Optional Path As String = "", Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+            Return Save(Path, encoding.GetEncodings)
         End Function
     End Class
 End Namespace

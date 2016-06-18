@@ -18,16 +18,10 @@ Namespace Documents.Configurations
         Public Property Includes As List(Of CircosConfig)
 
         ''' <summary>
-        ''' 主配置文件Circos.conf
+        ''' This config file was included in ``circos.conf``.(主配置文件Circos.conf)
         ''' </summary>
         ''' <returns></returns>
         Public Property main As Circos
-
-        ''' <summary>
-        ''' 是否为系统自带的绘图文件，这个属性是和生成引用路径相关的
-        ''' </summary>
-        ''' <returns></returns>
-        Public MustOverride ReadOnly Property IsSystemConfig As Boolean
 
         Sub New(FileName As String, Circos As Circos)
             MyBase.FilePath = FileName
@@ -42,13 +36,29 @@ Namespace Documents.Configurations
             Dim sb As New StringBuilder(1024)
 
             For Each includeFile As CircosConfig In Includes
-                Dim refPath As String = Tools.TrimPath(includeFile)
-                Call sb.AppendLine($"<<include {refPath}>>")
+                Call __appendLine(sb, includeFile)
                 Call includeFile.Save(Encoding:=Encoding.ASCII)
             Next
 
             Return sb.ToString
         End Function
+
+        Private Shared Sub __appendLine(ByRef sb As StringBuilder, include As CircosConfig)
+            Dim refPath As String = Tools.TrimPath(include)
+
+            If TypeOf include Is CircosDistributed Then
+                Dim name As String = DirectCast(include, CircosDistributed).Section
+                If Not String.IsNullOrEmpty(name) Then
+                    Call sb.AppendLine($"<{name}>")
+                    Call sb.AppendLine($"   <<include {refPath}>>")
+                    Call sb.AppendLine($"</{name}>")
+                Else
+                    Call sb.AppendLine($"<<include {refPath}>>")
+                End If
+            Else
+                Call sb.AppendLine($"<<include {refPath}>>")
+            End If
+        End Sub
 
         ''' <summary>
         ''' 配置文件的引用的相对路径
@@ -60,10 +70,30 @@ Namespace Documents.Configurations
             End Get
         End Property
 
+        ''' <summary>
+        ''' ``ticks.conf``
+        ''' </summary>
         Public Const TicksConf As String = "ticks.conf"
+        ''' <summary>
+        ''' ``ideogram.conf``
+        ''' </summary>
         Public Const IdeogramConf As String = "ideogram.conf"
 
-        Protected Friend MustOverride Function GenerateDocument(IndentLevel As Integer) As String Implements ICircosDocument.GenerateDocument
-        Public MustOverride Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean Implements ICircosDocument.Save
+        Protected MustOverride Function GenerateDocument(IndentLevel As Integer) As String Implements ICircosDocument.GenerateDocument
+
+        ''' <summary>
+        ''' Auto detected that current is circos distribution or not, if true, then this file will not be saved.
+        ''' </summary>
+        ''' <param name="FilePath"></param>
+        ''' <param name="Encoding"></param>
+        ''' <returns></returns>
+        Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean Implements ICircosDocument.Save
+            If TypeOf Me Is CircosDistributed Then
+                Return True ' 系统自带的不需要进行保存了
+            End If
+
+            Dim doc As String = GenerateDocument(IndentLevel:=Scan0)
+            Return doc.SaveTo(getPath(FilePath), If(Encoding Is Nothing, Encoding.ASCII, Encoding))
+        End Function
     End Class
 End Namespace
