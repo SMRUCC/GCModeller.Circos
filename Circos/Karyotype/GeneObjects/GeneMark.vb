@@ -3,7 +3,7 @@ Imports LANS.SystemsBiology.ComponentModel
 
 Namespace Documents.Karyotype.GeneObjects
 
-    Public Class GeneMark : Inherits GenomeDescription
+    Public Class GeneMark : Inherits SkeletonInfo
 
         Dim briefData As IGeneBrief()
 

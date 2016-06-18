@@ -44,7 +44,10 @@ Namespace Documents.Karyotype
         End Function
     End Class
 
-    Public MustInherit Class GenomeDescription : Inherits TrackDataDocument(Of ValueTrackData)
+    ''' <summary>
+    ''' The annotated genome skeleton information.
+    ''' </summary>
+    Public MustInherit Class SkeletonInfo : Inherits TrackDataDocument(Of ValueTrackData)
 
         ''' <summary>
         ''' 基因组的大小

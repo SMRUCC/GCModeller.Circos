@@ -32,6 +32,7 @@ Namespace Documents.Configurations
             Return ""
         End Function
 
+#Region "The Circos Distribution includes"
         ''' <summary>
         ''' Debugging, I/O an dother system parameters included from Circos distribution.
         ''' </summary>
@@ -41,6 +42,21 @@ Namespace Documents.Configurations
 
         Public Shared ReadOnly Property ColorBrain As CircosDistributed =
             New CircosDistributed("color.brain.conf", "colors")
+
+        ''' <summary>
+        ''' The remaining content Is standard And required. It Is imported from
+        ''' Default files In the Circos distribution.
+        '''
+        ''' These should be present In every Circos configuration file And
+        ''' overridden As required. To see the content Of these files, 
+        ''' look In ``etc/`` In the Circos distribution.
+        '''
+        ''' It's best to include these files using relative paths. This way, the
+        ''' files If Not found under your current directory will be drawn from
+        ''' the Circos distribution. 
+        '''
+        ''' As always, centralize all your inputs As much As possible.
+        ''' </summary>
         Public Shared ReadOnly Property Image As CircosDistributed =
             New CircosDistributed("etc/image.conf", "image")
 
@@ -63,11 +79,6 @@ Namespace Documents.Configurations
         ''' <returns></returns>
         Public Shared ReadOnly Property ColorFontsPatterns As CircosDistributed =
             New CircosDistributed("etc/colors_fonts_patterns.conf")
-
-        Public Overrides ReadOnly Property IsSystemConfig As Boolean
-            Get
-                Return True
-            End Get
-        End Property
+#End Region
     End Class
 End Namespace

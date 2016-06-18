@@ -6,7 +6,7 @@ Namespace Documents.Karyotype
     ''' <summary>
     ''' 基因组的基本框架的描述信息
     ''' </summary>
-    Public Class BasicGenome : Inherits GenomeDescription
+    Public Class BasicGenome : Inherits SkeletonInfo
 
         Dim Length As Integer, Color As String
         Dim BandData As TripleKeyValuesPair()

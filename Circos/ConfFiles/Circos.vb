@@ -5,6 +5,7 @@ Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.D
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights
 Imports Microsoft.VisualBasic.Language
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype
 
 Namespace Documents.Configurations
 
@@ -165,18 +166,18 @@ Namespace Documents.Configurations
         ''' 基因组的骨架信息
         ''' </summary>
         ''' <returns></returns>
-        Public Property BasicKaryotypeData As Documents.Karyotype.GenomeDescription
+        Public Property SkeletonKaryotype As SkeletonInfo
 
         ''' <summary>
-        ''' The genome size.(基因组的大小，当<see cref="BasicKaryotypeData"/>为空值的时候返回数值0)
+        ''' The genome size.(基因组的大小，当<see cref="SkeletonKaryotype"/>为空值的时候返回数值0)
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Size As Integer
             Get
-                If BasicKaryotypeData Is Nothing Then
+                If SkeletonKaryotype Is Nothing Then
                     Return 0
                 End If
-                Return _BasicKaryotypeData.Size - BasicKaryotypeData.LoopHole
+                Return _SkeletonKaryotype.Size - SkeletonKaryotype.LoopHole
             End Get
         End Property
 
@@ -216,7 +217,7 @@ Namespace Documents.Configurations
                 Call x.Save(FileName, Encoding.ASCII)
             Next
 
-            Call _BasicKaryotypeData.Save(karyotype, Encoding:=Encoding.ASCII)
+            Call _SkeletonKaryotype.Save(karyotype, Encoding:=Encoding.ASCII)
 
             App.CurrentDirectory = outDIR
 
@@ -230,6 +231,7 @@ Namespace Documents.Configurations
 
             Call CircosConfig.Includes.Add(CircosDistributed.ColorFontsPatterns)
             Call CircosConfig.Includes.Add(CircosDistributed.HouseKeeping)
+            Call CircosConfig.Includes.Add(CircosDistributed.Image)
 
             Return CircosConfig
         End Function
@@ -289,37 +291,19 @@ Namespace Documents.Configurations
             Next
         End Sub
 
-        ''' <summary>
-        ''' The remaining content Is standard And required. It Is imported from
-        ''' Default files In the Circos distribution.
-        '''
-        ''' These should be present In every Circos configuration file And
-        ''' overridden As required. To see the content Of these files, 
-        ''' look In ``etc/`` In the Circos distribution.
-        '''
-        ''' It's best to include these files using relative paths. This way, the
-        ''' files If Not found under your current directory will be drawn from
-        ''' the Circos distribution. 
-        '''
-        ''' As always, centralize all your inputs As much As possible.
-        ''' </summary>
-        Const image As String =
-            "<image>" & vbCrLf &
-            "    <<include etc/image.conf>>" & vbCrLf &
-            "</image>"
-
         Protected Overrides Function GenerateDocument(IndentLevel As Integer) As String
-            Dim sb As StringBuilder = New StringBuilder(1024)
+            Dim sb As New StringBuilder(1024)
             Call sb.AppendLine(Me.GenerateIncludes)
-            Call sb.AppendLine(image)
             Call sb.AppendLine()
 
-            For Each Line As String In SimpleConfig.GenerateConfigurations(Of Circos)(Me)
-                Call sb.AppendLine(Line)
+            For Each line As String In SimpleConfig.GenerateConfigurations(Of Circos)(Me)
+                Call sb.AppendLine(line)
             Next
 
             If Not colors Is Nothing Then
-                Call sb.AppendLine(colors.GetConfigsValue)
+                Dim line As String =
+                    DirectCast(colors, ICircosDocument).GenerateDocument(Scan0)
+                Call sb.AppendLine(line)
             End If
 
             If Not Plots.IsNullOrEmpty Then

@@ -2,7 +2,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization
 
-Namespace Documents.Configurations.Nodes
+Namespace Documents.Configurations
 
     ''' <summary>
     ''' Use ``<see cref="Circos.chromosomes_color"/>`` to change
@@ -26,15 +26,19 @@ Namespace Documents.Configurations.Nodes
     ''' definitions. To overwrite colors, use a "*" suffix And provide a New
     ''' value, which can be a lookup To another color.
     ''' </summary>
-    Public Class OverwritesColors
+    Public Class OverwritesColors : Inherits CircosDistributed
 
         Public Property colors As Dictionary(Of NamedValue(Of String))
+
+        Sub New()
+            Call MyBase.New("", "colors")
+        End Sub
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
         End Function
 
-        Public Function GetConfigsValue() As String
+        Protected Overrides Function GenerateDocument(IndentLevel As Integer) As String
             Dim sb As New StringBuilder
 
             Call sb.AppendLine("<colors>")

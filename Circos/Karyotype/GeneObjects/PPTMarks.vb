@@ -12,7 +12,7 @@ Namespace Documents.Karyotype.GeneObjects
     ''' 基因对象
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class PTTMarks : Inherits GenomeDescription
+    Public Class PTTMarks : Inherits SkeletonInfo
 
         Dim _GenomeBrief As PTTDbLoader
         Dim _MyvaCog As MyvaCOG()

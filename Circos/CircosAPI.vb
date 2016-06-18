@@ -790,7 +790,7 @@ SET_END:    Dim ends = i
 
     <ExportAPI("Set.Property.Basic")>
     Public Function SetBasicProperty(doc As Configurations.Circos, data As PTTMarks) As Boolean
-        doc.BasicKaryotypeData = data
+        doc.SkeletonKaryotype = data
 
         Call doc.Includes.Add(New Circos.Documents.Configurations.Ticks(Circos:=doc))
         Call doc.Includes.Add(New Circos.Documents.Configurations.Ideogram(doc))
@@ -819,8 +819,8 @@ SET_END:    Dim ends = i
         Call doc.Includes.Add(New Circos.Documents.Configurations.Ticks(Circos:=doc))
         Call doc.Includes.Add(New Circos.Documents.Configurations.Ideogram(doc))
 
-        doc.BasicKaryotypeData = New BasicGenome(Len(NT.SequenceData) + loophole, "white", If(Bands Is Nothing, Nothing, Bands.ToArray))
-        doc.BasicKaryotypeData.LoopHole = loophole
+        doc.SkeletonKaryotype = New BasicGenome(Len(NT.SequenceData) + loophole, "white", If(Bands Is Nothing, Nothing, Bands.ToArray))
+        doc.SkeletonKaryotype.LoopHole = loophole
         doc.karyotype = "./data/genome_skeleton.txt"
 
         Return True
