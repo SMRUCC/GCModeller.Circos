@@ -610,7 +610,7 @@ SET_END:    Dim ends = i
                 End If
             Next
 
-            Dim Document As Nodes.Plots.HighLight = New Nodes.Plots.HighLight(New Karyotype.Highlights.GeneMark(genes, Colors))
+            Dim Document As Nodes.Plots.HighLight = New Nodes.Plots.HighLight(New Documents.Karyotype.Highlights.GeneMark(genes, Colors))
             Call circles.Add(Document)
         Loop
 
@@ -635,7 +635,7 @@ SET_END:    Dim ends = i
             List = anno.ToArray
         End If
 
-        Dim Document As Nodes.Plots.HighLight = New Nodes.Plots.HighLight(New Karyotype.Highlights.GeneMark(List, Colors))
+        Dim Document As Nodes.Plots.HighLight = New Nodes.Plots.HighLight(New Documents.Karyotype.Highlights.GeneMark(List, Colors))
         Return Document
     End Function
 

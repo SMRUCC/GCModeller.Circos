@@ -197,6 +197,7 @@
     <Compile Include="ConfFiles\Nodes\Line\Nodes.vb" />
     <Compile Include="ConfFiles\Nodes\Line\Line.vb" />
     <Compile Include="Karyotype\Abstract.vb" />
+    <Compile Include="Karyotype\Karyotype.vb" />
     <Compile Include="TrackDatas\TrackDatas\data.vb" />
     <Compile Include="TrackDatas\TrackDatas\Extensions.vb" />
     <Compile Include="TrackDatas\TrackDatas\TrackData.vb" />
