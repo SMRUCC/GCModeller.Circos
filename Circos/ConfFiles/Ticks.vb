@@ -3,7 +3,7 @@ Imports System.Text
 
 Namespace Documents.Configurations
 
-    Public Class Ticks : Inherits ConfigDoc
+    Public Class Ticks : Inherits CircosConfig
         Implements ICircosDocument
 
         <Circos> Public Property show_ticks As String = yes

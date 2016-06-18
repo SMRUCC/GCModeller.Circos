@@ -8,29 +8,20 @@ Namespace Documents.Configurations
     ''' <summary>
     ''' Abstract of the circos config files.
     ''' </summary>
-    Public MustInherit Class ConfigDoc : Inherits ITextFile
+    Public MustInherit Class CircosConfig : Inherits ITextFile
         Implements ICircosDocument
 
         ''' <summary>
         ''' 文档的对其他的配置文件的引用列表
         ''' </summary>
         ''' <returns></returns>
-        Public Property Includes As List(Of ConfigDoc)
+        Public Property Includes As List(Of CircosConfig)
 
         ''' <summary>
         ''' 主配置文件Circos.conf
         ''' </summary>
         ''' <returns></returns>
         Public Property main As Circos
-
-        Public Shadows Property FilePath As String
-            Get
-                Return MyBase.FilePath
-            End Get
-            Set(value As String)
-                MyBase.FilePath = value
-            End Set
-        End Property
 
         ''' <summary>
         ''' 是否为系统自带的绘图文件，这个属性是和生成引用路径相关的
@@ -48,15 +39,15 @@ Namespace Documents.Configurations
                 Return ""
             End If
 
-            Dim sBuilder As StringBuilder = New StringBuilder(1024)
+            Dim sb As New StringBuilder(1024)
 
-            For Each includeFile As ConfigDoc In Includes
+            For Each includeFile As CircosConfig In Includes
                 Dim refPath As String = Tools.TrimPath(includeFile)
-                Call sBuilder.AppendLine($"<<include {refPath}>>")
+                Call sb.AppendLine($"<<include {refPath}>>")
                 Call includeFile.Save(Encoding:=Encoding.ASCII)
             Next
 
-            Return sBuilder.ToString
+            Return sb.ToString
         End Function
 
         ''' <summary>

@@ -3,7 +3,12 @@
     Public ReadOnly Property currentDir As String =
         FileIO.FileSystem.CurrentDirectory.Replace("\", "/") & "/"
 
-    Public Function TrimPath(doc As Documents.Configurations.ConfigDoc) As String
+    ''' <summary>
+    ''' 尝试创建相对路径
+    ''' </summary>
+    ''' <param name="doc"></param>
+    ''' <returns></returns>
+    Public Function TrimPath(doc As Documents.Configurations.CircosConfig) As String
         If doc.IsSystemConfig Then
             Return doc.FilePath
         End If

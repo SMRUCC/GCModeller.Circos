@@ -8,7 +8,7 @@ Namespace Documents.Configurations
     ''' properties Of the segments On which data are drawn. These segments
     ''' are usually chromosomes, but can be any Integer axis.
     ''' </summary>
-    Public Class Ideogram : Inherits ConfigDoc
+    Public Class Ideogram : Inherits CircosConfig
         Implements ICircosDocument
 
         Public Property Ideogram As Nodes.Ideogram = New Nodes.Ideogram

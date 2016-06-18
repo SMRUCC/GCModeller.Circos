@@ -37,7 +37,7 @@ Namespace Documents.Configurations
     ''' + PNG image output Is ideal For immediate viewing, web-based reporting Or presentation. 
     ''' + SVG output Is most suitable For generating very high resolution line art For publication And For customizing aspects Of the figure.
     ''' </remarks>
-    Public Class Circos : Inherits ConfigDoc
+    Public Class Circos : Inherits CircosConfig
         Implements ICircosDocument
 
         ''' <summary>
@@ -231,7 +231,7 @@ Namespace Documents.Configurations
 
         Public Overloads Shared Function CreateObject() As Circos
             Dim CircosConfig As Circos = New Circos With {
-                .Includes = New List(Of ConfigDoc)
+                .Includes = New List(Of CircosConfig)
             }
 
             Call CircosConfig.Includes.Add(SystemPrefixConfigDoc.ColorFontsPatterns)

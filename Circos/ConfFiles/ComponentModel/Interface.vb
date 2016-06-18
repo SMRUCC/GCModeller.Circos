@@ -8,11 +8,16 @@ Namespace Documents.Configurations
         MustOverride Function GenerateDocument(IndentLevel As Integer) As String Implements ICircosDocNode.GenerateDocument
     End Class
 
+    ''' <summary>
+    ''' This object can be convert to text document by using method <see cref="GenerateDocument"/>
+    ''' </summary>
     Public Interface ICircosDocNode
         Function GenerateDocument(IndentLevel As Integer) As String
     End Interface
 
-    Public Interface ICircosDocument : Inherits ICircosDocNode
-        Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
+    ''' <summary>
+    ''' This object can be save as a text doc for the circos plot
+    ''' </summary>
+    Public Interface ICircosDocument : Inherits ICircosDocNode, ISaveHandle
     End Interface
 End Namespace

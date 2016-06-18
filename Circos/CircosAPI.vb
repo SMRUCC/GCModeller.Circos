@@ -252,7 +252,7 @@ different with the ideogram configuration document was not included in the circo
     <ExportAPI("Get.Circos.Ideogram", Info:="Gets the ideogram configuration node in the circos document object.")>
     <Extension> Public Function GetIdeogram(doc As Documents.Configurations.Circos) As Documents.Configurations.Ideogram
         Dim LQuery As Documents.Configurations.Ideogram =
-            (From node As Documents.Configurations.ConfigDoc
+            (From node As Documents.Configurations.CircosConfig
              In doc.Includes
              Where TypeOf node Is Documents.Configurations.Ideogram
              Select DirectCast(node, Documents.Configurations.Ideogram)).FirstOrDefault
@@ -916,7 +916,7 @@ SET_END:    Dim ends = i
             Return
         End If
 
-        Dim Ticks = (From include As ConfigDoc In doc.Includes.AsParallel
+        Dim Ticks = (From include As CircosConfig In doc.Includes.AsParallel
                      Where InStr(include.RefPath, Documents.Configurations.Circos.TicksConf, CompareMethod.Text) > 0
                      Select DirectCast(include, Documents.Configurations.Ticks)).First
         If Not Ticks Is Nothing Then
