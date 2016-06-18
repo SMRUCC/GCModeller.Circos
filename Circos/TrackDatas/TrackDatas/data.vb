@@ -6,13 +6,21 @@ Imports Microsoft.VisualBasic.Serialization
 
 Namespace TrackDatas
 
+    Public Interface Idata
+        Property FileName As String
+        Function GetDocumentText() As String
+        Function GetEnumerator() As IEnumerable(Of ITrackData)
+    End Interface
+
     ''' <summary>
     ''' Tracks data document generator.(使用这个对象生成data文件夹之中的数据文本文件)
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
-    Public Class data(Of T As ITrackData) : Implements IEnumerable(Of T)
+    Public Class data(Of T As ITrackData)
+        Implements IEnumerable(Of T)
+        Implements Idata
 
-        Public Property FileName As String
+        Public Property FileName As String Implements Idata.FileName
 
         Protected __source As List(Of T)
 
@@ -39,7 +47,7 @@ Namespace TrackDatas
             Return Me.GetJson
         End Function
 
-        Public Function GetDocumentText() As String
+        Public Function GetDocumentText() As String Implements Idata.GetDocumentText
             Dim sb As New StringBuilder
 
             For Each x As T In Me
@@ -60,6 +68,12 @@ Namespace TrackDatas
 
         Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
             Yield GetEnumerator()
+        End Function
+
+        Private Iterator Function IEnumerable_GetEnumerator1() As IEnumerable(Of ITrackData) Implements Idata.GetEnumerator
+            For Each x As T In __source.SafeQuery
+                Yield TryCast(x, ITrackData)
+            Next
         End Function
     End Class
 End Namespace

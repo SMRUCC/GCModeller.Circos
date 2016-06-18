@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas.Highlights
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Settings
@@ -59,11 +60,11 @@ Namespace Configurations
         <Extension>
         Public Function GetBlastAlignmentData(circos As Circos) As NamedValue(Of String)()
             Dim LQuery As NamedValue(Of String)() =
-                LinqAPI.Exec(Of NamedValue(Of String)) <= From trackPlot
+                LinqAPI.Exec(Of NamedValue(Of String)) <= From trackPlot As ITrackPlot
                                                           In circos.Plots
                                                           Where String.Equals(trackPlot.type, "highlight", StringComparison.OrdinalIgnoreCase) AndAlso
-                                                              TypeOf trackPlot.KaryotypeDocumentData Is BlastMaps
-                                                          Let Alignment = DirectCast(trackPlot.KaryotypeDocumentData, BlastMaps)
+                                                              TypeOf trackPlot.TracksData Is BlastMaps
+                                                          Let Alignment = DirectCast(trackPlot.TracksData, BlastMaps)
                                                           Select New NamedValue(Of String)(Alignment.SubjectSpecies, Alignment.SpeciesColor)
             Return LQuery
         End Function

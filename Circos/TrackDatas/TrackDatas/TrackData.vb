@@ -207,6 +207,7 @@ Namespace TrackDatas
     ''' ```
     ''' </remarks>
     Public Class ValueTrackData : Inherits TrackData
+        Implements ITrackData
 
         Public Overridable Property value As Double
 

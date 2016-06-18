@@ -1,13 +1,17 @@
 ﻿Imports System.Text
-Imports Microsoft.VisualBasic.ComponentModel.Settings
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations.Nodes.Plots
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
 Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Scripting
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.TrackDatas
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.ComponentModel.Settings
+Imports Microsoft.VisualBasic.Scripting
 
 Namespace Documents.Configurations.Nodes.Plots
 
-    Public Interface ITrackPlot
+    Public Interface ITrackPlot : Inherits ICircosDocNode
+
         <Circos> ReadOnly Property type As String
 
         ''' <summary>
@@ -15,6 +19,8 @@ Namespace Documents.Configurations.Nodes.Plots
         ''' </summary>
         ''' <returns></returns>
         <Circos> Property file As String
+        ReadOnly Property TracksData As Idata
+
         Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
     End Interface
 
@@ -83,22 +89,18 @@ Namespace Documents.Configurations.Nodes.Plots
         ''' data文件夹之中的绘图数据
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property TracksData As data(Of T)
+        Public ReadOnly Property TracksData As Idata Implements ITrackPlot.TracksData
 
-        Public Sub New(data As IEnumerable(Of T))
-            Me.TracksData = New data(Of T)(data)
+        ''' <summary>
+        ''' Creates plot element from the tracks data file.
+        ''' </summary>
+        ''' <param name="data"></param>
+        Public Sub New(data As data(Of T))
+            TracksData = data
         End Sub
 
         Public Overrides Function ToString() As String
             Return $"({type}  --> {Me.TracksData.GetType.Name})  {Me.TracksData.ToString}"
-        End Function
-
-        Protected Overridable Function GetMaxValue() As String
-            Return _karyotypeDocData.Max.ToString
-        End Function
-
-        Protected Overridable Function GetMinValue() As String
-            Return _karyotypeDocData.Min.ToString
         End Function
 
         Public Overridable Function GenerateDocument(IndentLevel As Integer) As String Implements ICircosDocument.GenerateDocument
@@ -109,8 +111,13 @@ Namespace Documents.Configurations.Nodes.Plots
             Call sb.AppendLine(String.Format("{0}#   --> ""{1}""", IndentBlanks, TracksData.GetType.FullName))
             Call sb.AppendLine()
 
-            Me.max = GetMaxValue()
-            Me.min = GetMinValue()
+            If TypeOf TracksData.GetEnumerator.FirstOrDefault Is ValueTrackData Then
+                Dim ranges As DoubleRange =
+                    TrackDatas.Ranges(TracksData.GetEnumerator.Select(Function(o) TryCast(o, ValueTrackData)))
+
+                Me.max = CStr(ranges.Max)
+                Me.min = CStr(ranges.Min)
+            End If
 
             For Each strLine As String In GetProperties()
                 Call sb.AppendLine(IndentBlanks & "  " & strLine)
