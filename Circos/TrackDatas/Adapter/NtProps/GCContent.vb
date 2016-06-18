@@ -7,40 +7,16 @@ Imports LANS.SystemsBiology.SequenceModel.FASTA
 
 Namespace TrackDatas.NtProps
 
-    Public Class GeneGCContent : Inherits TrackDataDocument
+    ''' <summary>
+    ''' 每一个基因的GC%的表述
+    ''' </summary>
+    Public Class GeneGCContent : Inherits data(Of GeneObjectGC)
 
-        Dim SourceFasta As FastaToken
+        Public ReadOnly Property SourceFasta As FastaFile
 
-        Sub New(Source As FastaToken)
+        Sub New(Source As FastaFile)
+            Call MyBase.New(GCContent.GetGCContentForGenes(Source))
             SourceFasta = Source
         End Sub
-
-        Public Overrides Function ToString() As String
-            Return SourceFasta.SequenceData
-        End Function
-
-        Protected Overrides Function GenerateDocument() As String
-            Dim GC_Contents = GCContent.GetGCContentForGenes(SourceFasta)
-            Dim LQuery = (From item In GC_Contents Select String.Format("chr1 {0} {1} {2}", item.Left, item.Right, item.GC))
-            Return String.Join(vbCrLf, LQuery)
-        End Function
-
-        Public Overrides ReadOnly Property Max As Double
-            Get
-                Return 1
-            End Get
-        End Property
-
-        Public Overrides ReadOnly Property Min As Double
-            Get
-                Return 0
-            End Get
-        End Property
-
-        Public Overrides ReadOnly Property AutoLayout As Boolean
-            Get
-                Return True
-            End Get
-        End Property
     End Class
 End Namespace

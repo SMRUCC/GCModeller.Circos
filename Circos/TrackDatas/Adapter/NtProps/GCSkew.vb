@@ -10,66 +10,50 @@ Namespace TrackDatas.NtProps
     ''' G+C/G-C偏移量
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class GCSkew : Inherits TrackDataDocument
+    Public Class GCSkew : Inherits data(Of ValueTrackData)
 
-        Dim _Steps As Integer
-        Dim ChunkBuffer As Double()
-
-        Sub New(SequenceModel As I_PolymerSequenceModel, SlideWindowSize As Integer, Steps As Integer, Circular As Boolean)
-            _Steps = Steps
-            ChunkBuffer = NucleotideModels.GCSkew(
-                SequenceModel,
-                SlideWindowSize,
-                Steps,
-                Circular)
+        Sub New(SequenceModel As I_PolymerSequenceModel,
+                SlideWindowSize As Integer,
+                Steps As Integer,
+                Circular As Boolean,
+                Optional chr As String = "chr1")
+            Call MyBase.New(
+                __source(chr,
+                         NucleotideModels.GCSkew(SequenceModel,
+                                                 SlideWindowSize,
+                                                 Steps,
+                                                 Circular),
+                         Steps))
         End Sub
 
-        Sub New(data As IEnumerable(Of Double), [step] As Integer)
-            _Steps = [step]
-            ChunkBuffer = data.ToArray
+        Sub New(data As IEnumerable(Of Double), [step] As Integer, Optional chr As String = "chr1")
+            Call MyBase.New(__source(chr, __avgData(data), [step]))
+        End Sub
 
-            Dim Avg = data.Average
-            For i As Integer = 0 To ChunkBuffer.Length - 1
-                ChunkBuffer(i) = ChunkBuffer(i) - Avg
+        Private Shared Function __avgData(data As IEnumerable(Of Double)) As Double()
+            Dim array As Double() = data.ToArray
+            Dim avg As Double = array.Average
+
+            For i As Integer = 0 To array.Length - 1
+                array(i) = array(i) - avg
             Next
-        End Sub
 
-        Protected Sub New()
-        End Sub
-
-        Public Overrides Function ToString() As String
-            Return String.Join(", ", ChunkBuffer)
+            Return array
         End Function
 
-        Protected Overrides Function GenerateDocument() As String
-            Dim sBuilder As StringBuilder = New StringBuilder(10240)
+        Private Shared Iterator Function __source(chr As String, data As IEnumerable(Of Double), [step] As Integer) As IEnumerable(Of ValueTrackData)
             Dim p As Integer
 
-            For i As Integer = 0 To ChunkBuffer.Count - 1
-                Call sBuilder.AppendLine(String.Format("chr1 {0} {1} {2}", p, p + _Steps, ChunkBuffer(i)))
-                p += _Steps
+            For Each n As Double In data
+                Yield New ValueTrackData With {
+                    .chr = chr,
+                    .start = p,
+                    .end = p + [step],
+                    .value = n
+                }
+                p += [step]
             Next
-
-            Return sBuilder.ToString
         End Function
-
-        Public Overrides ReadOnly Property Max As Double
-            Get
-                Return ChunkBuffer.Max
-            End Get
-        End Property
-
-        Public Overrides ReadOnly Property Min As Double
-            Get
-                Return ChunkBuffer.Min
-            End Get
-        End Property
-
-        Public Overrides ReadOnly Property AutoLayout As Boolean
-            Get
-                Return True
-            End Get
-        End Property
 
         ''' <summary>
         ''' 
@@ -79,10 +63,7 @@ Namespace TrackDatas.NtProps
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function CreateLineData(Length As Integer, Width As Integer) As GCSkew
-            Return New GCSkew With {
-                .ChunkBuffer = New Double() {CDbl(Width)},
-                ._Steps = Length
-            }
+            Return New GCSkew({CDbl(Width)}, [step]:=Length)
         End Function
     End Class
 End Namespace

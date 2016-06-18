@@ -223,7 +223,7 @@
     <Compile Include="ConfFiles\Ticks.vb" />
     <Compile Include="ConfFiles\ComponentModel\SystemPrefix.vb" />
     <Compile Include="ConfFiles\Nodes\Base\TrackPlots.vb" />
-    <Compile Include="GC.vb" />
+    <Compile Include="TrackDatas\Adapter\NtProps\GC.vb" />
     <Compile Include="TrackDatas\Adapter\Highlights\Highlights.vb" />
     <Compile Include="TrackDatas\Adapter\NtProps\GCContent.vb" />
     <Compile Include="Karyotype\BasicGenome.vb" />

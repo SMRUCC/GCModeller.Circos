@@ -208,7 +208,7 @@ Namespace TrackDatas
     ''' </remarks>
     Public Class ValueTrackData : Inherits TrackData
 
-        Public Property value As Double
+        Public Overridable Property value As Double
 
         Protected Overrides Function __trackData() As String
             Return $"{chr} {start} {[end]} {value}"
