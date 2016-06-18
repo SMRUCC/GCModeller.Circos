@@ -1,4 +1,5 @@
 ﻿Imports System.Text
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations.Nodes.Plots
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Karyotype
@@ -216,7 +217,7 @@ Namespace Configurations
                 Call x.Save(FileName, Encoding.ASCII)
             Next
 
-            Call _SkeletonKaryotype.Save(karyotype, Encoding:=Encoding.ASCII)
+            Call _SkeletonKaryotype.Save(karyotype, encoding:=Encoding.ASCII)
 
             App.CurrentDirectory = outDIR
 
@@ -246,7 +247,7 @@ Namespace Configurations
         ''' </summary>
         ''' <param name="plotElement"></param>
         ''' <remarks></remarks>
-        Public Sub AddPlotElement(plotElement As TracksPlot)
+        Public Sub AddPlotElement(plotElement As ITrackPlot)
             Call Me._plots.Add(plotElement)
 
             If Not String.IsNullOrEmpty(stroke_thickness) Then
@@ -256,15 +257,7 @@ Namespace Configurations
                 plotElement.stroke_color = stroke_color
             End If
 
-            Dim plotElements As TracksPlot() =
-                LinqAPI.Exec(Of TracksPlot) <= From plotUnit As TracksPlot
-                                         In Me._plots
-                                               Where plotUnit.KaryotypeCanBeAutoLayout
-                                               Select plotUnit
-
-            If plotElements.Length > 1 Then
-                Call ForceAutoLayout(plotElements)
-            End If
+            Call ForceAutoLayout(Me.Plots)
         End Sub
 
         ''' <summary>
@@ -278,7 +271,7 @@ Namespace Configurations
         ''' 强制所指定的绘图元素自动布局
         ''' </summary>
         ''' <param name="elements"></param>
-        Public Sub ForceAutoLayout(elements As TracksPlot())
+        Public Shared Sub ForceAutoLayout(elements As ITrackPlot())
             Dim d = 0.8 / elements.Length / 2
             Dim p As Double = 0.95
 

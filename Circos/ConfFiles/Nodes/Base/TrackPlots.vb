@@ -8,8 +8,12 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic.Scripting
 
-Namespace Documents.Configurations.Nodes.Plots
+Namespace Configurations.Nodes.Plots
 
+    ''' <summary>
+    ''' Abstract model of the tracks plot
+    ''' </summary>
+    ''' <remarks>Using this interface to solved the problem of generics type</remarks>
     Public Interface ITrackPlot : Inherits ICircosDocNode
 
         <Circos> ReadOnly Property type As String
@@ -19,6 +23,31 @@ Namespace Documents.Configurations.Nodes.Plots
         ''' </summary>
         ''' <returns></returns>
         <Circos> Property file As String
+        ''' <summary>
+        ''' 圈外径(单位 r，请使用格式"&lt;double>r")
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        <Circos> Property r1 As String
+
+        ''' <summary>
+        ''' 圈内径(单位 r，请使用格式"&lt;double>r")
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' The track is confined within r0/r1 radius limits. When using the
+        ''' relative "r" suffix, the values are relative To the position Of the
+        ''' ideogram.
+        ''' </remarks>
+        <Circos> Property r0 As String
+
+        Property orientation As String
+        Property fill_color As String
+        Property stroke_thickness As String
+        Property stroke_color As String
+
         ReadOnly Property TracksData As Idata
 
         Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
@@ -49,7 +78,7 @@ Namespace Documents.Configurations.Nodes.Plots
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <Circos> Public Property r1 As String = "0.75r"
+        <Circos> Public Property r1 As String = "0.75r" Implements ITrackPlot.r1
 
         ''' <summary>
         ''' 圈内径(单位 r，请使用格式"&lt;double>r")
@@ -61,15 +90,15 @@ Namespace Documents.Configurations.Nodes.Plots
         ''' relative "r" suffix, the values are relative To the position Of the
         ''' ideogram.
         ''' </remarks>
-        <Circos> Public Property r0 As String = "0.6r"
+        <Circos> Public Property r0 As String = "0.6r" Implements ITrackPlot.r0
         <Circos> Public Property max As String = "1"
         <Circos> Public Property min As String = "0"
-        <Circos> Public Overridable Property fill_color As String = "orange"
+        <Circos> Public Overridable Property fill_color As String = "orange" Implements ITrackPlot.fill_color
         ''' <summary>
         ''' 圈的朝向，是<see cref="ORIENTATION_IN"/>向内还是<see cref="ORIENTATION_OUT"/>向外
         ''' </summary>
         ''' <returns></returns>
-        <Circos> Public Property orientation As String = "in"
+        <Circos> Public Property orientation As String = "in" Implements ITrackPlot.orientation
         ''' <summary>
         ''' To turn off default outline, set the outline thickness to zero. 
         ''' If you want To permanently disable this Default, edit
@@ -77,8 +106,8 @@ Namespace Documents.Configurations.Nodes.Plots
         ''' </summary>
         ''' <returns></returns>
         <Circos> Public Property thickness As String = "2p"
-        <Circos> Public Property stroke_thickness As String = "0"
-        <Circos> Public Property stroke_color As String = "grey"
+        <Circos> Public Property stroke_thickness As String = "0" Implements ITrackPlot.stroke_thickness
+        <Circos> Public Property stroke_color As String = "grey" Implements ITrackPlot.stroke_color
 
         Public Const ORIENTATION_OUT As String = "out"
         Public Const ORIENTATION_IN As String = "in"

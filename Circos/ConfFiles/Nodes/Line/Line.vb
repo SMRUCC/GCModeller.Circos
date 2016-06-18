@@ -1,45 +1,45 @@
-﻿Imports System.Text
-Imports Microsoft.VisualBasic.ComponentModel.Settings
-Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations
+﻿'Imports System.Text
+'Imports Microsoft.VisualBasic.ComponentModel.Settings
+'Imports Microsoft.VisualBasic
+'Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations
 
-Namespace Documents.Configurations.Nodes.Plots.Lines
+'Namespace Configurations.Nodes.Plots.Lines
 
-    Public Class Line : Inherits TracksPlot
+'    Public Class Line : Inherits TracksPlot
 
-        <Circos> Public Property color As String = "vdgrey"
-        <Circos> Public Property max_gap As String = "1u"
+'        <Circos> Public Property color As String = "vdgrey"
+'        <Circos> Public Property max_gap As String = "1u"
 
-        Public Property Backgrounds As List(Of Background)
-        Public Property Axes As List(Of Axis)
+'        Public Property Backgrounds As List(Of Background)
+'        Public Property Axes As List(Of Axis)
 
-        Public Sub New(Data As Karyotype.TrackDataDocument)
-            Call MyBase.New(Data)
+'        Public Sub New(Data As Karyotype.TrackDataDocument)
+'            Call MyBase.New(Data)
 
-            Me.Axes = New List(Of Axis) From {New Axis}
-            Me.Backgrounds = New List(Of Background) From {New Background}
-        End Sub
+'            Me.Axes = New List(Of Axis) From {New Axis}
+'            Me.Backgrounds = New List(Of Background) From {New Background}
+'        End Sub
 
-        <Circos> Public Overrides ReadOnly Property type As String
-            Get
-                Return "line"
-            End Get
-        End Property
+'        <Circos> Public Overrides ReadOnly Property type As String
+'            Get
+'                Return "line"
+'            End Get
+'        End Property
 
-        Protected Overrides Function GeneratePlotsElementListChunk() As Dictionary(Of String, List(Of CircosDocument))
-            Dim Dict = MyBase.GeneratePlotsElementListChunk
-            If Dict.IsNullOrEmpty Then
-                Dict = New Dictionary(Of String, List(Of CircosDocument))
-            End If
+'        Protected Overrides Function GeneratePlotsElementListChunk() As Dictionary(Of String, List(Of CircosDocument))
+'            Dim Dict = MyBase.GeneratePlotsElementListChunk
+'            If Dict.IsNullOrEmpty Then
+'                Dict = New Dictionary(Of String, List(Of CircosDocument))
+'            End If
 
-            If Not Me.Axes.IsNullOrEmpty Then Call Dict.Add("axes", (From item In Me.Axes Select DirectCast(item, CircosDocument)).ToList)
-            If Not Me.Backgrounds.IsNullOrEmpty Then Call Dict.Add("backgrounds", (From item In Me.Backgrounds Select DirectCast(item, CircosDocument)).ToList)
+'            If Not Me.Axes.IsNullOrEmpty Then Call Dict.Add("axes", (From item In Me.Axes Select DirectCast(item, CircosDocument)).ToList)
+'            If Not Me.Backgrounds.IsNullOrEmpty Then Call Dict.Add("backgrounds", (From item In Me.Backgrounds Select DirectCast(item, CircosDocument)).ToList)
 
-            Return Dict
-        End Function
+'            Return Dict
+'        End Function
 
-        Protected Overrides Function GetProperties() As String()
-            Return SimpleConfig.GenerateConfigurations(Of Line)(Me)
-        End Function
-    End Class
-End Namespace
+'        Protected Overrides Function GetProperties() As String()
+'            Return SimpleConfig.GenerateConfigurations(Of Line)(Me)
+'        End Function
+'    End Class
+'End Namespace

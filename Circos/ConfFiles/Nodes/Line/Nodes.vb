@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Settings
 
-Namespace Documents.Configurations.Nodes.Plots.Lines
+Namespace Configurations.Nodes.Plots.Lines
 
     Public Class Axis : Inherits CircosDocument
         Implements ICircosDocNode

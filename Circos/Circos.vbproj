@@ -205,7 +205,7 @@
     <Compile Include="Karyotype\GeneObjects\ColorAPI.vb" />
     <Compile Include="TrackDatas\Adapter\NtProps\GCSkew.vb" />
     <Compile Include="TrackDatas\Adapter\NtProps\GenomeGCContent.vb" />
-    <Compile Include="Karyotype\Connector.vb" />
+    <Compile Include="TrackDatas\Adapter\Connector.vb" />
     <Compile Include="TrackDatas\Adapter\Highlights\BlastMaps\BlastMaps.vb" />
     <Compile Include="TrackDatas\Adapter\Highlights\BlastMaps\IdentityColors.vb" />
     <Compile Include="TrackDatas\Adapter\Highlights\Labels.vb" />

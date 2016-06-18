@@ -1,4 +1,5 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype
+﻿Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations.Nodes.Plots
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 
 Namespace Documents.Configurations.Nodes.Plots
@@ -27,7 +28,7 @@ Namespace Documents.Configurations.Nodes.Plots
         Public Property bezier_radius As String = "0r"
         Public Property color As String = "black_a4"
 
-        Sub New(data As IEnumerable(Of TrackDatas.link))
+        Sub New(data As data(Of TrackDatas.link))
             Call MyBase.New(data)
         End Sub
 

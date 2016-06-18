@@ -1,7 +1,8 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.TrackDatas
+﻿Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 
-Namespace Documents.Configurations.Nodes.Plots
+Namespace Configurations.Nodes.Plots
 
     ''' <summary>
     ''' Heat maps are used for data types which associate a value with a genomic position, Or region. 
@@ -34,7 +35,7 @@ Namespace Documents.Configurations.Nodes.Plots
         ''' <returns></returns>
         <Circos> Public Property scale_log_base As String = "5"
 
-        Public Sub New(data As IEnumerable(Of ValueTrackData))
+        Public Sub New(data As data(Of ValueTrackData))
             Call MyBase.New(data)
         End Sub
 
@@ -92,7 +93,7 @@ Namespace Documents.Configurations.Nodes.Plots
         ''' <returns></returns>
         Public Property extend_bin As String = no
 
-        Public Sub New(data As IEnumerable(Of ValueTrackData))
+        Public Sub New(data As data(Of ValueTrackData))
             Call MyBase.New(data)
         End Sub
 
@@ -146,7 +147,7 @@ Namespace Documents.Configurations.Nodes.Plots
         <Circos> Public Property snuggle_link_overlap_tolerance As String = "2p"
         <Circos> Public Property snuggle_refine As String = yes
 
-        Sub New(data As IEnumerable(Of TextTrackData))
+        Sub New(data As data(Of TextTrackData))
             Call MyBase.New(data)
         End Sub
 

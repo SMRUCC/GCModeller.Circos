@@ -1,10 +1,10 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Settings
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights
 Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights.LocusLabels
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.TrackDatas
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas.Highlights
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots
 
-Namespace Documents.Configurations.Nodes.Plots
+Namespace Configurations.Nodes.Plots
 
     ''' <summary>
     ''' 可以用来表示调控关系
@@ -18,10 +18,10 @@ Namespace Documents.Configurations.Nodes.Plots
         End Property
 
         Sub New(data As IEnumerable(Of RegionTrackData))
-            Call MyBase.New(New Karyotype.Connector(data))
+            Call MyBase.New(New TrackDatas.Connector(data))
         End Sub
 
-        Sub New(doc As Karyotype.Connector)
+        Sub New(doc As TrackDatas.Connector)
             Call MyBase.New(doc)
         End Sub
 

@@ -5,12 +5,14 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Colors
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations.Nodes.Plots
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Karyotype
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Karyotype.GeneObjects
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas.Highlights
 Imports LANS.SystemsBiology.Assembly.DOOR
 Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
@@ -187,7 +189,7 @@ different with the ideogram configuration document was not included in the circo
                             Return $"{r}r"
                         End Function
 
-        For Each Circle In doc.main.Plots
+        For Each Circle As ITrackPlot In doc.main.Plots
             Circle.r0 = GetRadius(Circle.r0)
             Circle.r1 = GetRadius(Circle.r1)
         Next
@@ -350,7 +352,7 @@ different with the ideogram configuration document was not included in the circo
         Dim Document As HighLight() = __geneHighlights(anno, Colors, Strands.Forward, splitOverlaps)
 
         If Not Document.IsNullOrEmpty Then
-            If Document.Length = 1 AndAlso Not Document.First.Highlights.Highlights.IsNullOrEmpty Then
+            If Document.Length = 1 AndAlso Not Document.First.Highlights.IsNullOrEmpty Then
                 Dim Docc = Document(Scan0)
                 Docc.r0 = "0.86r"
                 Docc.r1 = "0.90r"
@@ -358,7 +360,7 @@ different with the ideogram configuration document was not included in the circo
                 Call doc.AddPlotElement(Docc)
             Else
                 For Each circle In Document
-                    If circle.Highlights.Highlights.IsNullOrEmpty Then
+                    If circle.Highlights.IsNullOrEmpty Then
                         Continue For
                     End If
                     Call doc.AddPlotElement(circle)
@@ -369,7 +371,7 @@ different with the ideogram configuration document was not included in the circo
         Document = __geneHighlights(anno, Colors, Strands.Reverse, splitOverlaps)
 
         If Not Document.IsNullOrEmpty Then
-            If Document.Length = 1 AndAlso Not Document.First.Highlights.Highlights.IsNullOrEmpty Then
+            If Document.Length = 1 AndAlso Not Document.First.Highlights.IsNullOrEmpty Then
                 Dim Docc = Document(Scan0)
                 Docc.r0 = "0.82r"
                 Docc.r1 = "0.86r"
@@ -379,7 +381,7 @@ different with the ideogram configuration document was not included in the circo
                 Call doc.AddPlotElement(Docc)
             Else
                 For Each circle In Document
-                    If circle.Highlights.Highlights.IsNullOrEmpty Then
+                    If circle.Highlights.IsNullOrEmpty Then
                         Continue For
                     End If
                     Call doc.AddPlotElement(circle)
@@ -554,7 +556,7 @@ SET_END:    Dim ends = i
             Return
         End If
 
-        Dim LabelDocument = New Nodes.Plots.TextLabel(New HighlightLabel(LabelGenes))
+        Dim LabelDocument = New TextLabel(New HighlightLabel(LabelGenes))
         LabelDocument.r0 = "0.90r"
         LabelDocument.r1 = "0.995r"
 
@@ -612,7 +614,7 @@ SET_END:    Dim ends = i
                 End If
             Next
 
-            Dim Document As Nodes.Plots.HighLight = New Nodes.Plots.HighLight(New Documents.Karyotype.Highlights.GeneMark(genes, Colors))
+            Dim Document As HighLight = New HighLight(New Karyotype.GeneObjects.GeneMark(genes, Colors))
             Call circles.Add(Document)
         Loop
 
@@ -637,7 +639,7 @@ SET_END:    Dim ends = i
             List = anno.ToArray
         End If
 
-        Dim Document As Nodes.Plots.HighLight = New Nodes.Plots.HighLight(New Karyotype.Highlights.GeneMark(List, Colors))
+        Dim Document As New HighLight(New Karyotype.Highlights.GeneMark(List, Colors))
         Return Document
     End Function
 
@@ -684,20 +686,20 @@ SET_END:    Dim ends = i
     End Function
 
     <ExportAPI("Plots.Element.Set.Position")>
-    Public Function SetPlotElementPosition(Element As Nodes.Plots.TracksPlot,
+    Public Function SetPlotElementPosition(Element As ITrackPlot,
                                            <Parameter("r.Outside", "The radius value of the outside for this circle element.")>
                                            rOutside As String,
                                            <Parameter("r.Inner", "The radius value of the inner circle of this element.")>
-                                           rInner As String) As Nodes.Plots.TracksPlot
+                                           rInner As String) As ITrackPlot
         Element.r1 = rOutside
         Element.r0 = rInner
         Return Element
     End Function
 
     <ExportAPI("Plots.Element.Set.Fill_Color", Info:="Invoke set the color of the circle element on the circos plots.")>
-    Public Function SetPlotElementFillColor(Element As Nodes.Plots.TracksPlot,
+    Public Function SetPlotElementFillColor(Element As ITrackPlot,
                                             <Parameter("Color", "The name of the color in the circos program.")>
-                                            Color As String) As Nodes.Plots.TracksPlot
+                                            Color As String) As ITrackPlot
         Element.fill_color = Color
         Return Element
     End Function
@@ -710,26 +712,26 @@ SET_END:    Dim ends = i
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("Plots.Element.Set.Orientation", Info:="ori = ""in"" or ""out""")>
-    Public Function SetPlotElementOrientation(Element As Nodes.Plots.TracksPlot, Orientation As String) As Nodes.Plots.TracksPlot
+    Public Function SetPlotElementOrientation(Element As ITrackPlot, Orientation As String) As ITrackPlot
         Element.orientation = Orientation
         Return Element
     End Function
 
-    ''' <summary>
-    ''' Door之中的操纵子以heatmap的形式绘制
-    ''' </summary>
-    ''' <param name="DOOR">Door文件的文件路径</param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    <ExportAPI("Plots.DOOR")>
-    Public Function DoorOperon(<Parameter("DOOR", "The file path of the DOOR database file.")> DOOR As String) As Nodes.Plots.TracksPlot
-        Dim Data = New Documents.Karyotype.DoorOperon(DOOR)
-        Dim HeatMap = New Nodes.Plots.HeatMap(Data)
-        HeatMap.r0 = "1.3r"
-        HeatMap.r1 = "1.1r"
+    '''' <summary>
+    '''' Door之中的操纵子以heatmap的形式绘制
+    '''' </summary>
+    '''' <param name="DOOR">Door文件的文件路径</param>
+    '''' <returns></returns>
+    '''' <remarks></remarks>
+    '<ExportAPI("Plots.DOOR")>
+    'Public Function DoorOperon(<Parameter("DOOR", "The file path of the DOOR database file.")> DOOR As String) As ITrackPlot
+    '    Dim Data As New Karyotype.DoorOperon(DOOR)
+    '    Dim HeatMap = New Nodes.Plots.HeatMap(Data)
+    '    HeatMap.r0 = "1.3r"
+    '    HeatMap.r1 = "1.1r"
 
-        Return HeatMap
-    End Function
+    '    Return HeatMap
+    'End Function
 
     <ExportAPI("Plots.Genome_Circle")>
     Public Function GetGenomeCircle(<Parameter("Dir.PTT", "The directory which contains the completed PTT data: *.ptt, *.rnt, *.fna and so on which you can download from the NCBI FTP website.")>
@@ -769,23 +771,23 @@ SET_END:    Dim ends = i
         Return New NtProps.GCSkew(SequenceModel, SlideWindowSize, steps, True)
     End Function
 
-    <ExportAPI("Karyotype.As.Heatmap")>
-    Public Function KaryotypeAsHeatmap(doc As TrackDataDocument) As Nodes.Plots.HeatMap
-        Return New Nodes.Plots.HeatMap(doc)
-    End Function
+    '<ExportAPI("Karyotype.As.Heatmap")>
+    'Public Function KaryotypeAsHeatmap(doc As TrackDataDocument) As Nodes.Plots.HeatMap
+    '    Return New Nodes.Plots.HeatMap(doc)
+    'End Function
 
-    <ExportAPI("Karyotype.As.Histogram")>
-    Public Function KaryotypeAsHistogram(doc As TrackDataDocument) As Nodes.Plots.Histogram
-        Return New Nodes.Plots.Histogram(doc)
-    End Function
+    '<ExportAPI("Karyotype.As.Histogram")>
+    'Public Function KaryotypeAsHistogram(doc As TrackDataDocument) As Nodes.Plots.Histogram
+    '    Return New Nodes.Plots.Histogram(doc)
+    'End Function
 
-    <ExportAPI("Karyotype.As.Line")>
-    Public Function KaryotypeAsLine(doc As TrackDataDocument) As Lines.Line
-        Return New Lines.Line(doc)
-    End Function
+    '<ExportAPI("Karyotype.As.Line")>
+    'Public Function KaryotypeAsLine(doc As ITrackPlot) As Lines.Line
+    '    Return New Lines.Line(doc)
+    'End Function
 
     <ExportAPI("Adds.Plots", Info:="Adds a new circos plots element into the circos.conf object.")>
-    Public Function AddPlotElement(ByRef doc As Configurations.Circos, element As iTracksPlot) As Integer
+    Public Function AddPlotElement(ByRef doc As Configurations.Circos, element As ITrackPlot) As Integer
         Call doc.AddPlotElement(element)
         Return doc.Plots.Length
     End Function
@@ -1065,8 +1067,8 @@ then you can using this method to adding the legends on your circos plots image 
 
         If Not doc.Plots.IsNullOrEmpty Then
 
-            For Each PlotElement As Nodes.Plots.TracksPlot In doc.Plots
-                refPt = PlotElement.KaryotypeDocumentData.LegendsDrawing(refPt, Device)
+            For Each PlotElement As ITrackPlot In doc.Plots
+                '   refPt = PlotElement.KaryotypeDocumentData.LegendsDrawing(refPt, Device)
             Next
         End If
 
