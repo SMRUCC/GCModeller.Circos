@@ -1,11 +1,10 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.Settings
-Imports Microsoft.VisualBasic
-Imports System.Text
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights
-Imports Microsoft.VisualBasic.Language
+﻿Imports System.Text
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Karyotype
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ComponentModel.Settings
+Imports Microsoft.VisualBasic.Language
 
 Namespace Configurations
 

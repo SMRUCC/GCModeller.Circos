@@ -1,4 +1,6 @@
-﻿Module Tools
+﻿Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations
+
+Module Tools
 
     Public ReadOnly Property currentDir As String =
         FileIO.FileSystem.CurrentDirectory.Replace("\", "/") & "/"
@@ -8,8 +10,8 @@
     ''' </summary>
     ''' <param name="doc"></param>
     ''' <returns></returns>
-    Public Function TrimPath(doc As Documents.Configurations.CircosConfig) As String
-        If doc.IsSystemConfig Then
+    Public Function TrimPath(doc As CircosConfig) As String
+        If TypeOf doc Is CircosDistributed Then
             Return doc.FilePath
         End If
 
@@ -21,5 +23,4 @@
         Dim refPath As String = url.Replace("\", "/").Replace(currentDir, "")
         Return refPath
     End Function
-
 End Module

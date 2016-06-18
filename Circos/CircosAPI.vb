@@ -1,40 +1,42 @@
-﻿Imports System.Text
-Imports System.Runtime.CompilerServices
+﻿Imports System.Drawing
 Imports System.Reflection
+Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports System.Text.RegularExpressions
-Imports System.Drawing
-Imports LANS.SystemsBiology.NCBI.Extensions
-Imports LANS.SystemsBiology.Assembly.NCBI
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.CsvExports
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Colors
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents
-Imports LANS.SystemsBiology.SequenceModel
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.GeneObjects
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.SequenceModel.FASTA
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.NCBI.Extensions.NCBIBlastResult
-Imports LANS.SystemsBiology.ComponentModel.Loci.Abstract
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Karyotype
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Karyotype.GeneObjects
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas.Highlights
 Imports LANS.SystemsBiology.Assembly.DOOR
+Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
+Imports LANS.SystemsBiology.Assembly.NCBI
 Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
+Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.CsvExports
+Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
+Imports LANS.SystemsBiology.ComponentModel.Loci
+Imports LANS.SystemsBiology.ComponentModel.Loci.Abstract
+Imports LANS.SystemsBiology.NCBI.Extensions
+Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports LANS.SystemsBiology.NCBI.Extensions.NCBIBlastResult
+Imports LANS.SystemsBiology.SequenceModel
+Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports Microsoft.VisualBasic.ComponentModel.Settings
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Terminal.Utility
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.ComponentModel.Settings
-Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Terminal.Utility
 
 ''' <summary>
 ''' Shoal shell interaction with circos perl program to draw a circle diagram of a bacteria genome.
@@ -171,7 +173,7 @@ different with the ideogram configuration document was not included in the circo
     ''' 1/ideogram.radius
     ''' </remarks>
     <ExportAPI("Set.Ideogram.Radius", Info:="Invoke set the radius value of the ideogram circle.")>
-    Public Function SetIdeogramRadius(doc As Documents.Configurations.Ideogram, r As Double) As Documents.Configurations.Ideogram
+    Public Function SetIdeogramRadius(doc As Configurations.Ideogram, r As Double) As Configurations.Ideogram
         Dim PreviousRadius As Double = Val(doc.Ideogram.radius)
 
         doc.Ideogram.radius = r & "r"
@@ -194,7 +196,7 @@ different with the ideogram configuration document was not included in the circo
     End Function
 
     <ExportAPI("Set.Ideogram.Radius", Info:="Invoke set the radius value of the ideogram circle.")>
-    Public Function SetIdeogramRadius(doc As Documents.Configurations.Circos, r As Double) As Documents.Configurations.Circos
+    Public Function SetIdeogramRadius(doc As Configurations.Circos, r As Double) As Configurations.Circos
         Dim ele = GetIdeogram(doc)
         Call SetIdeogramRadius(ele, r)
         Return doc
@@ -208,7 +210,7 @@ different with the ideogram configuration document was not included in the circo
     ''' <returns></returns>
     '''
     <ExportAPI("Set.Radius")>
-    Public Function SetRadius(doc As Documents.Configurations.Circos, r As Generic.IEnumerable(Of Double())) As Documents.Configurations.Circos
+    Public Function SetRadius(doc As Configurations.Circos, r As IEnumerable(Of Double())) As Configurations.Circos
         Dim idx As Integer
 
         For Each plot In doc.Plots
@@ -225,7 +227,7 @@ different with the ideogram configuration document was not included in the circo
     End Function
 
     <ExportAPI("Set.Radius")>
-    Public Function SetRadius(doc As Documents.Configurations.Circos, rMax As Double, rMin As Double) As Documents.Configurations.Circos
+    Public Function SetRadius(doc As Configurations.Circos, rMax As Double, rMin As Double) As Configurations.Circos
         Dim d = (rMax - rMin) / (doc.Plots.Length + 1)
         Dim dd = d * 0.2
         Dim r As Double = rMax - dd
@@ -250,16 +252,16 @@ different with the ideogram configuration document was not included in the circo
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("Get.Circos.Ideogram", Info:="Gets the ideogram configuration node in the circos document object.")>
-    <Extension> Public Function GetIdeogram(doc As Documents.Configurations.Circos) As Documents.Configurations.Ideogram
-        Dim LQuery As Documents.Configurations.Ideogram =
-            (From node As Documents.Configurations.CircosConfig
+    <Extension> Public Function GetIdeogram(doc As Configurations.Circos) As Configurations.Ideogram
+        Dim LQuery As Configurations.Ideogram =
+            (From node As Configurations.CircosConfig
              In doc.Includes
-             Where TypeOf node Is Documents.Configurations.Ideogram
-             Select DirectCast(node, Documents.Configurations.Ideogram)).FirstOrDefault
+             Where TypeOf node Is Configurations.Ideogram
+             Select DirectCast(node, Configurations.Ideogram)).FirstOrDefault
         If Not LQuery Is Nothing Then
             Return LQuery
         Else
-            Return New Documents.Configurations.Ideogram(doc)
+            Return New Configurations.Ideogram(doc)
         End If
     End Function
 
@@ -424,11 +426,11 @@ different with the ideogram configuration document was not included in the circo
     End Function
 
     <ExportAPI("Plots.add.Gene_Elements")>
-    Public Function GenerateGeneElements(doc As Documents.Configurations.Circos,
+    Public Function GenerateGeneElements(doc As Configurations.Circos,
                                          GBK As GenBank.GBFF.File,
                                          COGs As IEnumerable(Of MyvaCOG),
                                          Optional splitOverlaps As Boolean = False,
-                                         Optional dumpAll As Boolean = False) As Documents.Configurations.Circos
+                                         Optional dumpAll As Boolean = False) As Configurations.Circos
         Dim dump As GeneDumpInfo() = FeatureDumps(GBK, dumpAll:=dumpAll)
         Dim hash = (From x As MyvaCOG
                     In COGs
@@ -635,7 +637,7 @@ SET_END:    Dim ends = i
             List = anno.ToArray
         End If
 
-        Dim Document As Nodes.Plots.HighLight = New Nodes.Plots.HighLight(New Documents.Karyotype.Highlights.GeneMark(List, Colors))
+        Dim Document As Nodes.Plots.HighLight = New Nodes.Plots.HighLight(New Karyotype.Highlights.GeneMark(List, Colors))
         Return Document
     End Function
 
@@ -783,7 +785,7 @@ SET_END:    Dim ends = i
     End Function
 
     <ExportAPI("Adds.Plots", Info:="Adds a new circos plots element into the circos.conf object.")>
-    Public Function AddPlotElement(ByRef doc As Configurations.Circos, element As Nodes.Plots.TracksPlot) As Integer
+    Public Function AddPlotElement(ByRef doc As Configurations.Circos, element As iTracksPlot) As Integer
         Call doc.AddPlotElement(element)
         Return doc.Plots.Length
     End Function
@@ -792,8 +794,8 @@ SET_END:    Dim ends = i
     Public Function SetBasicProperty(doc As Configurations.Circos, data As PTTMarks) As Boolean
         doc.SkeletonKaryotype = data
 
-        Call doc.Includes.Add(New Circos.Documents.Configurations.Ticks(Circos:=doc))
-        Call doc.Includes.Add(New Circos.Documents.Configurations.Ideogram(doc))
+        Call doc.Includes.Add(New Configurations.Ticks(Circos:=doc))
+        Call doc.Includes.Add(New Configurations.Ideogram(doc))
 
         Return True
     End Function
@@ -816,8 +818,8 @@ SET_END:    Dim ends = i
                                      NT As FASTA.FastaToken,
                                      Bands As IEnumerable(Of TripleKeyValuesPair),
                                      Optional loophole As Integer = 0) As Boolean
-        Call doc.Includes.Add(New Circos.Documents.Configurations.Ticks(Circos:=doc))
-        Call doc.Includes.Add(New Circos.Documents.Configurations.Ideogram(doc))
+        Call doc.Includes.Add(New Configurations.Ticks(Circos:=doc))
+        Call doc.Includes.Add(New Configurations.Ideogram(doc))
 
         doc.SkeletonKaryotype = New BasicGenomeSkeleton(Len(NT.SequenceData) + loophole, "white", If(Bands Is Nothing, Nothing, Bands.ToArray))
         doc.SkeletonKaryotype.LoopHole = loophole
@@ -873,8 +875,8 @@ SET_END:    Dim ends = i
     ''' </summary>
     ''' <returns></returns>
     <ExportAPI("Circos.Document.Create", Info:="Creats a new circos plots configuration document.")>
-    Public Function CreateDoc() As Documents.Configurations.Circos
-        Return Documents.Configurations.Circos.CreateObject
+    Public Function CreateDoc() As Configurations.Circos
+        Return Configurations.Circos.CreateObject
     End Function
 
     ''' <summary>
@@ -885,7 +887,7 @@ SET_END:    Dim ends = i
     ''' <param name="Debug"></param>
     ''' <returns></returns>
     <ExportAPI("Write.Txt.Circos", Info:="Save the circos plots configuration object as the default configuration file: circos.conf")>
-    Public Function WriteData(doc As Documents.Configurations.Circos,
+    Public Function WriteData(doc As Configurations.Circos,
                               Optional outDIR As String = "",
                               Optional Debug As Boolean = True) As String
         Dim Circos As String = GetCircosScript()
@@ -911,14 +913,14 @@ SET_END:    Dim ends = i
     End Function
 
     <ExportAPI("Ticks.ShowLabel")>
-    Public Sub ShowTicksLabel(doc As Documents.Configurations.Circos, value As Boolean)
+    Public Sub ShowTicksLabel(doc As Configurations.Circos, value As Boolean)
         If doc.Includes.IsNullOrEmpty Then
             Return
         End If
 
         Dim Ticks = (From include As CircosConfig In doc.Includes.AsParallel
-                     Where InStr(include.RefPath, Documents.Configurations.Circos.TicksConf, CompareMethod.Text) > 0
-                     Select DirectCast(include, Documents.Configurations.Ticks)).First
+                     Where InStr(include.RefPath, Configurations.Circos.TicksConf, CompareMethod.Text) > 0
+                     Select DirectCast(include, Configurations.Ticks)).First
         If Not Ticks Is Nothing Then
             Dim show As String = If(value, yes, no)
 
@@ -930,11 +932,11 @@ SET_END:    Dim ends = i
     End Sub
 
     <ExportAPI("Ticks.Remove", Info:="Removes the ticks label from the circos docuemnt node.")>
-    Public Function RemoveTicks(doc As Documents.Configurations.Circos) As Boolean
-        Return __includesRemoveCommon(Documents.Configurations.Circos.TicksConf, doc)
+    Public Function RemoveTicks(doc As Configurations.Circos) As Boolean
+        Return __includesRemoveCommon(Configurations.Circos.TicksConf, doc)
     End Function
 
-    Private Function __includesRemoveCommon(conf As String, doc As Documents.Configurations.Circos) As Boolean
+    Private Function __includesRemoveCommon(conf As String, doc As Configurations.Circos) As Boolean
         If doc.Includes.IsNullOrEmpty Then
             Return True
         End If
@@ -950,10 +952,10 @@ SET_END:    Dim ends = i
     End Function
 
     <ExportAPI("Ideogram.Remove", Info:="Removes the ideogram plots element from the circos document node.")>
-    Public Function RemoveIdeogram(doc As Documents.Configurations.Circos) As Boolean
+    Public Function RemoveIdeogram(doc As Configurations.Circos) As Boolean
         Dim Ideogram = (From include In doc.Includes
-                        Where InStr(include.RefPath, Documents.Configurations.Ideogram.IdeogramConf, CompareMethod.Text) > 0
-                        Select DirectCast(include, Documents.Configurations.Ideogram)).FirstOrDefault
+                        Where InStr(include.RefPath, Configurations.Ideogram.IdeogramConf, CompareMethod.Text) > 0
+                        Select DirectCast(include, Configurations.Ideogram)).FirstOrDefault
         If Ideogram Is Nothing Then
             Call $"Circos configuration file have no ideogram data".__DEBUG_ECHO
         Else
@@ -1042,7 +1044,7 @@ SET_END:    Dim ends = i
     <ExportAPI("Circos.Add.Legends",
                Info:="If the NCBI alignment result plots was includes in your circos plots,
 then you can using this method to adding the legends on your circos plots image when you have finish invoke drawing by the circos script program.")>
-    Public Function DrawingImageAddLegend(doc As Documents.Configurations.Circos) As Image
+    Public Function DrawingImageAddLegend(doc As Configurations.Circos) As Image
         Dim ImagePath As String = FileIO.FileSystem.GetParentPath(doc.FilePath) & "/Circos.png"
         Dim CircosImage = Image.FromFile(ImagePath)
 
@@ -1051,7 +1053,7 @@ then you can using this method to adding the legends on your circos plots image 
         Dim sz As Size
 
         If Not AlignmentData.IsNullOrEmpty Then
-            sz = (From s As KeyValuePair(Of String, String) In AlignmentData Select s.Key Order By Len(Key) Descending).First.MeasureString(Font)
+            sz = (From s As NamedValue(Of String) In AlignmentData Select s.Key Order By Len(Key) Descending).First.MeasureString(Font)
         Else
             sz = New Size(1, 20)
         End If
@@ -1071,7 +1073,7 @@ then you can using this method to adding the legends on your circos plots image 
         If Not AlignmentData.IsNullOrEmpty Then
 
             Font = New Font(FontFace.Ubuntu, 28)
-            sz = (From s As KeyValuePair(Of String, String) In AlignmentData Select s.Key Order By Len(Key) Descending).First.MeasureString(Font)
+            sz = (From s As NamedValue(Of String) In AlignmentData Select s.Name Order By Len(Name) Descending).First.MeasureString(Font)
 
             Dim dh = CInt(sz.Height)
             Dim Y As Integer = Margin * 3
@@ -1081,7 +1083,7 @@ then you can using this method to adding the legends on your circos plots image 
             Call Device.Graphics.DrawString("Localblast Alignment Order:", Font, Brushes.Black, New Point(X, Y))
             Y += 2 * dh
 
-            For Each ID As KeyValuePair(Of String, String) In AlignmentData
+            For Each ID As NamedValue(Of String) In AlignmentData
                 Call Device.Graphics.DrawString(ID.Key, Font, Brushes.Black, New Point(X, Y))
                 Call Device.Graphics.FillRectangle(New SolidBrush(CircosColor.FromKnownColorName(ID.Value)), New Rectangle(New Point(X - ColorBlockSize.Width - 10, Y), ColorBlockSize))
 

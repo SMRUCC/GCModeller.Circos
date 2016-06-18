@@ -1,6 +1,7 @@
 ﻿Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations
 
 Namespace Documents.Configurations.Nodes.Plots.Lines
 
