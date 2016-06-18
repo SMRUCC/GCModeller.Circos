@@ -18,7 +18,7 @@ Namespace TrackDatas.NtProps
                 Circular As Boolean,
                 Optional chr As String = "chr1")
             Call MyBase.New(
-                __source(chr,
+                __sourceGC(chr,
                          NucleotideModels.GCSkew(SequenceModel,
                                                  SlideWindowSize,
                                                  Steps,
@@ -27,7 +27,7 @@ Namespace TrackDatas.NtProps
         End Sub
 
         Sub New(data As IEnumerable(Of Double), [step] As Integer, Optional chr As String = "chr1")
-            Call MyBase.New(__source(chr, __avgData(data), [step]))
+            Call MyBase.New(__sourceGC(chr, __avgData(data), [step]))
         End Sub
 
         Private Shared Function __avgData(data As IEnumerable(Of Double)) As Double()
@@ -41,7 +41,7 @@ Namespace TrackDatas.NtProps
             Return array
         End Function
 
-        Private Shared Iterator Function __source(chr As String, data As IEnumerable(Of Double), [step] As Integer) As IEnumerable(Of ValueTrackData)
+        Private Shared Iterator Function __sourceGC(chr As String, data As IEnumerable(Of Double), [step] As Integer) As IEnumerable(Of ValueTrackData)
             Dim p As Integer
 
             For Each n As Double In data

@@ -2,7 +2,6 @@
 Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas.Highlights
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots
 
 Namespace Configurations.Nodes.Plots
 

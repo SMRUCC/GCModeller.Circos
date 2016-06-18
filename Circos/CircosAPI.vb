@@ -6,10 +6,6 @@ Imports System.Text.RegularExpressions
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Colors
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations.Nodes.Plots
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Karyotype
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Karyotype.GeneObjects
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
@@ -295,7 +291,7 @@ different with the ideogram configuration document was not included in the circo
 
         For Each genome In alignment
             Dim Document As New BlastMaps(genome.Group.ToArray, Colors(i), Color)
-            Dim PlotElement As New Nodes.Plots.HighLight(Document)
+            Dim PlotElement As New HighLight(Document)
 
             Call doc.AddPlotElement(PlotElement)
 
@@ -614,7 +610,7 @@ SET_END:    Dim ends = i
                 End If
             Next
 
-            Dim Document As HighLight = New HighLight(New Karyotype.GeneObjects.GeneMark(genes, Colors))
+            Dim Document As HighLight = New HighLight(New GeneMark(genes, Colors))
             Call circles.Add(Document)
         Loop
 
@@ -639,7 +635,7 @@ SET_END:    Dim ends = i
             List = anno.ToArray
         End If
 
-        Dim Document As New HighLight(New Karyotype.Highlights.GeneMark(List, Colors))
+        Dim Document As New HighLight(New GeneMark(List, Colors))
         Return Document
     End Function
 

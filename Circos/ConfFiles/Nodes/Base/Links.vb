@@ -2,7 +2,7 @@
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 
-Namespace Documents.Configurations.Nodes.Plots
+Namespace Configurations.Nodes.Plots
 
     ''' <summary>
     ''' Links are defined in ``&lt;link>`` blocks enclosed in a ``&lt;links>`` block. 

@@ -11,14 +11,12 @@ Namespace TrackDatas.NtProps
 
         Sub New(SourceFasta As FASTA.FastaToken, Optional SegmentLength As Integer = -1, Optional steps As Integer = 10)
             Call MyBase.New(
-                __source(SourceFasta,
+                __sourceGC(SourceFasta,
                          If(SegmentLength <= 0, 10, SegmentLength),
                          steps))
         End Sub
 
-        Private Shared Function __source(nt As FASTA.FastaToken, segLen As Integer, steps As Integer) As NASegment_GC()
-
-
+        Private Overloads Shared Function __sourceGC(nt As FASTA.FastaToken, segLen As Integer, steps As Integer) As NASegment_GC()
             Dim source As NASegment_GC() =
                 GCContent.GetGCContentForGENOME(nt, winSize:=segLen, steps:=steps)
             Dim avg As Double = (From n In source Select n.value).Average

@@ -1,5 +1,4 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
+﻿Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 
 Namespace Configurations.Nodes.Plots
