@@ -9,16 +9,18 @@ Namespace TrackDatas.Highlights
     ''' 必须是同一个物种的
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class BlastMaps : Inherits Highlights
+    Public Class BlastMaps : Inherits data(Of RegionTrackData)
 
         Dim hits As HitRecord()
         Dim Color As String
         Dim identityMode As IdentityColors
+        Dim chr As String
 
-        Sub New(hits As HitRecord(), Color As String, Optional identityMode As IdentityColors = Nothing)
+        Sub New(hits As HitRecord(), Color As String, Optional identityMode As IdentityColors = Nothing, Optional chr As String = "chr1")
             Me.hits = hits
             Me.Color = Color
             Me.identityMode = identityMode
+            Me.chr = chr
         End Sub
 
         Public ReadOnly Property SpeciesColor As String
@@ -37,32 +39,28 @@ Namespace TrackDatas.Highlights
             End Get
         End Property
 
-        Private Function __identitiesColor() As String
-            Dim DocBuilder As StringBuilder = New StringBuilder(4096)
+        Public Overrides Iterator Function GetEnumerator() As IEnumerator(Of RegionTrackData)
+            Dim color As Func(Of Double, String)
+
+            If Not identityMode Is Nothing Then
+                color = AddressOf identityMode.GetColor
+            Else
+                color = Function(d) Me.Color
+            End If
 
             For Each hit As HitRecord In hits
                 Dim d As Double = hit.Identity
-                Dim cl As String = identityMode.GetColor(d)
-                Dim s As String =
-                    $"chr1 {hit.QueryStart} {hit.QueryEnd} fill_color={cl}"
-                Call DocBuilder.AppendLine(s)
+                Dim cl As String = color(d)
+
+                Yield New RegionTrackData With {
+                    .chr = chr,
+                    .start = hit.QueryStart,
+                    .end = hit.QueryEnd,
+                    .formatting = New Formatting With {
+                        .fill_color = cl
+                    }
+                }
             Next
-
-            Return DocBuilder.ToString
-        End Function
-
-        Protected Overrides Function GenerateDocument() As String
-            If Not identityMode Is Nothing Then
-                Return __identitiesColor()
-            End If
-
-            Dim doc As StringBuilder = New StringBuilder(4096)
-
-            For Each hit As HitRecord In hits
-                Call doc.AppendLine($"chr1 {hit.QueryStart} {hit.QueryEnd} fill_color={Color}")
-            Next
-
-            Return doc.ToString
         End Function
 
         Public Overrides Function ToString() As String
@@ -73,25 +71,5 @@ Namespace TrackDatas.Highlights
                 Return ssID
             End If
         End Function
-
-        Public Overrides ReadOnly Property Max As Double
-            Get
-                Call __throwSourceNullEx(hits)
-                Return (From hit As HitRecord In hits Select hit.Identity).ToArray.Max
-            End Get
-        End Property
-
-        Public Overrides ReadOnly Property Min As Double
-            Get
-                Call __throwSourceNullEx(hits)
-                Return (From hit As HitRecord In hits Select hit.Identity).ToArray.Min
-            End Get
-        End Property
-
-        Public Overrides ReadOnly Property AutoLayout As Boolean
-            Get
-                Return False
-            End Get
-        End Property
     End Class
 End Namespace

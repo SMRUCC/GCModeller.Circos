@@ -1053,7 +1053,7 @@ then you can using this method to adding the legends on your circos plots image 
         Dim sz As Size
 
         If Not AlignmentData.IsNullOrEmpty Then
-            sz = (From s As NamedValue(Of String) In AlignmentData Select s.Key Order By Len(Key) Descending).First.MeasureString(Font)
+            sz = (From s As NamedValue(Of String) In AlignmentData Select s.Name Order By Len(Name) Descending).First.MeasureString(Font)
         Else
             sz = New Size(1, 20)
         End If
@@ -1084,8 +1084,8 @@ then you can using this method to adding the legends on your circos plots image 
             Y += 2 * dh
 
             For Each ID As NamedValue(Of String) In AlignmentData
-                Call Device.Graphics.DrawString(ID.Key, Font, Brushes.Black, New Point(X, Y))
-                Call Device.Graphics.FillRectangle(New SolidBrush(CircosColor.FromKnownColorName(ID.Value)), New Rectangle(New Point(X - ColorBlockSize.Width - 10, Y), ColorBlockSize))
+                Call Device.Graphics.DrawString(ID.Name, Font, Brushes.Black, New Point(X, Y))
+                Call Device.Graphics.FillRectangle(New SolidBrush(CircosColor.FromKnownColorName(ID.x)), New Rectangle(New Point(X - ColorBlockSize.Width - 10, Y), ColorBlockSize))
 
                 Y += dh + 3
             Next
