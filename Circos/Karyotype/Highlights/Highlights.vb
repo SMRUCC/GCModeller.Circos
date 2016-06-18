@@ -6,7 +6,7 @@ Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.D
 
 Namespace Documents.Karyotype.Highlights
 
-    Public MustInherit Class Highlights : Inherits TrackDataDocument(Of ValueTrackData)
+    Public MustInherit Class Highlights : Inherits data(Of ValueTrackData)
 
         Public ReadOnly Property Highlights As HighLightsMeta()
             Get

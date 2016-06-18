@@ -1,6 +1,7 @@
 ﻿Imports System.Drawing
 Imports System.Text
 Imports System.Text.RegularExpressions
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.TrackDatas
 Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
 Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
 Imports LANS.SystemsBiology.ComponentModel
@@ -8,41 +9,34 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 
 Namespace Documents.Karyotype.Highlights
 
-    Public Class HighlightLabel : Inherits Highlights
-
-        Public Overrides ReadOnly Property AutoLayout As Boolean
-            Get
-                Return False
-            End Get
-        End Property
+    Public Class HighlightLabel : Inherits data(Of TextTrackData)
 
         Sub New(annoData As IEnumerable(Of IGeneBrief))
-            Me._highLights = (From GeneObject In annoData
-                              Where Not (String.IsNullOrEmpty(GeneObject.Identifier) OrElse
-                                 String.Equals("-", GeneObject.Identifier) OrElse  '这些基因名都表示没有的空值，去掉
-                                 String.Equals("/", GeneObject.Identifier) OrElse
-                                 String.Equals("\", GeneObject.Identifier))
-                              Select New HighLightsMeta With {
-                                 .Left = CInt(GeneObject.Location.Left),
-                                 .Right = CInt(GeneObject.Location.Right),
-                                 .Value = Regex.Replace(GeneObject.Identifier, "\s+", "_")}).ToArray  ' 空格会出现问题的，所以在这里替换掉
+            Call MyBase.New(__textSource(annoData))
         End Sub
 
-        Sub New(metas As IEnumerable(Of HighLightsMeta))
-            Me._highLights = metas.ToArray
+        Sub New(metas As IEnumerable(Of TextTrackData))
+            Call MyBase.New(metas)
         End Sub
 
         Protected Sub New()
+            Call MyBase.New(Nothing)
         End Sub
 
-        Protected Overrides Function GenerateDocument() As String
-            Dim sBuilder As StringBuilder = New StringBuilder(1024)
-
-            For Each Line In Me._highLights
-                Call sBuilder.AppendLine(String.Format("chr1 {0} {1} {2}", Line.Left, Line.Right, Line.Value))
+        Private Shared Iterator Function __textSource(annoData As IEnumerable(Of IGeneBrief)) As IEnumerable(Of TextTrackData)
+            For Each text As TextTrackData In From gene As IGeneBrief
+                                              In annoData
+                                              Where Not (String.IsNullOrEmpty(gene.Identifier) OrElse
+                                                  String.Equals("-", gene.Identifier) OrElse  '这些基因名都表示没有的空值，去掉
+                                                  String.Equals("/", gene.Identifier) OrElse
+                                                  String.Equals("\", gene.Identifier))
+                                              Select New TextTrackData With {
+                                                  .start = CInt(gene.Location.Left),
+                                                  .end = CInt(gene.Location.Right),
+                                                  .text = Regex.Replace(gene.Identifier, "\s+", "_")
+                                              }  ' 空格会出现问题的，所以在这里替换掉
+                Yield text
             Next
-
-            Return sBuilder.ToString
         End Function
     End Class
 End Namespace

@@ -1,14 +1,15 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic.Scripting
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.TrackDatas
 
 Namespace Documents.Configurations.Nodes.Plots
 
-    Public Class HighLight : Inherits Plots.TracksPlot
+    Public Class HighLight : Inherits TracksPlot(Of ValueTrackData)
 
         Public ReadOnly Property Highlights As Highlights
             Get
-                Return Me.KaryotypeDocumentData.As(Of Highlights)
+                Return Me.TracksData.As(Of Highlights)
             End Get
         End Property
 

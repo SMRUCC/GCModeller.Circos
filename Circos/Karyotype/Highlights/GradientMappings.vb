@@ -49,7 +49,7 @@ Namespace Documents.Karyotype.Highlights
             End If
 
             Dim colors As Mappings() = GradientMaps.GradientMappings(avgs, mapName, replaceBase:=replaceBase)
-            Me._highLights = colors.ToArray(Function(site, idx) HighLightsMeta.FromColorMapping(site, idx + 1, 0))
+            Me._highLights = colors.ToArray(Function(site, idx) FromColorMapping(site, idx + 1, 0))
         End Sub
 
         Sub New(values As IEnumerable(Of Double),
