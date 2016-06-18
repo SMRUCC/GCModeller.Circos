@@ -1,12 +1,13 @@
 ﻿Imports System.Text
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Colors
 Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.CsvExports
 Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
+Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports LANS.SystemsBiology.ComponentModel
 Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports LANS.SystemsBiology.SequenceModel.FASTA
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports Microsoft.VisualBasic.Language
 
 Namespace Karyotype.GeneObjects
 

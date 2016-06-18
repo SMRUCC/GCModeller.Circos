@@ -1,22 +1,26 @@
 ﻿Imports System.Text
 Imports LANS.SystemsBiology.ComponentModel
 Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Scripting.MetaData
 
-Namespace Karyotype.GeneObjects
+Namespace Colors
 
     <PackageNamespace("Circos.COGs.ColorAPI")>
     Public Module ColorAPI
 
         <ExportAPI("COG.Colors")>
         Public Function GetCogColorProfile(MyvaCOG As MyvaCOG(), defaultColor As String) As Func(Of String, String)
-            Dim COGs As String() = (From gene As MyvaCOG In MyvaCOG
-                                    Let cId As String = gene.COG
-                                    Where Not String.IsNullOrEmpty(cId)
-                                    Select cId.ToUpper Distinct).ToArray
-            Dim ColorProfiles As Dictionary(Of String, String) = New Dictionary(Of String, String)
+            Dim COGs As String() =
+                LinqAPI.Exec(Of String) <= From gene As MyvaCOG
+                                           In MyvaCOG
+                                           Let cId As String = gene.COG
+                                           Where Not String.IsNullOrEmpty(cId)
+                                           Select cId.ToUpper
+                                           Distinct
+            Dim ColorProfiles As New Dictionary(Of String, String)
             Dim Colors = ColorAPI.Colors.Randomize.ToList
             Dim i As Integer = 0
 
@@ -77,15 +81,15 @@ Namespace Karyotype.GeneObjects
         <ExportAPI("Colors.Maps")>
         Public Function GenerateColors(categories As String()) As Dictionary(Of String, String)
             Dim Colors = _Colors.Randomize
-            Dim DictData As Dictionary(Of String, String) = New Dictionary(Of String, String)
+            Dim hash As New Dictionary(Of String, String)
             Dim p As Integer
 
             For Each Key As String In categories
-                Call DictData.Add(Key, Colors(p))
+                Call hash.Add(Key, Colors(p))
                 p += 1
             Next
 
-            Return DictData
+            Return hash
         End Function
 
         Public ReadOnly Property Colors As String() = {

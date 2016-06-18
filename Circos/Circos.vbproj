@@ -201,8 +201,8 @@
     <Compile Include="TrackDatas\TrackDatas\data.vb" />
     <Compile Include="TrackDatas\TrackDatas\Extensions.vb" />
     <Compile Include="TrackDatas\TrackDatas\TrackData.vb" />
-    <Compile Include="Karyotype\GeneObjects\PPTMarks.vb" />
-    <Compile Include="Karyotype\GeneObjects\ColorAPI.vb" />
+    <Compile Include="Karyotype\Adapters\PPTMarks.vb" />
+    <Compile Include="Colors\ColorAPI.vb" />
     <Compile Include="TrackDatas\Adapter\NtProps\GCSkew.vb" />
     <Compile Include="TrackDatas\Adapter\NtProps\GenomeGCContent.vb" />
     <Compile Include="TrackDatas\Adapter\Connector.vb" />
@@ -213,7 +213,7 @@
     <Compile Include="TrackDatas\Adapter\Highlights\Repeat.vb" />
     <Compile Include="TrackDatas\Adapter\Highlights\GradientMappings.vb" />
     <Compile Include="TrackDatas\Adapter\Highlights\Name.vb" />
-    <Compile Include="Repeat.vb" />
+    <Compile Include="TrackDatas\Adapter\NtProps\Repeat.vb" />
     <Compile Include="ConfFiles\Circos.vb" />
     <Compile Include="ConfFiles\Ideogram.vb" />
     <Compile Include="ConfFiles\Nodes\SeperatorCircle.vb" />
@@ -227,7 +227,7 @@
     <Compile Include="TrackDatas\Adapter\Highlights\Highlights.vb" />
     <Compile Include="TrackDatas\Adapter\NtProps\GCContent.vb" />
     <Compile Include="Karyotype\BasicGenome.vb" />
-    <Compile Include="Karyotype\GeneObjects\DoorOperon.vb" />
+    <Compile Include="Karyotype\Adapters\DoorOperon.vb" />
     <Compile Include="Colors\CircosColor.vb" />
     <Compile Include="Tools.vb" />
     <Compile Include="CircosAPI.vb" />
