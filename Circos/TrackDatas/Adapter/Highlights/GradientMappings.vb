@@ -1,10 +1,11 @@
-﻿Imports System.Text
+﻿Imports System.Drawing
+Imports System.Text
 Imports System.Text.RegularExpressions
-Imports System.Drawing
-Imports LANS.SystemsBiology.ComponentModel
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Colors
-Imports Microsoft.VisualBasic.Linq.Extensions
+Imports LANS.SystemsBiology.ComponentModel
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports Microsoft.VisualBasic.Linq.Extensions
 
 Namespace TrackDatas.Highlights
 
@@ -43,7 +44,7 @@ Namespace TrackDatas.Highlights
             End If
 
             Dim colors As Mappings() = GradientMaps.GradientMappings(avgs, mapName, replaceBase:=replaceBase)
-            Me._highLights = colors.ToArray(Function(site, idx) FromColorMapping(site, idx + 1, 0))
+            Me.__source = New List(Of ValueTrackData)(colors.ToArray(Function(site, idx) FromColorMapping(site, idx + 1, 0)))
         End Sub
 
         Sub New(values As IEnumerable(Of Double),

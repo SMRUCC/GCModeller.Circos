@@ -6,26 +6,31 @@ Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.T
 Imports LANS.SystemsBiology.ComponentModel
 Imports LANS.SystemsBiology.GCModeller.DataVisualization
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Language
 
 Namespace TrackDatas.Highlights
 
     ''' <summary>
     ''' 使用highlights来标记基因组之中的基因
     ''' </summary>
-    Public Class GeneMark : Inherits Highlights
+    Public Class GeneMark : Inherits data(Of RegionTrackData)
 
         Dim COGColors As Dictionary(Of String, String)
 
         Sub New(annos As IEnumerable(Of IGeneBrief), Color As Dictionary(Of String, String))
-            Me._highLights = (From GeneObject As IGeneBrief
-                              In annos
-                              Let COG As String = If(String.IsNullOrEmpty(GeneObject.COG), "-", GeneObject.COG)
-                              Let attr As RegionTrackData = New RegionTrackData With {
-                                  .start = CInt(GeneObject.Location.Left),
-                                  .end = CInt(GeneObject.Location.Right),
-                                  .formatting = New Formatting With {.fill_color = If(Color.ContainsKey(COG), Color(COG), CircosColor.DefaultCOGColor)}
-                              }
-                              Select attr).ToArray
+            Me.__source =
+                LinqAPI.MakeList(Of RegionTrackData) <=
+                    From gene As IGeneBrief
+                    In annos
+                    Let COG As String = If(String.IsNullOrEmpty(gene.COG), "-", gene.COG)
+                    Let attr As RegionTrackData = New RegionTrackData With {
+                        .start = CInt(gene.Location.Left),
+                        .end = CInt(gene.Location.Right),
+                        .formatting = New Formatting With {
+                            .fill_color = If(Color.ContainsKey(COG), Color(COG), CircosColor.DefaultCOGColor)
+                            }
+                        }
+                    Select attr
             Me.COGColors = Color
         End Sub
 

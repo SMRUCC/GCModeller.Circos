@@ -212,7 +212,7 @@
     <Compile Include="TrackDatas\Adapter\Highlights\Gene.vb" />
     <Compile Include="TrackDatas\Adapter\Highlights\Repeat.vb" />
     <Compile Include="TrackDatas\Adapter\Highlights\GradientMappings.vb" />
-    <Compile Include="TrackDatas\Adapter\Highlights\HighLightsMeta.vb" />
+    <Compile Include="TrackDatas\Adapter\Highlights\Name.vb" />
     <Compile Include="Repeat.vb" />
     <Compile Include="ConfFiles\Circos.vb" />
     <Compile Include="ConfFiles\Ideogram.vb" />

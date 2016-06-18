@@ -8,9 +8,10 @@ Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports LANS.SystemsBiology.ComponentModel
 Imports LANS.SystemsBiology.ComponentModel.Loci
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 
-Namespace TrackDatas.Highlights.LocusLabels
+Namespace TrackDatas.Highlights
 
     Public Class Name
 
@@ -43,19 +44,27 @@ Namespace TrackDatas.Highlights.LocusLabels
             Return New Location(Minimum, Maximum)
         End Function
 
-        Public Shared Function MatchLocus(source As IEnumerable(Of Name), PTT As PTT) As Name()
-            Dim LQuery As Name() = (From x As Name In source.AsParallel
-                                    Let matched As GeneBrief = __matches(x, PTT)
-                                    Where Not matched Is Nothing
-                                    Select x.InvokeSet(NameOf(x.Locus), matched.Synonym)).ToArray
-            Return LQuery
+        Public Shared Iterator Function MatchLocus(source As IEnumerable(Of Name), PTT As PTT) As IEnumerable(Of Name)
+            For Each x As Name In source.AsParallel
+                Dim matched As GeneBrief = __matches(x, PTT)
+
+                If matched Is Nothing Then
+                    Continue For
+                End If
+
+                x.Locus = matched.Synonym
+
+                Yield x
+            Next
         End Function
 
         Private Shared Function __matches(loci As Name, PTT As PTT) As GeneBrief
             Dim lcl As Location = loci.Loci
-            Dim LQuery = (From x As GeneBrief In PTT.GeneObjects
-                          Where lcl.Equals(x.Location, 10)
-                          Select x).FirstOrDefault
+            Dim LQuery As GeneBrief =
+                LinqAPI.DefaultFirst(Of GeneBrief) <= From x As GeneBrief
+                                                      In PTT.GeneObjects
+                                                      Where lcl.Equals(x.Location, 10)
+                                                      Select x
             Return LQuery
         End Function
     End Class
