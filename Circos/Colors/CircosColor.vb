@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 
 Namespace Colors
 
@@ -31,14 +32,18 @@ Namespace Colors
         ''' <remarks></remarks>
         ''' 
         Private Function __loadResource() As Dictionary(Of String, Color)
-            Dim ChunkBuffer As String() = New String()() {
+            Dim clBufs As String() =
+                LinqAPI.Exec(Of String) <= {
+ _
                 Strings.Split(My.Resources.colors, vbLf),
                 Strings.Split(My.Resources.colors_brewer, vbLf),
                 Strings.Split(My.Resources.colors_brewer_lists, vbLf),
                 Strings.Split(My.Resources.colors_ucsc, vbLf),
-                Strings.Split(My.Resources.colors_unix, vbLf)}.MatrixToVector
+                Strings.Split(My.Resources.colors_unix, vbLf)
+            }
 
-            Dim Value = (From s As String In ChunkBuffer.AsParallel
+            Dim Value = (From s As String
+                         In clBufs.AsParallel
                          Let strM As String = Regex.Match(s, ".+?=\s*\S+").Value
                          Where Not String.IsNullOrEmpty(strM)
                          Let Tokens As String() = Strings.Split(strM, "=")
@@ -50,23 +55,27 @@ Namespace Colors
             Dim RGBList = (From item In RGBValue Select item.item).ToArray
             Dim NameEquals = (From item In Value Where Array.IndexOf(RGBList, item) = -1 Select item).ToArray
 
-            CircosColor.ColorNames = (From item In RGBValue
+            CircosColor.ColorNames = (From item
+                                      In RGBValue
                                       Where item.TokensValues.Count >= 3
                                       Let R As Integer = CInt(Val(item.TokensValues(0)))
                                       Let G As Integer = CInt(Val(item.TokensValues(1)))
                                       Let B As Integer = CInt(Val(item.TokensValues(2)))
                                       Let Color = Drawing.Color.FromArgb(R, G, B)
                                       Select New KeyValuePair(Of Drawing.Color, String)(Color, item.ClName)).ToArray
-            Dim Colors = (From item As KeyValuePair(Of Color, String) In CircosColor.ColorNames
+            Dim Colors = (From item As KeyValuePair(Of Color, String)
+                          In CircosColor.ColorNames
                           Select ClName = item.Value.ToLower.Trim.Split.Last,
                               item.Key
                           Group By ClName Into Group).ToArray
-            CircosColor.RGBColors = Colors.ToDictionary(Function(item) item.ClName,
-                                                        Function(item) item.Group.First.Key)
-            CircosColor.RGBColors = (From Color In CircosColor.RGBColors
+            CircosColor.RGBColors = Colors.ToDictionary(Function(x) x.ClName,
+                                                        Function(x) x.Group.First.Key)
+            CircosColor.RGBColors = (From Color
+                                     In CircosColor.RGBColors
                                      Where Color.Value.R <> 0 AndAlso Color.Value.G <> 0 AndAlso Color.Value.B <> 0
-                                     Select Color).ToArray.ToDictionary(Function(item) item.Key,
-                                                                        Function(item) item.Value)
+                                     Select Color) _
+                                        .ToDictionary(Function(x) x.Key,
+                                                      Function(x) x.Value)
             CircosColor.RGBColors.Add("black", Color.Black)
 
             Call $"Circos color profiles init done!".__DEBUG_ECHO

@@ -6,7 +6,7 @@ Namespace Documents.Karyotype
     ''' <summary>
     ''' 基因组的基本框架的描述信息
     ''' </summary>
-    Public Class BasicGenome : Inherits SkeletonInfo
+    Public Class BasicGenomeSkeleton : Inherits SkeletonInfo
 
         Dim Length As Integer, Color As String
         Dim BandData As TripleKeyValuesPair()
@@ -23,12 +23,6 @@ Namespace Documents.Karyotype
             Me.BandData = BandData
         End Sub
 
-        Public Overrides ReadOnly Property AutoLayout As Boolean
-            Get
-                Return False
-            End Get
-        End Property
-
         Protected Overrides Function GenerateDocument() As String
             Dim sBuilder As StringBuilder = New StringBuilder(1024)
 
@@ -43,18 +37,6 @@ Namespace Documents.Karyotype
 
             Return sBuilder.ToString
         End Function
-
-        Public Overrides ReadOnly Property Max As Double
-            Get
-                Return 0
-            End Get
-        End Property
-
-        Public Overrides ReadOnly Property Min As Double
-            Get
-                Return 0
-            End Get
-        End Property
 
         Public Overrides ReadOnly Property Size As Integer
             Get

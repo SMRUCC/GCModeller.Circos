@@ -819,7 +819,7 @@ SET_END:    Dim ends = i
         Call doc.Includes.Add(New Circos.Documents.Configurations.Ticks(Circos:=doc))
         Call doc.Includes.Add(New Circos.Documents.Configurations.Ideogram(doc))
 
-        doc.SkeletonKaryotype = New BasicGenome(Len(NT.SequenceData) + loophole, "white", If(Bands Is Nothing, Nothing, Bands.ToArray))
+        doc.SkeletonKaryotype = New BasicGenomeSkeleton(Len(NT.SequenceData) + loophole, "white", If(Bands Is Nothing, Nothing, Bands.ToArray))
         doc.SkeletonKaryotype.LoopHole = loophole
         doc.karyotype = "./data/genome_skeleton.txt"
 

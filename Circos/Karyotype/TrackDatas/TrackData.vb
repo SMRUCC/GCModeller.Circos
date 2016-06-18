@@ -139,6 +139,16 @@ Namespace Documents.Karyotype.TrackDatas
     End Class
 
     ''' <summary>
+    ''' 这个只是用来表示基因组上面的一个区域位置
+    ''' </summary>
+    Public Class RegionTrackData : Inherits TrackData
+
+        Protected Overrides Function __trackData() As String
+            Return $"{chr} {start} {[end]}"
+        End Function
+    End Class
+
+    ''' <summary>
     ''' Annotated with formatting parameters that control how the point Is drawn. 
     ''' </summary>
     Public Structure Formatting
