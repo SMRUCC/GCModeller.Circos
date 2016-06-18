@@ -3,7 +3,7 @@ Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.D
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
 Imports Microsoft.VisualBasic.Linq.Extensions
 
-Namespace Documents.Karyotype
+Namespace TrackDatas
 
     Public Class Connector : Inherits data(Of RegionTrackData)
 

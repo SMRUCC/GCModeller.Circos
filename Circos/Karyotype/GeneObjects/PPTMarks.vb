@@ -6,7 +6,7 @@ Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports LANS.SystemsBiology.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.Language
 
-Namespace Documents.Karyotype.GeneObjects
+Namespace Karyotype.GeneObjects
 
     ''' <summary>
     ''' 基因对象

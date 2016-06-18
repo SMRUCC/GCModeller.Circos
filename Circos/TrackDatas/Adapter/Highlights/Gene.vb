@@ -2,11 +2,12 @@
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Colors
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
 Imports LANS.SystemsBiology.ComponentModel
 Imports LANS.SystemsBiology.GCModeller.DataVisualization
 Imports Microsoft.VisualBasic.Imaging
 
-Namespace Documents.Karyotype.Highlights
+Namespace TrackDatas.Highlights
 
     ''' <summary>
     ''' 使用highlights来标记基因组之中的基因
@@ -19,16 +20,16 @@ Namespace Documents.Karyotype.Highlights
             Me._highLights = (From GeneObject As IGeneBrief
                               In annos
                               Let COG As String = If(String.IsNullOrEmpty(GeneObject.COG), "-", GeneObject.COG)
-                              Let attr As HighLightsMeta = New HighLightsMeta With {
-                                  .Left = CInt(GeneObject.Location.Left),
-                                  .Right = CInt(GeneObject.Location.Right),
-                                  .Color = If(Color.ContainsKey(COG), Color(COG), CircosColor.DefaultCOGColor)
+                              Let attr As RegionTrackData = New RegionTrackData With {
+                                  .start = CInt(GeneObject.Location.Left),
+                                  .end = CInt(GeneObject.Location.Right),
+                                  .formatting = New Formatting With {.fill_color = If(Color.ContainsKey(COG), Color(COG), CircosColor.DefaultCOGColor)}
                               }
                               Select attr).ToArray
             Me.COGColors = Color
         End Sub
 
-        Public Overrides Function LegendsDrawing(ref As Point, ByRef gdi As GDIPlusDeviceHandle) As Point
+        Public Function LegendsDrawing(ref As Point, ByRef gdi As GDIPlusDeviceHandle) As Point
             Dim COGColors = (From clProfile In Me.COGColors
                              Select clProfile.Key,
                                  Cl = CircosColor.FromKnownColorName(clProfile.Value)) _

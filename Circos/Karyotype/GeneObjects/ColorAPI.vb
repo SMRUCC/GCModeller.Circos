@@ -5,7 +5,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic
 
-Namespace Documents.Karyotype.GeneObjects
+Namespace Karyotype.GeneObjects
 
     <PackageNamespace("Circos.COGs.ColorAPI")>
     Public Module ColorAPI

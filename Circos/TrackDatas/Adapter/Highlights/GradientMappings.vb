@@ -6,7 +6,7 @@ Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.C
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 
-Namespace Documents.Karyotype.Highlights
+Namespace TrackDatas.Highlights
 
     Public Class GradientMappings : Inherits Highlights
 

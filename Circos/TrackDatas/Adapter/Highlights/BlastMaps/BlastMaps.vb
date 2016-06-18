@@ -3,7 +3,7 @@ Imports System.Text
 Imports LANS.SystemsBiology.NCBI.Extensions
 Imports LANS.SystemsBiology.NCBI.Extensions.NCBIBlastResult
 
-Namespace Documents.Karyotype.Highlights
+Namespace TrackDatas.Highlights
 
     ''' <summary>
     ''' 必须是同一个物种的

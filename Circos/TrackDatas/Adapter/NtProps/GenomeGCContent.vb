@@ -4,7 +4,7 @@ Imports LANS.SystemsBiology.NCBI.Extensions
 Imports LANS.SystemsBiology.NCBI.Extensions.NCBIBlastResult
 Imports LANS.SystemsBiology.SequenceModel
 
-Namespace Documents.Karyotype.NtProps
+Namespace TrackDatas.NtProps
 
     Public Class GenomeGCContent : Inherits TrackDataDocument
 

@@ -201,8 +201,8 @@
     <Compile Include="TrackDatas\TrackDatas\data.vb" />
     <Compile Include="TrackDatas\TrackDatas\Extensions.vb" />
     <Compile Include="TrackDatas\TrackDatas\TrackData.vb" />
-    <Compile Include="TrackDatas\Adapter\GeneObjects\PPTMarks.vb" />
-    <Compile Include="TrackDatas\Adapter\GeneObjects\ColorAPI.vb" />
+    <Compile Include="Karyotype\GeneObjects\PPTMarks.vb" />
+    <Compile Include="Karyotype\GeneObjects\ColorAPI.vb" />
     <Compile Include="TrackDatas\Adapter\NtProps\GCSkew.vb" />
     <Compile Include="TrackDatas\Adapter\NtProps\GenomeGCContent.vb" />
     <Compile Include="Karyotype\Connector.vb" />
@@ -227,7 +227,7 @@
     <Compile Include="TrackDatas\Adapter\Highlights\Highlights.vb" />
     <Compile Include="TrackDatas\Adapter\NtProps\GCContent.vb" />
     <Compile Include="Karyotype\BasicGenome.vb" />
-    <Compile Include="TrackDatas\Adapter\GeneObjects\GeneMark.vb" />
+    <Compile Include="Karyotype\GeneObjects\GeneMark.vb" />
     <Compile Include="Karyotype\DoorOperon.vb" />
     <Compile Include="Colors\CircosColor.vb" />
     <Compile Include="Tools.vb" />

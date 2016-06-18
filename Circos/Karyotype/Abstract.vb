@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic
 
-Namespace Documents.Karyotype
+Namespace Karyotype
 
     ''' <summary>
     ''' The annotated genome skeleton information.

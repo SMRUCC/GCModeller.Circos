@@ -1,7 +1,7 @@
 ﻿Imports System.Text
 Imports LANS.SystemsBiology.ComponentModel
 
-Namespace Documents.Karyotype.GeneObjects
+Namespace Karyotype.GeneObjects
 
     Public Class GeneMark : Inherits SkeletonInfo
 

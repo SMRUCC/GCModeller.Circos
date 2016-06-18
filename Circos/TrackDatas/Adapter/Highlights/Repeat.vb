@@ -5,7 +5,7 @@ Imports LANS.SystemsBiology.ComponentModel
 Imports LANS.SystemsBiology.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.Linq.Extensions
 
-Namespace Documents.Karyotype.Highlights
+Namespace TrackDatas.Highlights
 
     Public Class Repeat : Inherits Highlights
 
@@ -18,10 +18,10 @@ Namespace Documents.Karyotype.Highlights
         Private Shared Function __creates(loci As Circos.Repeat, maps As IdentityColors, attrs As Double()) As HighLightsMeta
             Dim left As Integer = CInt(Val(loci.Minimum.Replace(",", "")))
             Dim Right As Integer = CInt(Val(loci.Maximum.Replace(",", "")))
-            Dim r As Double() = attrs.Skip(left).Take(right - left).ToArray
+            Dim r As Double() = attrs.Skip(left).Take(Right - left).ToArray
             Return New HighLightsMeta With {
-                .Left = left,
-                .Right = right,
+                .left = left,
+                .Right = Right,
                 .Color = maps.GetColor(r.Average)
             }
         End Function

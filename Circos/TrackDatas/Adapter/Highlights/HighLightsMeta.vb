@@ -1,7 +1,7 @@
 ﻿Imports System.Drawing
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.TrackDatas
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
 Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
 Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
 Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
@@ -10,7 +10,7 @@ Imports LANS.SystemsBiology.ComponentModel.Loci
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq.Extensions
 
-Namespace Documents.Karyotype.Highlights.LocusLabels
+Namespace TrackDatas.Highlights.LocusLabels
 
     Public Class Name
 

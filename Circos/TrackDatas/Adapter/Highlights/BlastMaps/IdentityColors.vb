@@ -1,7 +1,7 @@
 ﻿Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Colors
 Imports Microsoft.VisualBasic.Linq.Extensions
 
-Namespace Documents.Karyotype.Highlights
+Namespace TrackDatas.Highlights
 
     Public MustInherit Class IdentityColors
 
