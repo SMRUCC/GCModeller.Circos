@@ -10,12 +10,6 @@ Namespace Documents.Karyotype.Highlights
 
     Public Class GradientMappings : Inherits Highlights
 
-        Public Overrides ReadOnly Property AutoLayout As Boolean
-            Get
-                Return True
-            End Get
-        End Property
-
         Sub New(locis As IEnumerable(Of Loci.Abstract.ILoci),
                 length As Integer,
                 mapName As String,
