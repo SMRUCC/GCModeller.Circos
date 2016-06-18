@@ -7,7 +7,7 @@ Imports Microsoft.VisualBasic.Language
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype
 
-Namespace Documents.Configurations
+Namespace Configurations
 
     Public Class CircosAttribute : Inherits SimpleConfig
     End Class

@@ -2,7 +2,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Linq
 
-Namespace Documents.Karyotype.TrackDatas
+Namespace TrackDatas
 
     Public Module Extensions
 

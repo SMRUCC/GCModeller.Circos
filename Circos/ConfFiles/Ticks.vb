@@ -1,7 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports System.Text
 
-Namespace Documents.Configurations
+Namespace Configurations
 
     Public Class Ticks : Inherits CircosConfig
         Implements ICircosDocument

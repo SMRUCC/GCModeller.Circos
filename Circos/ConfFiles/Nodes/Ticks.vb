@@ -2,7 +2,7 @@
 Imports Microsoft.VisualBasic
 Imports System.Text
 
-Namespace Documents.Configurations.Nodes
+Namespace Configurations.Nodes
 
     Public Class Ticks : Inherits CircosDocument
         Implements ICircosDocNode

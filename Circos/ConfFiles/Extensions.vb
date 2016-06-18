@@ -6,7 +6,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic.Language
 
-Namespace Documents.Configurations
+Namespace Configurations
 
     Public Module Extensions
 

@@ -2,7 +2,7 @@
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 
-Namespace Documents.Configurations
+Namespace Configurations
 
     Public MustInherit Class CircosDocument : Implements ICircosDocNode
         MustOverride Function GenerateDocument(IndentLevel As Integer) As String Implements ICircosDocNode.GenerateDocument

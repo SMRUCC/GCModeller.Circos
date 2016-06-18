@@ -1,7 +1,7 @@
 ﻿Imports System.Text
 Imports Microsoft.VisualBasic.Linq
 
-Namespace Documents.Karyotype.TrackDatas
+Namespace TrackDatas
 
     ''' <summary>
     ''' + Finally, links are a special track type which associates two ranges together. The format For links Is analogous To other data types, 

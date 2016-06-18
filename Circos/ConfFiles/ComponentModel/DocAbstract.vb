@@ -3,7 +3,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic
 
-Namespace Documents.Configurations
+Namespace Configurations
 
     ''' <summary>
     ''' Abstract of the circos config files.

@@ -3,7 +3,7 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Serialization
 
-Namespace Documents.Karyotype.TrackDatas
+Namespace TrackDatas
 
     ''' <summary>
     ''' Tracks data document generator.(使用这个对象生成data文件夹之中的数据文本文件)

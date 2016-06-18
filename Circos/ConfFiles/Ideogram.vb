@@ -1,7 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports System.Text
 
-Namespace Documents.Configurations
+Namespace Configurations
 
     ''' <summary>
     ''' The ``&lt;ideogram>`` block defines the position, size, labels and other

@@ -2,7 +2,7 @@
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 
-Namespace Documents.Configurations
+Namespace Configurations
 
     ''' <summary>
     ''' The circos distributed includes files.

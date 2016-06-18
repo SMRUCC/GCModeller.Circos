@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Settings
 
-Namespace Documents.Configurations.Nodes
+Namespace Configurations.Nodes
 
     ''' <summary>
     ''' Spacing between ideograms. Suffix "r" denotes a relative value. It

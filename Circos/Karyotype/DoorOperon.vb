@@ -1,7 +1,7 @@
 ﻿Imports System.Text
 Imports LANS.SystemsBiology.Assembly.DOOR
 
-Namespace Documents.Karyotype
+Namespace Karyotype
 
     ''' <summary>
     ''' 最外层的Ideogram，

@@ -1,7 +1,7 @@
 ﻿Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
 
-Namespace Documents.Karyotype
+Namespace Karyotype
 
     ''' <summary>
     ''' 基因组的基本框架的描述信息

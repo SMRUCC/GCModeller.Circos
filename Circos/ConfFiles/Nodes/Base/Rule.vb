@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Settings
 
-Namespace Documents.Configurations.Nodes.Plots
+Namespace Configurations.Nodes.Plots
 
     Public Class ConditionalRule : Inherits CircosDocument
         Implements ICircosDocNode
