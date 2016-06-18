@@ -46,18 +46,6 @@ Namespace Karyotype.GeneObjects
             Call __karyotype()
         End Sub
 
-        Private Sub __karyotype()
-            Me.__karyotypes = New List(Of Karyotype) From {
-                New Karyotype With {
-                    .chrLabel = "1",
-                    .chrName = "chr1",
-                    .start = 1,
-                    .end = Size,
-                    .color = "black"
-                }
-            }
-        End Sub
-
         Private Shared Iterator Function Generate(GenomeBrief As PTTDbLoader, MyvaCog As MyvaCOG(), Optional defaultColor As String = "blue") As IEnumerable(Of Band)
             Dim GetColorProfile As Func(Of String, String) = GetCogColorProfile(MyvaCog, defaultColor)
             Dim genome As PTT = GenomeBrief.ORF_PTT

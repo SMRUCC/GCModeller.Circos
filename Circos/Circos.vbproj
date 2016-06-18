@@ -227,8 +227,7 @@
     <Compile Include="TrackDatas\Adapter\Highlights\Highlights.vb" />
     <Compile Include="TrackDatas\Adapter\NtProps\GCContent.vb" />
     <Compile Include="Karyotype\BasicGenome.vb" />
-    <Compile Include="Karyotype\GeneObjects\GeneMark.vb" />
-    <Compile Include="Karyotype\DoorOperon.vb" />
+    <Compile Include="Karyotype\GeneObjects\DoorOperon.vb" />
     <Compile Include="Colors\CircosColor.vb" />
     <Compile Include="Tools.vb" />
     <Compile Include="CircosAPI.vb" />

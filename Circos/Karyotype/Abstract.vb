@@ -28,6 +28,21 @@ Namespace Karyotype
         Protected __karyotypes As List(Of Karyotype)
         Protected __bands As List(Of Band)
 
+        ''' <summary>
+        ''' 只有一个基因组的时候可以调用这个方法
+        ''' </summary>
+        Protected Sub __karyotype(Optional color As String = "black")
+            Me.__karyotypes = New List(Of Karyotype) From {
+                New Karyotype With {
+                    .chrLabel = "1",
+                    .chrName = "chr1",
+                    .start = 1,
+                    .end = Size,
+                    .color = color
+                }
+            }
+        End Sub
+
         Public Function GenerateDocument(IndentLevel As Integer) As String Implements ICircosDocNode.GenerateDocument
             Dim sb As New StringBuilder
 
