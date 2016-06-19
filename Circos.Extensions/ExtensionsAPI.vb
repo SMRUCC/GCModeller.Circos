@@ -1,18 +1,19 @@
 ﻿Imports System.Text.RegularExpressions
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes.Plots
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights.LocusLabels
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas.Highlights
 Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
 Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
 Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
 Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
+Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports LANS.SystemsBiology.DatabaseServices.Regprecise
 Imports LANS.SystemsBiology.InteractionModel
 Imports LANS.SystemsBiology.InteractionModel.Regulon
 Imports LANS.SystemsBiology.SequenceModel
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
@@ -23,9 +24,9 @@ Public Module ExtensionsAPI
                                         Regulations As IEnumerable(Of IRegulon),
                                         Pathways As IEnumerable(Of bGetObject.Pathway))
         Dim data As New PhenotypeRegulation(Regulations, Pathways)
-        doc.BasicKaryotypeData = data
-        Call doc.IncludeList.Add(New Circos.Documents.Configurations.Ticks(Circos:=doc))
-        Call doc.IncludeList.Add(New Circos.Documents.Configurations.Ideogram(Circos:=doc))
+        doc.SkeletonKaryotype = data
+        Call doc.Includes.Add(New Configurations.Ticks(Circos:=doc))
+        Call doc.Includes.Add(New Configurations.Ideogram(Circos:=doc))
     End Sub
 
     <ExportAPI("Karyotype.doc.DeltaDiff")>
@@ -72,7 +73,7 @@ Public Module ExtensionsAPI
                           In footprints.AsParallel
                       Where Not String.IsNullOrEmpty(x.Regulator)
                       Select FromVirtualFootprint(x, PTT)).ToArray
-        LQuery = (From X In LQuery Where Not X Is Nothing Select X).ToArray
+        LQuery = (From X In LQuery Where Not X.IsEmpty Select X).ToArray
         Return LQuery
     End Function
 
@@ -104,25 +105,28 @@ Public Module ExtensionsAPI
                           In parts
                           Select New With {.func = x.func, .locus_tags = part})).MatrixToList
         Dim result = (From x In LQuery
-                      Let g As ComponentModels.GeneBrief = (From gg As String In x.locus_tags
-                                                            Where PTT.ExistsLocusId(gg)
-                                                            Select PTT(gg)).FirstOrDefault
+                      Let g As GeneBrief = (From gg As String In x.locus_tags
+                                            Where PTT.ExistsLocusId(gg)
+                                            Select PTT(gg)).FirstOrDefault
                       Where Not g Is Nothing
                       Select g,
-                          x.func Group By g.Synonym Into Group).ToArray
-        Dim dist = (From x In result
-                    Let func As String() = (From s As String
-                                            In x.Group.ToArray(Function(xx) xx.func.Split(";"c)).MatrixToList
-                                            Select s
-                                            Distinct).ToArray
-                    Let g = x.Group.First.g
-                    Let h As HighLightsMeta = New HighLightsMeta With {
-                        .Left = CInt(g.Location.Left),
-                        .Right = CInt(g.Location.Right),
-                        .Value = func.JoinBy(",,")
-                    }
-                    Select h).ToArray
-        dist = (From x In dist Select x.InvokeSet(NameOf(x.Value), Regex.Replace(x.Value, "\s+", "_"))).ToArray
+                          x.func
+                      Group By g.Synonym Into Group).ToArray
+        Dim dist As TextTrackData() =
+            LinqAPI.Exec(Of TextTrackData) <= From x
+                                              In result
+                                              Let func As String() = (From s As String
+                                                                      In x.Group.Select(Function(xx) xx.func.Split(";"c)).MatrixAsIterator
+                                                                      Select s
+                                                                      Distinct).ToArray
+                                              Let g As GeneBrief = x.Group.First.g
+                                              Let txt As String = func.JoinBy(",,")
+                                              Let h As TextTrackData = New TextTrackData With {
+                                                  .start = CInt(g.Location.Left),
+                                                  .end = CInt(g.Location.Right),
+                                                  .text = Regex.Replace(txt, "\s+", "_")
+                                              }
+                                              Select h
         Return New HighlightLabel(dist)
     End Function
 End Module

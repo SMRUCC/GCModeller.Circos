@@ -1,14 +1,15 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights.LocusLabels
+﻿Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations.Nodes
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas.Highlights
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
 Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
 Imports LANS.SystemsBiology.Assembly.NCBI
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype
-Imports Microsoft.VisualBasic.Imaging
 Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.CsvExports
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Linq.Extensions
 
 Module Program
 

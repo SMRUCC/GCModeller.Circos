@@ -1,21 +1,22 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction
+﻿Imports LANS.SystemsBiology
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Configurations.Nodes
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations.Nodes
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations.Nodes.Plots
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas.Highlights
 Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
 Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports LANS.SystemsBiology.NCBI.Extensions.NCBIBlastResult
 Imports LANS.SystemsBiology.SequenceModel.FASTA
 Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
 Imports LANS.SystemsBiology.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype
-Imports LANS.SystemsBiology
 Imports LANS.SystemsBiology.SequenceModel.Patterns
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
 
 <PackageNamespace("Circos.CLI",
                   Category:=APICategories.CLI_MAN,
@@ -139,19 +140,19 @@ Public Module CLI
 
         Dim ptt = LoadPTT("F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\1329830.5.ED.ptt")
 
-        Dim regulons = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\Regulators.csv".LoadCsv(Of LocusLabels.Name).ToArray(Function(x) x.ToMeta)
-        Dim resistss = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\resistance.csv".LoadCsv(Of LocusLabels.Name)
+        Dim regulons = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\Regulators.csv".LoadCsv(Of Name).ToArray(Function(x) x.ToMeta)
+        Dim resistss = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\resistance.csv".LoadCsv(Of Name)
         regulons.Add(resistss.ToArray(Function(x) x.ToMeta))
-        regulons = HighLightsMeta.Distinct(regulons)
+        regulons = TrackDatas.Distinct(regulons)
 
-        Dim labels = New HighlightLabel(regulons)
+        '   Dim labels = New HighlightLabel(regulons)
 
-        Call Circos.CircosAPI.AddPlotElement(doc, New Plots.TextLabel(labels))
+        ' Call Circos.CircosAPI.AddPlotElement(doc, New Plots.TextLabel(labels))
 
         Dim regulations = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\MAST\Regulations.csv".LoadCsv(Of LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint)
         Dim connector = FromVirtualFootprint(regulations, ptt, resistss)
 
-        Call Circos.CircosAPI.AddPlotElement(doc, New Circos.Documents.Configurations.Nodes.Plots.Connector(connector))
+        Call Circos.CircosAPI.AddPlotElement(doc, New Connector(connector))
 
 
 
@@ -166,15 +167,15 @@ Public Module CLI
         Dim at = IO.File.ReadAllLines("F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\1329830.5.2.ATPercent.txt").ToArray(Function(x) Val(x))
         Dim gc = IO.File.ReadAllLines("F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\1329830.5.2.GCSkew.txt").ToArray(Function(x) Val(x))
 
-        Dim repeats = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\repeat.csv".LoadCsv(Of Circos.Repeat)
+        Dim repeats = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\repeat.csv".LoadCsv(Of Circos.TrackDatas.NtProps.Repeat)
 
         Dim nnnt = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\1329830.5.ED.Full_AT.txt".LoadDblArray
 
-        Dim rMaps = New Circos.Documents.Karyotype.Highlights.Repeat(repeats, nnnt)
+        Dim rMaps = New Circos.TrackDatas.Highlights.Repeat(repeats, nnnt)
 
         Call Circos.CircosAPI.AddPlotElement(doc, New Plots.HighLight(rMaps))
-        Call Circos.CircosAPI.AddPlotElement(doc, New Plots.Histogram(New NtProps.GCSkew(fa, 25, 250, True)))
-        Call Circos.CircosAPI.AddPlotElement(doc, New Plots.Histogram(New NtProps.GCSkew(fa, 25, 250, True)))
+        Call Circos.CircosAPI.AddPlotElement(doc, New Plots.Histogram(New TrackDatas.NtProps.GCSkew(fa, 25, 250, True)))
+        Call Circos.CircosAPI.AddPlotElement(doc, New Plots.Histogram(New TrackDatas.NtProps.GCSkew(fa, 25, 250, True)))
 
         Dim ideo = doc.GetIdeogram
 

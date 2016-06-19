@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights.LocusLabels
+﻿Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas.Highlights
 Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
 Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
 Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
@@ -48,7 +48,7 @@ Public Module NameExtensions
         Return g
     End Function
 
-    Public Function RegulonRegulators(DIR As String, gb As PTT) As HighLightsMeta()
+    Public Function RegulonRegulators(DIR As String, gb As PTT) As ValueTrackData()
         Dim g = __loadCommon(DIR, gb).ToArray(Function(x) x.Value)
         Dim list = g.ToArray(Function(x) New Name With {
                                  .Name = x.Product,

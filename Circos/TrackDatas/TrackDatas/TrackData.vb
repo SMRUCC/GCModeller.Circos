@@ -1,5 +1,6 @@
 ﻿Imports System.Text
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization
 
 Namespace TrackDatas
 
@@ -31,6 +32,33 @@ Namespace TrackDatas
         ''' <returns></returns>
         Function GetLineData() As String
     End Interface
+
+    Public Structure Connection
+        Implements ITrackData
+
+        Public Property comment As String Implements ITrackData.comment
+        Public Property from As Integer
+        Public Property [to] As Integer
+        Public Property chr As String
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+
+        Public ReadOnly Property IsEmpty As Boolean
+            Get
+                If Not String.IsNullOrEmpty(chr) OrElse from > 0 OrElse [to] > 0 Then
+                    Return False
+                Else
+                    Return True
+                End If
+            End Get
+        End Property
+
+        Public Function GetLineData() As String Implements ITrackData.GetLineData
+            Return $"{chr} {from} {[to]}"
+        End Function
+    End Structure
 
     ''' <summary>
     ''' Data for tracks is loaded from a plain-text file. Each data point is stored on a 

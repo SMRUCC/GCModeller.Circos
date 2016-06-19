@@ -4,10 +4,11 @@ Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
 Imports LANS.SystemsBiology.DatabaseServices
 Imports LANS.SystemsBiology.InteractionModel
 Imports LANS.SystemsBiology.InteractionModel.Regulon
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Karyotype
 
 Namespace Documents.Karyotype
 
-    Public Class PhenotypeRegulation : Inherits GenomeDescription
+    Public Class PhenotypeRegulation : Inherits SkeletonInfo
 
         ''' <summary>
         ''' Family, Regulators
@@ -24,6 +25,8 @@ Namespace Documents.Karyotype
         ''' </summary>
         ''' <remarks></remarks>
         Dim Regulations As KeyValuePair(Of String, String())()
+
+        Public Overrides ReadOnly Property Size As Integer
 
         Sub New(Regulations As IEnumerable(Of IRegulon), Pathways As IEnumerable(Of bGetObject.Pathway))
             Dim PathwayGenes = (From Pathway In Pathways
@@ -55,7 +58,7 @@ Namespace Documents.Karyotype
                                                                                        Select strId Distinct).ToArray)).ToArray
         End Sub
 
-        Protected Overrides Function GenerateDocument() As String
+        Protected Overloads Function GenerateDocument() As String
             Dim sBuilder As StringBuilder = New StringBuilder(1024)
             Dim i As Integer = 0
             For Each PhenoType In PhenoTypeAssociations
@@ -65,29 +68,5 @@ Namespace Documents.Karyotype
 
             Return sBuilder.ToString
         End Function
-
-        Public Overrides ReadOnly Property Max As Double
-            Get
-                Return 1
-            End Get
-        End Property
-
-        Public Overrides ReadOnly Property Min As Double
-            Get
-                Return 0
-            End Get
-        End Property
-
-        Public Overrides ReadOnly Property AutoLayout As Boolean
-            Get
-                Return False
-            End Get
-        End Property
-
-        Public Overrides ReadOnly Property Size As Integer
-            Get
-                Return -1
-            End Get
-        End Property
     End Class
 End Namespace

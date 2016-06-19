@@ -5,13 +5,14 @@ Imports LANS.SystemsBiology.SequenceModel
 Imports LANS.SystemsBiology.AnalysisTools.ComparativeGenomics
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
 
 Namespace Documents.Karyotype.NtProps
 
-    Public Class DeltaDiff : Inherits KaryotypeDocument
+    Public Class DeltaDiff : Inherits data(Of ValueTrackData)
 
         Dim _Steps As Integer
-        Dim ChunkBuffer As Double()
+        Dim dbufs As Double()
 
         Sub New(SequenceModel As I_PolymerSequenceModel, SlideWindowSize As Integer, Steps As Integer)
             Me._Steps = Steps
@@ -37,37 +38,21 @@ Namespace Documents.Karyotype.NtProps
 
             Dim MergeList = (From item In ChunkBuffer Select item.d).ToList
             Call MergeList.AddRange(List)
-            Me.ChunkBuffer = MergeList.ToArray
+            Me.dbufs = MergeList.ToArray
         End Sub
 
-        Public Overrides ReadOnly Property AutoLayout As Boolean
-            Get
-                Return True
-            End Get
-        End Property
-
-        Protected Overrides Function GenerateDocument() As String
-            Dim sBuilder As StringBuilder = New StringBuilder(10240)
+        Public Overrides Iterator Function GetEnumerator() As IEnumerator(Of ValueTrackData)
             Dim p As Integer
 
-            For i As Integer = 0 To ChunkBuffer.Count - 1
-                Call sBuilder.AppendLine(String.Format("chr1 {0} {1} {2}", p, p + _Steps, ChunkBuffer(i)))
+            For i As Integer = 0 To dbufs.Length - 1
+                Yield New ValueTrackData With {
+                    .chr = "chr1",
+                    .start = p,
+                    .end = p + _Steps,
+                    .value = dbufs(i)
+                }
                 p += _Steps
             Next
-
-            Return sBuilder.ToString
         End Function
-
-        Public Overrides ReadOnly Property Max As Double
-            Get
-                Return ChunkBuffer.Max
-            End Get
-        End Property
-
-        Public Overrides ReadOnly Property Min As Double
-            Get
-                Return ChunkBuffer.Min
-            End Get
-        End Property
     End Class
 End Namespace

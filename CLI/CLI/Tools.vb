@@ -1,6 +1,5 @@
 ﻿Imports System.Text.RegularExpressions
 Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype.Highlights
 Imports LANS.SystemsBiology.Assembly.DOOR
 Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports Microsoft.VisualBasic.CommandLine.Reflection
