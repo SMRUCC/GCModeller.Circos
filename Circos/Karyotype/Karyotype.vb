@@ -1,6 +1,23 @@
-﻿Imports Microsoft.VisualBasic.Serialization
+﻿Imports System.Runtime.CompilerServices
+Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Serialization
 
 Namespace Karyotype
+
+    Public Module KaryotypeExtensions
+
+        ''' <summary>
+        ''' nt核苷酸基因组序列拓展属性
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function nt(x As Karyotype) As PropertyValue(Of FastaToken)
+            Return PropertyValue(Of FastaToken).Read(Of Karyotype)(x, NameOf(nt))
+        End Function
+    End Module
 
     ''' <summary>
     ''' The ideogram using karyotype file to define the genome skeleton information, which defines the name, size and color of chromosomes. 
@@ -28,7 +45,8 @@ Namespace Karyotype
     ''' Colors are taken from the spectral Brewer palette. 
     ''' To learn about Brewer palettes, see (www.colorbrewer.org)[http://www.colorbrewer.org]
     ''' </remarks>
-    Public Class Karyotype : Implements IKaryotype
+    Public Class Karyotype : Inherits ClassObject
+        Implements IKaryotype
 
         Public Property chrName As String Implements IKaryotype.chrName
         Public Property chrLabel As String
