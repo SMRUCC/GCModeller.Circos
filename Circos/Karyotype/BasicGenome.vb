@@ -1,12 +1,12 @@
 ﻿Imports System.Text
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic
+Imports LANS.SystemsBiology.ComponentModel.Loci
 Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application
 Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
-Imports LANS.SystemsBiology.ComponentModel.Loci
 
 Namespace Karyotype
 
@@ -52,7 +52,7 @@ Namespace Karyotype
         Public Overrides ReadOnly Property Size As Integer
 
         ''' <summary>
-        ''' 使用这个函数进行创建多条染色体的
+        ''' Creates the model for the multiple chromosomes genome data in circos.(使用这个函数进行创建多条染色体的)
         ''' </summary>
         ''' <param name="source">Band数据</param>
         ''' <param name="chrs">karyotype数据</param>
