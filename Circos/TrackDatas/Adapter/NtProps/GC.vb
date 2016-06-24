@@ -4,6 +4,7 @@ Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
 Imports LANS.SystemsBiology.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
@@ -80,7 +81,9 @@ Namespace TrackDatas.NtProps
     End Module
 
     Public Class GeneObjectGC : Inherits NASegment_GC
-        Public Property Title As String
+        Implements sIdEnumerable
+
+        Public Property Title As String Implements sIdEnumerable.Identifier
     End Class
 
     ''' <summary>

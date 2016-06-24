@@ -33,7 +33,12 @@ Namespace Colors
 
             Return New NtPropsMaps With {
                 .source = genome,
-                .props = props,
+                .props = (From x As GeneObjectGC
+                          In props
+                          Select x
+                          Group x By x.Title Into Group) _
+                               .ToDictionary(Function(x) x.Title,
+                                             Function(x) x.Group.First),
                 .AT = (From x As Mappings
                        In AT
                        Select x
@@ -61,7 +66,7 @@ Namespace Colors
         ''' {value, circos color expression}
         ''' </summary>
         Public GC As Dictionary(Of Double, String)
-        Public props As GeneObjectGC()
+        Public props As Dictionary(Of String, GeneObjectGC)
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

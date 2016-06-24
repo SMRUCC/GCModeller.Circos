@@ -3,6 +3,7 @@ Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.C
 Imports LANS.SystemsBiology.ComponentModel.Loci
 Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application
 Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
@@ -90,6 +91,28 @@ Namespace Karyotype
                                                  .bandX = "band" & x.i,
                                                  .bandY = "band" & x.i
                                              }.MapsRaw.SetValue(x.obj).As(Of Band)
+
+            Dim nts As Dictionary(Of String, SegmentReader) =
+                chrs.ToDictionary(
+                Function(x) x.Title,
+                Function(x) New SegmentReader(x))
+
+            Dim __getNt As Func(Of Band, FastaToken) =
+                Function(x) As FastaToken
+                    Dim map As BlastnMapping = x.MapsRaw.Value
+                    Dim nt As SegmentReader = nts(map.Reference)
+                    Dim fragment As FastaToken =
+                        nt.TryParse(map.MappingLocation) _
+                          .GetFasta
+                    Return fragment
+                End Function
+
+            Dim props = bands.Select(__getNt).PropertyMaps
+
+            For Each band As Band In bands
+                Dim GC As Double = props.props(band.MapsRaw.Value.ReadQuery).value
+                band.color = props.GC(GC)
+            Next
 
             Return New KaryotypeChromosomes With {
                 .__bands = bands,
