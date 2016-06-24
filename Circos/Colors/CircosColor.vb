@@ -46,7 +46,7 @@ Namespace Colors
 
             Dim Value As List(Of NamedValue(Of String)) =
                 LinqAPI.MakeList(Of NamedValue(Of String)) <= From s As String
-                                                              In clBufs.AsParallel
+                                                              In clBufs
                                                               Let strM As String = Regex.Match(s, ".+?=\s*\S+").Value
                                                               Where Not String.IsNullOrEmpty(strM)
                                                               Let Tokens As String() = Strings.Split(strM, "=")
