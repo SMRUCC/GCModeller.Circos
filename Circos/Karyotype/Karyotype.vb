@@ -1,5 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application
 Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization
@@ -16,6 +18,11 @@ Namespace Karyotype
         <Extension>
         Public Function nt(x As Karyotype) As PropertyValue(Of FastaToken)
             Return PropertyValue(Of FastaToken).Read(Of Karyotype)(x, NameOf(nt))
+        End Function
+
+        <Extension>
+        Public Function MapsRaw(x As Band) As PropertyValue(Of BlastnMapping)
+            Return PropertyValue(Of BlastnMapping).Read(Of Band)(x, NameOf(MapsRaw))
         End Function
     End Module
 
@@ -47,8 +54,17 @@ Namespace Karyotype
     ''' </remarks>
     Public Class Karyotype : Inherits ClassObject
         Implements IKaryotype
+        Implements sIdEnumerable
 
-        Public Property chrName As String Implements IKaryotype.chrName
+        ''' <summary>
+        ''' Id
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property chrName As String Implements IKaryotype.chrName, sIdEnumerable.Identifier
+        ''' <summary>
+        ''' Display name title labels
+        ''' </summary>
+        ''' <returns></returns>
         Public Property chrLabel As String
         Public Property start As Integer Implements IKaryotype.start
         Public Property [end] As Integer Implements IKaryotype.end
@@ -85,7 +101,8 @@ Namespace Karyotype
     ''' ``data/karyotype`` In the Circos distribution directory.
     ''' Or data/karyotype In the course directory.
     ''' </summary>
-    Public Class Band : Implements IKaryotype
+    Public Class Band : Inherits ClassObject
+        Implements IKaryotype
 
         Public Property chrName As String Implements IKaryotype.chrName
         Public Property color As String Implements IKaryotype.color

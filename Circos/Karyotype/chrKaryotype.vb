@@ -1,4 +1,5 @@
 ﻿Imports System.Text
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Colors
 Imports LANS.SystemsBiology.ComponentModel.Loci
 Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application
 Imports LANS.SystemsBiology.SequenceModel.FASTA
@@ -58,19 +59,24 @@ Namespace Karyotype
         ''' <param name="chrs">karyotype数据</param>
         ''' <returns></returns>
         Public Shared Function FromBlastnMappings(source As IEnumerable(Of BlastnMapping), chrs As IEnumerable(Of FastaToken)) As KaryotypeChromosomes
+            Dim colors As String() = CircosColor.AllCircosColors
+            Dim rnd As New Random
             Dim ks As Karyotype() =
                 LinqAPI.Exec(Of Karyotype) <= From nt As SeqValue(Of FastaToken)
                                               In chrs.SeqIterator(offset:=1)
                                               Let name As String = nt.obj.Title.NormalizePathString(True).Replace(" ", "_")
+                                              Let clInd As Integer = rnd.NextInteger(colors.Length).value
                                               Select New Karyotype With {
                                                   .chrName = "chr" & nt.i,
                                                   .chrLabel = name,
-                                                  .color = "",
+                                                  .color = colors(clInd),
                                                   .start = 0,
                                                   .end = nt.obj.Length
                                               }.nt.SetValue(nt.obj).As(Of Karyotype)
+
             Dim labels As Dictionary(Of String, Karyotype) =
                 ks.ToDictionary(Function(x) x.nt.Value.Title, Function(x) x)
+
             Dim bands As List(Of Band) =
                 LinqAPI.MakeList(Of Band) <= From x As SeqValue(Of BlastnMapping)
                                              In source.SeqIterator(offset:=1)
@@ -83,7 +89,8 @@ Namespace Karyotype
                                                  .color = "",
                                                  .bandX = "band" & x.i,
                                                  .bandY = "band" & x.i
-                                             }
+                                             }.MapsRaw.SetValue(x.obj).As(Of Band)
+
             Return New KaryotypeChromosomes With {
                 .__bands = bands,
                 .__karyotypes = New List(Of Karyotype)(ks)
