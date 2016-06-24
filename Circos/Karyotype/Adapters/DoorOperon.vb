@@ -8,7 +8,7 @@ Namespace Karyotype
     ''' <summary>
     ''' 最外层的Ideogram，
     ''' </summary>
-    Public Class DoorOperon : Inherits SkeletonInfo
+    Public Class DOOROperon : Inherits SkeletonInfo
 
         Sub New(DoorFile As String)
             Dim DOOR As DOOR = DOOR_API.Load(DoorFile)

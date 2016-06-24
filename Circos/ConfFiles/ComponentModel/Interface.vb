@@ -12,7 +12,7 @@ Namespace Configurations
     ''' This object can be convert to text document by using method <see cref="GenerateDocument"/>
     ''' </summary>
     Public Interface ICircosDocNode
-        Function GenerateDocument(IndentLevel As Integer) As String
+        Function GenerateDocument(indentLevel As Integer) As String
     End Interface
 
     ''' <summary>
