@@ -95,7 +95,7 @@ Namespace Karyotype
             Dim nts As Dictionary(Of String, SegmentReader) =
                 chrs.ToDictionary(
                 Function(x) x.Title,
-                Function(x) New SegmentReader(x))
+                Function(x) New SegmentReader(NucleicAcid.RemoveInvalids(x.SequenceData)))
 
             Dim __getNt As Func(Of Band, FastaToken) =
                 Function(x) As FastaToken
@@ -103,7 +103,7 @@ Namespace Karyotype
                     Dim nt As SegmentReader = nts(map.Reference)
                     Dim fragment As FastaToken =
                         nt.TryParse(map.MappingLocation) _
-                          .GetFasta
+                          .GetFasta(map.ReadQuery)
                     Return fragment
                 End Function
 
