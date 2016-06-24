@@ -13,18 +13,18 @@ Namespace Karyotype
     ''' <summary>
     ''' The very basically genome skeleton information description.(基因组的基本框架的描述信息)
     ''' </summary>
-    Public Class BasicGenomeSkeleton : Inherits SkeletonInfo
+    Public Class KaryotypeChromosomes : Inherits SkeletonInfo
 
         ''' <summary>
         ''' 这个构造函数是用于单个染色体的
         ''' </summary>
-        ''' <param name="GenomeLength"></param>
-        ''' <param name="Color"></param>
-        ''' <param name="BandData"><see cref="TripleKeyValuesPair.Key"/>为颜色，其余的两个属性分别为左端起始和右端结束</param>
-        Sub New(GenomeLength As Integer, Color As String, Optional BandData As TripleKeyValuesPair() = Nothing)
-            Me.Size = GenomeLength
-            Me.__bands = New List(Of Band)(GenerateDocument(BandData))
-            Call __karyotype(Color)
+        ''' <param name="gSize">The genome size.</param>
+        ''' <param name="color"></param>
+        ''' <param name="bandData"><see cref="TripleKeyValuesPair.Key"/>为颜色，其余的两个属性分别为左端起始和右端结束</param>
+        Sub New(gSize As Integer, color As String, Optional bandData As TripleKeyValuesPair() = Nothing)
+            Me.Size = gSize
+            Me.__bands = New List(Of Band)(GenerateDocument(bandData))
+            Call __karyotype(color)
         End Sub
 
         Protected Sub New()
@@ -57,10 +57,10 @@ Namespace Karyotype
         ''' <param name="source">Band数据</param>
         ''' <param name="chrs">karyotype数据</param>
         ''' <returns></returns>
-        Public Shared Function FromBlastnMappings(source As IEnumerable(Of BlastnMapping), chrs As IEnumerable(Of FastaToken)) As BasicGenomeSkeleton
+        Public Shared Function FromBlastnMappings(source As IEnumerable(Of BlastnMapping), chrs As IEnumerable(Of FastaToken)) As KaryotypeChromosomes
             Dim ks As Karyotype() =
                 LinqAPI.Exec(Of Karyotype) <= From nt As SeqValue(Of FastaToken)
-                                              In chrs.SeqIterator
+                                              In chrs.SeqIterator(offset:=1)
                                               Let name As String = nt.obj.Title.NormalizePathString(True).Replace(" ", "_")
                                               Select New Karyotype With {
                                                   .chrName = "chr" & nt.i,
@@ -73,7 +73,7 @@ Namespace Karyotype
                 ks.ToDictionary(Function(x) x.nt.Value.Title, Function(x) x)
             Dim bands As List(Of Band) =
                 LinqAPI.MakeList(Of Band) <= From x As SeqValue(Of BlastnMapping)
-                                             In source.SeqIterator
+                                             In source.SeqIterator(offset:=1)
                                              Let chr As String = labels(x.obj.Reference).chrName
                                              Let loci As NucleotideLocation = x.obj.MappingLocation
                                              Select New Band With {
@@ -84,7 +84,7 @@ Namespace Karyotype
                                                  .bandX = "band" & x.i,
                                                  .bandY = "band" & x.i
                                              }
-            Return New BasicGenomeSkeleton With {
+            Return New KaryotypeChromosomes With {
                 .__bands = bands,
                 .__karyotypes = New List(Of Karyotype)(ks)
             }
