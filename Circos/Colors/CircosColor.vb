@@ -1,10 +1,12 @@
-﻿Imports System.Text.RegularExpressions
-Imports System.Drawing
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic
+﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace Colors
 
@@ -42,32 +44,47 @@ Namespace Colors
                 Strings.Split(My.Resources.colors_unix, vbLf)
             }
 
-            Dim Value = (From s As String
-                         In clBufs.AsParallel
-                         Let strM As String = Regex.Match(s, ".+?=\s*\S+").Value
-                         Where Not String.IsNullOrEmpty(strM)
-                         Let Tokens As String() = Strings.Split(strM, "=")
-                         Select ClName = Tokens.First,
-                             ColorValue = Regex.Replace(strM, Tokens.First & "\s*=\s*", "").Trim.Split.First).ToList
-            Dim RGBValue = (From item In Value Let RGB = Regex.Match(item.ColorValue, "\d+,\d+,\d+").Value
+            Dim Value As List(Of NamedValue(Of String)) =
+                LinqAPI.MakeList(Of NamedValue(Of String)) <= From s As String
+                                                              In clBufs.AsParallel
+                                                              Let strM As String = Regex.Match(s, ".+?=\s*\S+").Value
+                                                              Where Not String.IsNullOrEmpty(strM)
+                                                              Let Tokens As String() = Strings.Split(strM, "=")
+                                                              Let ClName = Tokens.First,
+                                                                  ColorValue = Regex.Replace(strM, Tokens.First & "\s*=\s*", "").Trim.Split.First
+                                                              Select New NamedValue(Of String) With {
+                                                                  .Name = ClName,
+                                                                  .x = ColorValue
+                                                              }
+            Dim RGBValue = (From item As NamedValue(Of String)
+                            In Value
+                            Let RGB = Regex.Match(item.x, "\d+,\d+,\d+").Value
                             Where Not String.IsNullOrEmpty(RGB)
-                            Select item, ClName = item.ClName.Trim, TokensValues = RGB.Split(","c)).ToArray
-            Dim RGBList = (From item In RGBValue Select item.item).ToArray
-            Dim NameEquals = (From item In Value Where Array.IndexOf(RGBList, item) = -1 Select item).ToArray
+                            Select item,
+                                ClName = item.Name.Trim,
+                                TokensValues = RGB.Split(","c)).ToArray
+            Dim RGBList As NamedValue(Of String)() = RGBValue.ToArray(Function(x) x.item)
+            Dim NameEquals =
+                LinqAPI.Exec(Of NamedValue(Of String)) <= From item As NamedValue(Of String)
+                                                          In Value
+                                                          Where Array.IndexOf(RGBList, item) = -1
+                                                          Select item
+            CircosColor.ColorNames =
+                LinqAPI.Exec(Of KeyValuePair(Of Color, String)) <=
+                    From item
+                    In RGBValue
+                    Where item.TokensValues.Count >= 3
+                    Let R As Integer = CInt(Val(item.TokensValues(0)))
+                    Let G As Integer = CInt(Val(item.TokensValues(1)))
+                    Let B As Integer = CInt(Val(item.TokensValues(2)))
+                    Let Color = Drawing.Color.FromArgb(R, G, B)
+                    Select New KeyValuePair(Of Drawing.Color, String)(Color, item.ClName)
 
-            CircosColor.ColorNames = (From item
-                                      In RGBValue
-                                      Where item.TokensValues.Count >= 3
-                                      Let R As Integer = CInt(Val(item.TokensValues(0)))
-                                      Let G As Integer = CInt(Val(item.TokensValues(1)))
-                                      Let B As Integer = CInt(Val(item.TokensValues(2)))
-                                      Let Color = Drawing.Color.FromArgb(R, G, B)
-                                      Select New KeyValuePair(Of Drawing.Color, String)(Color, item.ClName)).ToArray
-            Dim Colors = (From item As KeyValuePair(Of Color, String)
-                          In CircosColor.ColorNames
-                          Select ClName = item.Value.ToLower.Trim.Split.Last,
+            Dim Colors = From item As KeyValuePair(Of Color, String)
+                         In CircosColor.ColorNames
+                         Select ClName = item.Value.ToLower.Trim.Split.Last,
                               item.Key
-                          Group By ClName Into Group).ToArray
+                         Group By ClName Into Group
             CircosColor.RGBColors = Colors.ToDictionary(Function(x) x.ClName,
                                                         Function(x) x.Group.First.Key)
             CircosColor.RGBColors = (From Color
@@ -85,10 +102,11 @@ Namespace Colors
 
         Public ReadOnly Property AllCircosColors As String()
             Get
-                Return (From item As KeyValuePair(Of Color, String)
-                        In CircosColor.ColorNames
-                        Select item.Value
-                        Distinct).ToArray
+                Return LinqAPI.Exec(Of String) <=
+                    From x As KeyValuePair(Of Color, String)
+                    In CircosColor.ColorNames
+                    Select x.Value
+                    Distinct
             End Get
         End Property
 
@@ -105,12 +123,16 @@ Namespace Colors
 
         <ExportAPI("From.RGB", Info:="Gets circos color name from the .NET color object R,G,B value.")>
         Public Function FromRGB(R As Integer, G As Integer, B As Integer) As String
-            Dim LQuery = (From item In CircosColor.ColorNames
-                          Let cl As Color = item.Key
-                          Where cl.R = R AndAlso cl.G = G AndAlso cl.B = B
-                          Select item.Value
-                          Order By Len(Value) Ascending)
-            Return LQuery.FirstOrDefault
+            Dim LQuery As String =
+                LinqAPI.DefaultFirst(Of String) <= From color As KeyValuePair(Of Color, String)
+                                                   In CircosColor.ColorNames
+                                                   Let cl As Color = color.Key
+                                                   Where cl.R = R AndAlso
+                                                       cl.G = G AndAlso
+                                                       cl.B = B
+                                                   Select color.Value
+                                                   Order By Len(Value) Ascending
+            Return LQuery
         End Function
 
         ''' <summary>

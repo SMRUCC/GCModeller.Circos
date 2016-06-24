@@ -75,10 +75,11 @@ Namespace Colors
 
         <ExportAPI("Gradient.Mappings",
                Info:="Creates a scale gradient color mappings between a vector and the circos RGB color.")>
-        Public Function GradientMappings(values As Generic.IEnumerable(Of Double),
-                                     Optional mapName As String = "Jet",
-                                     Optional mapLevel As Integer = 512,
-                                     Optional offset As Double = Double.NaN, Optional replaceBase As Boolean = False) As Mappings()
+        Public Function GradientMappings(values As IEnumerable(Of Double),
+                                         Optional mapName As String = "Jet",
+                                         Optional mapLevel As Integer = 512,
+                                         Optional offset As Double = Double.NaN,
+                                         Optional replaceBase As Boolean = False) As Mappings()
             If Not Double.IsNaN(offset) Then
                 values = values.Join(offset)
             End If
@@ -93,7 +94,8 @@ Namespace Colors
             Return mappings
         End Function
 
-        Private Class __maps
+        Private Structure __maps
+
             Public values As Double()
             Public clSequence As Color()
             Public replaceBase As Boolean
@@ -127,11 +129,11 @@ Namespace Colors
                 End If
 
                 Return New Mappings With {
-                .value = value,
-                .Level = lv,
-                .Color = Color
-            }
+                    .value = value,
+                    .Level = lv,
+                    .Color = Color
+                }
             End Function
-        End Class
+        End Structure
     End Module
 End Namespace

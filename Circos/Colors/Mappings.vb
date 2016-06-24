@@ -2,7 +2,7 @@
 
 Namespace Colors
 
-    Public Class Mappings
+    Public Structure Mappings
         Public Property value As Double
         Public Property Level As Integer
         Public Property Color As Color
@@ -16,5 +16,5 @@ Namespace Colors
         Public Overrides Function ToString() As String
             Return $"{value} ==> {Level}   @{Color.ToString}"
         End Function
-    End Class
+    End Structure
 End Namespace
