@@ -18,7 +18,7 @@ Namespace TrackDatas.NtProps
 
         Private Overloads Shared Function __sourceGC(nt As FASTA.FastaToken, segLen As Integer, steps As Integer) As NASegment_GC()
             Dim source As NASegment_GC() =
-                GCContent.GetGCContentForGENOME(nt, winSize:=segLen, steps:=steps)
+                GCProps.GetGCContentForGENOME(nt, winSize:=segLen, steps:=steps)
             Dim avg As Double = (From n In source Select n.value).Average
 
             For Each x As NASegment_GC In source

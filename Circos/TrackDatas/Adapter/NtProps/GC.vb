@@ -17,7 +17,7 @@ Namespace TrackDatas.NtProps
     ''' </summary>
     ''' 
     <PackageNamespace("Circos.Nt.Attributes")>
-    Public Module GCContent
+    Public Module GCProps
 
         ''' <summary>
         ''' Calculate GC% for each gene its fasta sequence in the <paramref name="FASTA"/>.
@@ -26,7 +26,7 @@ Namespace TrackDatas.NtProps
         ''' <returns></returns>
         <ExportAPI("Get.Genes.GC")>
         <Extension>
-        Public Function GetGCContentForGenes(FASTA As FastaFile) As GeneObjectGC()
+        Public Function GetGCContentForGenes(FASTA As IEnumerable(Of FastaToken)) As GeneObjectGC()
             Dim LQuery As GeneObjectGC() =
                 LinqAPI.Exec(Of GeneObjectGC) <= From fa As FastaToken
                                                  In FASTA
@@ -88,7 +88,15 @@ Namespace TrackDatas.NtProps
     ''' </summary>
     Public Class NASegment_GC : Inherits ValueTrackData
 
+        ''' <summary>
+        ''' GC%
+        ''' </summary>
+        ''' <returns></returns>
         <Column("GC%")> Public Overrides Property value As Double
+        ''' <summary>
+        ''' AT%
+        ''' </summary>
+        ''' <returns></returns>
         <Column("AT%")> Public Property AT As Double
 
         ''' <summary>
@@ -96,6 +104,10 @@ Namespace TrackDatas.NtProps
         ''' </summary>
         ''' <returns></returns>
         <Column("GC/AT")> Public Property GC_AT As Double
+        ''' <summary>
+        ''' The size of this fragment
+        ''' </summary>
+        ''' <returns></returns>
         Public Property length As Integer
 
         Public Overrides Function ToString() As String

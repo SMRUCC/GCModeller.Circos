@@ -15,7 +15,7 @@ Namespace TrackDatas.NtProps
         Public ReadOnly Property SourceFasta As FastaFile
 
         Sub New(Source As FastaFile)
-            Call MyBase.New(GCContent.GetGCContentForGenes(Source))
+            Call MyBase.New(GCProps.GetGCContentForGenes(Source))
             SourceFasta = Source
         End Sub
     End Class
