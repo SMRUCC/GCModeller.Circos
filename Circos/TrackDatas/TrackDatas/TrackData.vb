@@ -210,6 +210,10 @@ Namespace TrackDatas
         End Function
 
         Private Shared Sub __attach(ByRef s As StringBuilder, name As String, value As String)
+            If String.IsNullOrEmpty(value) Then
+                Return
+            End If
+
             If s.Length = 0 Then
                 Call s.Append($"{name}={value}")
             Else
