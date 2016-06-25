@@ -178,7 +178,7 @@ Namespace Configurations
                 If SkeletonKaryotype Is Nothing Then
                     Return 0
                 End If
-                Return _SkeletonKaryotype.Size - SkeletonKaryotype.LoopHole
+                Return _SkeletonKaryotype.Size - SkeletonKaryotype.LoopHole.Value
             End Get
         End Property
 

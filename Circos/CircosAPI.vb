@@ -824,7 +824,7 @@ SET_END:    Dim ends = i
         Call doc.Includes.Add(New Configurations.Ideogram(doc))
 
         doc.SkeletonKaryotype = New KaryotypeChromosomes(Len(NT.SequenceData) + loophole, "white", If(Bands Is Nothing, Nothing, Bands.ToArray))
-        doc.SkeletonKaryotype.LoopHole = loophole
+        doc.SkeletonKaryotype.LoopHole.Value = loophole
         doc.karyotype = "./data/genome_skeleton.txt"
 
         Return True

@@ -41,12 +41,15 @@ Namespace TrackDatas.NtProps
         ''' <param name="Steps"></param>
         ''' <param name="Circular"></param>
         Sub New(genome As IEnumerable(Of FastaToken),
-                karyotype As Karyotype.Karyotype,
+                karyotype As Karyotype.SkeletonInfo,
                 SlideWindowSize As Integer,
                 Steps As Integer,
                 Circular As Boolean)
 
             Dim list As New List(Of ValueTrackData)
+            Dim chrs = karyotype.Karyotypes.ToDictionary(
+                Function(x) x.chrLabel,
+                Function(x) x.chrName)
 
             For Each nt As FastaToken In genome
                 Dim raw As Double() = NucleotideModels.GCSkew(
@@ -54,9 +57,12 @@ Namespace TrackDatas.NtProps
                     SlideWindowSize,
                     Steps,
                     Circular)
-                Dim chr As String
+                Dim chr As String = nt.Title.Split("."c).First
 
+                chr = chrs(chr)
                 list += __sourceGC(chr, __avgData(raw), [Steps])
+
+                Call Console.Write(">")
             Next
 
             __source = list
