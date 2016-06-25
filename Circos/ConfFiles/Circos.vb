@@ -215,7 +215,9 @@ Namespace Configurations
             For i As Integer = 0 To _plots.Count - 1
                 Dim x As ITrackPlot = _plots(i)
                 Dim FileName As String = $"data/{x.type}_data_{i}.txt"
-                Call x.Save(FileName, Encoding.ASCII)
+
+                x.file = FileName
+                x.Save(FileName, Encoding.ASCII)
             Next
 
             Call _SkeletonKaryotype.Save(karyotype, encoding:=Encoding.ASCII)
