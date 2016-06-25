@@ -3,6 +3,8 @@ Imports System.Text
 Imports LANS.SystemsBiology.NCBI.Extensions
 Imports LANS.SystemsBiology.NCBI.Extensions.NCBIBlastResult
 Imports LANS.SystemsBiology.SequenceModel
+Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports Microsoft.VisualBasic
 
 Namespace TrackDatas.NtProps
 
@@ -28,6 +30,36 @@ Namespace TrackDatas.NtProps
 
         Sub New(data As IEnumerable(Of Double), [step] As Integer, Optional chr As String = "chr1")
             Call MyBase.New(__sourceGC(chr, __avgData(data), [step]))
+        End Sub
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="genome"></param>
+        ''' <param name="karyotype">chr标记的来源</param>
+        ''' <param name="SlideWindowSize"></param>
+        ''' <param name="Steps"></param>
+        ''' <param name="Circular"></param>
+        Sub New(genome As IEnumerable(Of FastaToken),
+                karyotype As Karyotype.Karyotype,
+                SlideWindowSize As Integer,
+                Steps As Integer,
+                Circular As Boolean)
+
+            Dim list As New List(Of ValueTrackData)
+
+            For Each nt As FastaToken In genome
+                Dim raw As Double() = NucleotideModels.GCSkew(
+                    nt,
+                    SlideWindowSize,
+                    Steps,
+                    Circular)
+                Dim chr As String
+
+                list += __sourceGC(chr, __avgData(raw), [Steps])
+            Next
+
+            __source = list
         End Sub
 
         Private Shared Function __avgData(data As IEnumerable(Of Double)) As Double()

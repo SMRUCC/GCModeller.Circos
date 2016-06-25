@@ -17,6 +17,8 @@ Module Module1
         circos.Includes.Add(New Configurations.Ideogram(circos))
         circos.Includes.Add(New Configurations.Ticks(circos))
 
+        circos.GetIdeogram.Ideogram.show_label = yes
+
         Call circos.Save("x:\test/")
     End Sub
 End Module

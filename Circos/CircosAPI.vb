@@ -250,17 +250,20 @@ different with the ideogram configuration document was not included in the circo
     ''' <param name="doc"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <ExportAPI("Get.Circos.Ideogram", Info:="Gets the ideogram configuration node in the circos document object.")>
-    <Extension> Public Function GetIdeogram(doc As Configurations.Circos) As Configurations.Ideogram
-        Dim LQuery As Configurations.Ideogram =
-            (From node As Configurations.CircosConfig
-             In doc.Includes
-             Where TypeOf node Is Configurations.Ideogram
-             Select DirectCast(node, Configurations.Ideogram)).FirstOrDefault
+    <ExportAPI("Get.Circos.Ideogram",
+               Info:="Gets the ideogram configuration node in the circos document object.")>
+    <Extension> Public Function GetIdeogram(doc As Configurations.Circos) As Ideogram
+        Dim LQuery As Ideogram =
+            LinqAPI.DefaultFirst(Of Ideogram) <=
+                From node As CircosConfig
+                In doc.Includes
+                Where TypeOf node Is Ideogram
+                Select DirectCast(node, Ideogram)
+
         If Not LQuery Is Nothing Then
             Return LQuery
         Else
-            Return New Configurations.Ideogram(doc)
+            Return New Ideogram(doc)
         End If
     End Function
 

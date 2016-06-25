@@ -73,6 +73,15 @@ Namespace Colors
 
         Dim offsetPercentage As Double = 0.06
 
+        ''' <summary>
+        ''' Creates a scale gradient color mappings between a vector and the circos RGB color.
+        ''' </summary>
+        ''' <param name="values"></param>
+        ''' <param name="mapName"><see cref="ColorMap"/></param>
+        ''' <param name="mapLevel"></param>
+        ''' <param name="offset"></param>
+        ''' <param name="replaceBase"></param>
+        ''' <returns></returns>
         <ExportAPI("Gradient.Mappings",
                Info:="Creates a scale gradient color mappings between a vector and the circos RGB color.")>
         Public Function GradientMappings(values As IEnumerable(Of Double),

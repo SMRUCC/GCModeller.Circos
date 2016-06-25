@@ -1,8 +1,8 @@
-﻿Imports LANS.SystemsBiology.SequenceModel.ISequenceModel
-Imports System.Text
+﻿Imports System.Text
 Imports LANS.SystemsBiology.NCBI.Extensions
 Imports LANS.SystemsBiology.NCBI.Extensions.NCBIBlastResult
 Imports LANS.SystemsBiology.SequenceModel
+Imports LANS.SystemsBiology.SequenceModel.ISequenceModel
 Imports Microsoft.VisualBasic.Serialization
 
 Namespace TrackDatas.NtProps

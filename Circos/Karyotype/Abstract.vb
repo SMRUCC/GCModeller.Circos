@@ -4,6 +4,7 @@ Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.T
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
 Namespace Karyotype
@@ -11,22 +12,29 @@ Namespace Karyotype
     ''' <summary>
     ''' The annotated genome skeleton information.
     ''' </summary>
-    Public MustInherit Class SkeletonInfo
+    Public MustInherit Class SkeletonInfo : Inherits ClassObject
         Implements ICircosDocument
 
         ''' <summary>
-        ''' 基因组的大小
+        ''' 基因组的大小，在这里默认是所有的染色体的总长度
         ''' </summary>
         ''' <returns></returns>
-        Public MustOverride ReadOnly Property Size As Integer
-        ''' <summary>
-        ''' 缺口的大小
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property LoopHole As Integer
+        Public Overridable ReadOnly Property Size As Integer
+            Get
+                Return __karyotypes.Select(Function(x) Math.Abs(x.end - x.start)).Sum
+            End Get
+        End Property
 
         Protected __karyotypes As List(Of Karyotype)
         Protected __bands As List(Of Band)
+
+        Public ReadOnly Iterator Property Karyotypes As IEnumerable(Of Karyotype)
+            Get
+                For Each x As Karyotype In __karyotypes
+                    Yield x
+                Next
+            End Get
+        End Property
 
         ''' <summary>
         ''' 只有一个基因组的时候可以调用这个方法

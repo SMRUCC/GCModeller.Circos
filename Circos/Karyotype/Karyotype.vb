@@ -11,6 +11,16 @@ Namespace Karyotype
     Public Module KaryotypeExtensions
 
         ''' <summary>
+        ''' 缺口的大小，这个仅仅在单个染色体的基因组绘图模型之中有效
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function LoopHole(x As SkeletonInfo) As PropertyValue(Of Integer)
+            Return PropertyValue(Of Integer).Read(Of SkeletonInfo)(x, NameOf(LoopHole))
+        End Function
+
+        ''' <summary>
         ''' nt核苷酸基因组序列拓展属性
         ''' </summary>
         ''' <param name="x"></param>

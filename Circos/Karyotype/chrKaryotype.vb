@@ -65,7 +65,11 @@ Namespace Karyotype
             Dim ks As Karyotype() =
                 LinqAPI.Exec(Of Karyotype) <= From nt As SeqValue(Of FastaToken)
                                               In chrs.SeqIterator(offset:=1)
-                                              Let name As String = nt.obj.Title.NormalizePathString(True).Replace(" ", "_")
+                                              Let name As String =
+                                                  nt.obj.Title _
+                                                        .Split("."c).First _
+                                                        .NormalizePathString(True) _
+                                                        .Replace(" ", "_")
                                               Let clInd As Integer = rnd.NextInteger(colors.Length).value
                                               Select New Karyotype With {
                                                   .chrName = "chr" & nt.i,
@@ -115,7 +119,7 @@ Namespace Karyotype
             Next
 
             Return New KaryotypeChromosomes With {
-                .__bands = bands,
+                .__bands = bands.OrderBy(Function(x) x.chrName).ToList,
                 .__karyotypes = New List(Of Karyotype)(ks)
             }
         End Function
