@@ -31,7 +31,8 @@ Module Module1
 
         circos.GetIdeogram.Ideogram.show_label = yes
 
-        circos.AddPlotElement(New Histogram(New GCSkew(genome:=fas, karyotype:=circos.SkeletonKaryotype, SlideWindowSize:=2048, Steps:=512, Circular:=False)))
+        circos.AddPlotElement(New Histogram(New GCSkew(genome:=fas, karyotype:=circos.SkeletonKaryotype, SlideWindowSize:=4096, Steps:=1024, Circular:=False)))
+        circos.AddPlotElement(New Histogram(New GeneGCContent(genome:=fas, karyotype:=circos.SkeletonKaryotype, winSize:=4096, steps:=1024, getValue:=Function(x) x.GC_AT)))
 
         Call circos.Save("x:\test/")
     End Sub

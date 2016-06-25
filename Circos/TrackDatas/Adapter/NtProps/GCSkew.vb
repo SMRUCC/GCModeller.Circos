@@ -68,7 +68,7 @@ Namespace TrackDatas.NtProps
             __source = list
         End Sub
 
-        Private Shared Function __avgData(data As IEnumerable(Of Double)) As Double()
+        Friend Shared Function __avgData(data As IEnumerable(Of Double)) As Double()
             Dim array As Double() = data.ToArray
             Dim avg As Double = array.Average
 
@@ -79,7 +79,7 @@ Namespace TrackDatas.NtProps
             Return array
         End Function
 
-        Private Shared Iterator Function __sourceGC(chr As String, data As IEnumerable(Of Double), [step] As Integer) As IEnumerable(Of ValueTrackData)
+        Friend Shared Iterator Function __sourceGC(chr As String, data As IEnumerable(Of Double), [step] As Integer) As IEnumerable(Of ValueTrackData)
             Dim p As Integer
 
             For Each n As Double In data
