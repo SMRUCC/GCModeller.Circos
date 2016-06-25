@@ -30,9 +30,11 @@ Module Module1
         circos.Includes.Add(New Configurations.Ticks(circos))
 
         circos.GetIdeogram.Ideogram.show_label = yes
+        circos.GetIdeogram.Ideogram.Spacing.default = "1u"
+        circos.chromosomes_units = "1000000"
 
-        circos.AddPlotElement(New Histogram(New GCSkew(genome:=fas, karyotype:=circos.SkeletonKaryotype, SlideWindowSize:=4096, Steps:=1024, Circular:=False)))
-        circos.AddPlotElement(New Histogram(New GeneGCContent(genome:=fas, karyotype:=circos.SkeletonKaryotype, winSize:=4096, steps:=1024, getValue:=Function(x) x.GC_AT)))
+        circos.AddPlotElement(New Histogram(New GCSkew(genome:=fas, karyotype:=circos.SkeletonKaryotype, SlideWindowSize:=4096, Steps:=2048, Circular:=True)))
+        circos.AddPlotElement(New Histogram(New GeneGCContent(genome:=fas, karyotype:=circos.SkeletonKaryotype, winSize:=4096, steps:=2048, getValue:=Function(x) x.GC_AT)))
 
         Call circos.Save("x:\test/")
     End Sub

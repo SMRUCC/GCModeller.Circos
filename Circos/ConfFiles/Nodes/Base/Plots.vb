@@ -84,13 +84,13 @@ Namespace Configurations.Nodes.Plots
         ''' Histograms can have both a fill And outline. The Default outline Is 1px thick black. 
         ''' </summary>
         ''' <returns></returns>
-        Public Overrides Property fill_color As String = "vdgrey"
+        <Circos> Public Overrides Property fill_color As String = "vdgrey"
 
         ''' <summary>
         ''' Do Not join histogram bins that Do Not abut.
         ''' </summary>
         ''' <returns></returns>
-        Public Property extend_bin As String = no
+        <Circos> Public Property extend_bin As String = no
 
         Public Sub New(data As data(Of ValueTrackData))
             Call MyBase.New(data)
