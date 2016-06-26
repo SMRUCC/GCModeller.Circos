@@ -1,4 +1,5 @@
 ﻿Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization
 
@@ -136,13 +137,15 @@ Namespace TrackDatas
     ''' chr12 1000 5000 0.25 url=http//domain.com/script?start=[start]&amp;end=[end]&amp;chr=[chr]
     ''' ```
     ''' </remarks>
-    Public MustInherit Class TrackData : Implements ITrackData
+    Public MustInherit Class TrackData
+        Implements ITrackData
+        Implements IAddress(Of Integer)
 
         ''' <summary>
         ''' Chromosomes name
         ''' </summary>
         Public Property chr As String
-        Public Property start As Integer
+        Public Property start As Integer Implements IAddress(Of Integer).Address
         Public Property [end] As Integer
         Public Property formatting As Formatting
         Public Property comment As String Implements ITrackData.comment

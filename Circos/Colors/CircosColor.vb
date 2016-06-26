@@ -46,7 +46,7 @@ Namespace Colors
 
             Dim Value As List(Of NamedValue(Of String)) =
                 LinqAPI.MakeList(Of NamedValue(Of String)) <= From s As String
-                                                              In clBufs
+                                                              In clBufs.AsParallel
                                                               Let strM As String = Regex.Match(s, ".+?=\s*\S+").Value
                                                               Where Not String.IsNullOrEmpty(strM)
                                                               Let Tokens As String() = Strings.Split(strM, "=")
@@ -57,7 +57,7 @@ Namespace Colors
                                                                   .x = ColorValue
                                                               }
             Dim RGBValue = (From item As NamedValue(Of String)
-                            In Value
+                            In Value.AsParallel
                             Let RGB = Regex.Match(item.x, "\d+,\d+,\d+").Value
                             Where Not String.IsNullOrEmpty(RGB)
                             Select item,
@@ -66,13 +66,13 @@ Namespace Colors
             Dim RGBList As NamedValue(Of String)() = RGBValue.ToArray(Function(x) x.item)
             Dim NameEquals =
                 LinqAPI.Exec(Of NamedValue(Of String)) <= From item As NamedValue(Of String)
-                                                          In Value
+                                                          In Value.AsParallel
                                                           Where Array.IndexOf(RGBList, item) = -1
                                                           Select item
             CircosColor.ColorNames =
                 LinqAPI.Exec(Of KeyValuePair(Of Color, String)) <=
                     From item
-                    In RGBValue
+                    In RGBValue.AsParallel
                     Where item.TokensValues.Count >= 3
                     Let R As Integer = CInt(Val(item.TokensValues(0)))
                     Let G As Integer = CInt(Val(item.TokensValues(1)))
@@ -81,7 +81,7 @@ Namespace Colors
                     Select New KeyValuePair(Of Drawing.Color, String)(Color, item.ClName)
 
             Dim Colors = From item As KeyValuePair(Of Color, String)
-                         In CircosColor.ColorNames
+                         In CircosColor.ColorNames.AsParallel
                          Select ClName = item.Value.ToLower.Trim.Split.Last,
                               item.Key
                          Group By ClName Into Group

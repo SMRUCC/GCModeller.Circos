@@ -136,6 +136,52 @@ Namespace TrackDatas
         End Function
 
         <Extension>
+        Public Function IdentitiesTracks(source As IEnumerable(Of BlastnMapping), karyotype As Karyotype.SkeletonInfo) As ValueTrackData()
+            Dim chrs As Dictionary(Of String, Karyotype.Karyotype) = karyotype.GetchrLabels(Function(x) x.chrLabel)
+            Dim LQuery = From x As BlastnMapping
+                         In source
+                         Select x.MappingLocation,
+                             Identity = x.Identities,
+                             chr = x.Reference.Split("."c).First
+                         Group By chr Into Group
+            Dim list As New List(Of ValueTrackData)
+
+            For Each ch In LQuery
+                Dim chr As Karyotype.Karyotype = chrs(ch.chr)
+                Dim idata As List(Of Double)() =
+                    LinqAPI.Exec(Of List(Of Double)) <= From i As Integer
+                                                        In chr.end.Sequence
+                                                        Select New List(Of Double)
+                For Each reads In ch.Group
+                    For i As Integer = reads.MappingLocation.Left To reads.MappingLocation.Right
+                        idata(i).Add(reads.Identity)
+                    Next
+                Next
+
+                For Each x In idata
+                    If x.Count = 0 Then
+                        Call x.Add(0R)
+                    End If
+                Next
+
+                list += From x As SeqValue(Of List(Of Double))
+                        In idata.SeqIterator
+                        Where x.obj.Count > 0
+                        Let left As Integer = x.i
+                        Select New ValueTrackData With {
+                            .chr = chr.chrName,
+                            .start = left,
+                            .end = left + 1,
+                            .value = x.obj.Average
+                        }
+
+                Call Console.Write(".")
+            Next
+
+            Return list.ToArray
+        End Function
+
+        <Extension>
         Public Function GetchrLabels(karyotype As Karyotype.SkeletonInfo, Optional getKey As Func(Of Karyotype.Karyotype, String) = Nothing) As Dictionary(Of String, Karyotype.Karyotype)
             If getKey Is Nothing Then
                 getKey = Function(x) x.chrName
