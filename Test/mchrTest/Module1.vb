@@ -35,13 +35,13 @@ Module Module1
         circos.GetIdeogram.Ideogram.Spacing.default = "0.2u"
         circos.chromosomes_units = "1000000"
 
-        '  Dim hhhh = Function() maps.Hits(circos.SkeletonKaryotype)
-        '  Dim inn = hhhh.BeginInvoke(Nothing, Nothing)
+        Dim hhhh = Function() maps.Hits(circos.SkeletonKaryotype)
+        Dim inn = hhhh.BeginInvoke(Nothing, Nothing)
 
-        '  circos.AddPlotElement(New Histogram(New GCSkew(genome:=fas, karyotype:=circos.SkeletonKaryotype, SlideWindowSize:=4096, Steps:=2048, Circular:=True)))
-        '  circos.AddPlotElement(New Histogram(New GeneGCContent(genome:=fas, karyotype:=circos.SkeletonKaryotype, winSize:=4096, steps:=2048, getValue:=Function(x) x.GC_AT)))
-        circos.AddPlotElement(New Histogram(New GradientMappings(maps.IdentitiesTracks(circos.SkeletonKaryotype), circos.SkeletonKaryotype, "Jet", 1024)))
-        '  circos.AddPlotElement(New Histogram(New TrackDatas.data(Of TrackDatas.ValueTrackData)(hhhh.EndInvoke(inn))))
+        circos.AddPlotElement(New Histogram(New GCSkew(genome:=fas, karyotype:=circos.SkeletonKaryotype, SlideWindowSize:=4096, Steps:=2048, Circular:=True)))
+        circos.AddPlotElement(New Histogram(New GeneGCContent(genome:=fas, karyotype:=circos.SkeletonKaryotype, winSize:=4096, steps:=2048, getValue:=Function(x) x.GC_AT)))
+        circos.AddPlotElement(New Histogram(New GradientMappings(maps.IdentitiesTracks(circos.SkeletonKaryotype), circos.SkeletonKaryotype, "Jet", 4096)))
+        circos.AddPlotElement(New Histogram(New TrackDatas.data(Of TrackDatas.ValueTrackData)(hhhh.EndInvoke(inn))))
 
         Call circos.Save("x:\test/")
     End Sub
