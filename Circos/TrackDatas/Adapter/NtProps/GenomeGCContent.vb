@@ -4,6 +4,7 @@ Imports LANS.SystemsBiology.NCBI.Extensions.NCBIBlastResult
 Imports LANS.SystemsBiology.SequenceModel
 Imports LANS.SystemsBiology.SequenceModel.ISequenceModel
 Imports Microsoft.VisualBasic.Serialization
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace TrackDatas.NtProps
 

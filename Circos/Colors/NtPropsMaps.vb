@@ -4,6 +4,7 @@ Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.T
 Imports LANS.SystemsBiology.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Colors
 
