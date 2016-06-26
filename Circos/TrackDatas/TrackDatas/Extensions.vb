@@ -6,6 +6,15 @@ Namespace TrackDatas
 
     Public Module Extensions
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="cl"></param>
+        ''' <param name="idx"></param>
+        ''' <param name="offset"></param>
+        ''' <returns></returns>
+        ''' 
+        <Extension>
         Public Function FromColorMapping(cl As Circos.Colors.Mappings, idx As Integer, offset As Integer) As ValueTrackData
             Return New ValueTrackData With {
                 .formatting = New Formatting With {

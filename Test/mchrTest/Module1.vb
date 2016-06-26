@@ -23,7 +23,7 @@ Module Module1
     Private Sub run()
         Dim fas As New FastaFile("G:\5.14.circos\6.22\Af293.fna")
         Dim maps As BlastnMapping() = "G:\5.14.circos\6.22\maps.MergeMappings-Trim.Full.Perfect.identities=0.9.Csv".LoadCsv(Of BlastnMapping)
-        Dim genome As KaryotypeChromosomes = KaryotypeChromosomes.FromBlastnMappings(maps, fas)
+        Dim genome As KaryotypeChromosomes = KaryotypeChromosomes.FromNts(fas)
         Call genome.GenerateDocument(0).SaveTo("x:/test.txt")
 
         Dim circos = CircosAPI.CreateDoc
@@ -40,7 +40,7 @@ Module Module1
 
         '  circos.AddPlotElement(New Histogram(New GCSkew(genome:=fas, karyotype:=circos.SkeletonKaryotype, SlideWindowSize:=4096, Steps:=2048, Circular:=True)))
         '  circos.AddPlotElement(New Histogram(New GeneGCContent(genome:=fas, karyotype:=circos.SkeletonKaryotype, winSize:=4096, steps:=2048, getValue:=Function(x) x.GC_AT)))
-        circos.AddPlotElement(New HeatMap(New GradientMappings(maps.IdentitiesTracks(circos.SkeletonKaryotype), circos.SkeletonKaryotype, "Jet", 1024)))
+        circos.AddPlotElement(New Histogram(New GradientMappings(maps.IdentitiesTracks(circos.SkeletonKaryotype), circos.SkeletonKaryotype, "Jet", 1024)))
         '  circos.AddPlotElement(New Histogram(New TrackDatas.data(Of TrackDatas.ValueTrackData)(hhhh.EndInvoke(inn))))
 
         Call circos.Save("x:\test/")

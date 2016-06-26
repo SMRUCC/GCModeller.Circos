@@ -53,14 +53,11 @@ Namespace Karyotype
 
         Public Overrides ReadOnly Property Size As Integer
 
-        ''' <summary>
-        ''' Creates the model for the multiple chromosomes genome data in circos.(使用这个函数进行创建多条染色体的)
-        ''' </summary>
-        ''' <param name="source">Band数据</param>
-        ''' <param name="chrs">karyotype数据</param>
-        ''' <returns></returns>
-        Public Shared Function FromBlastnMappings(source As IEnumerable(Of BlastnMapping), chrs As IEnumerable(Of FastaToken)) As KaryotypeChromosomes
-            Dim colors As String() = CircosColor.AllCircosColors
+        Public Shared Function FromNts(chrs As IEnumerable(Of FastaToken), Optional colors As String() = Nothing) As KaryotypeChromosomes
+            If colors.IsNullOrEmpty Then
+                colors = CircosColor.AllCircosColors.Randomize
+            End If
+
             Dim rnd As New Random
             Dim ks As Karyotype() =
                 LinqAPI.Exec(Of Karyotype) <= From nt As SeqValue(Of FastaToken)
@@ -79,9 +76,22 @@ Namespace Karyotype
                                                   .end = nt.obj.Length
                                               }.nt.SetValue(nt.obj).As(Of Karyotype)
 
-            Dim labels As Dictionary(Of String, Karyotype) =
-                ks.ToDictionary(Function(x) x.nt.Value.Title, Function(x) x)
+            Return New KaryotypeChromosomes With {
+                .__karyotypes = ks.ToList
+            }
+        End Function
 
+        ''' <summary>
+        ''' Creates the model for the multiple chromosomes genome data in circos.(使用这个函数进行创建多条染色体的)
+        ''' </summary>
+        ''' <param name="source">Band数据</param>
+        ''' <param name="chrs">karyotype数据</param>
+        ''' <returns></returns>
+        Public Shared Function FromBlastnMappings(source As IEnumerable(Of BlastnMapping), chrs As IEnumerable(Of FastaToken)) As KaryotypeChromosomes
+            Dim ks As KaryotypeChromosomes = FromNts(chrs)
+            Dim labels As Dictionary(Of String, Karyotype) =
+                ks.__karyotypes.ToDictionary(Function(x) x.nt.Value.Title,
+                                             Function(x) x)
             Dim bands As List(Of Band) =
                 LinqAPI.MakeList(Of Band) <= From x As SeqValue(Of BlastnMapping)
                                              In source.SeqIterator(offset:=1)
@@ -118,10 +128,9 @@ Namespace Karyotype
                 band.color = props.GC(GC)
             Next
 
-            Return New KaryotypeChromosomes With {
-                .__bands = bands.OrderBy(Function(x) x.chrName).ToList,
-                .__karyotypes = New List(Of Karyotype)(ks)
-            }
+            ks.__bands = bands.OrderBy(Function(x) x.chrName).ToList
+
+            Return ks
         End Function
     End Class
 End Namespace
