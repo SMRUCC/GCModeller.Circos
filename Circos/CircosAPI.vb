@@ -558,6 +558,8 @@ SET_END:    Dim ends = i
                                  ByRef doc As Configurations.Circos,
                                  snuggleRefine As Boolean)
 
+        Dim setValue = New SetValue(Of GeneDumpInfo) <= NameOf(GeneDumpInfo.LocusID)
+
         If Not onlyGeneName Then
             Dim getID As Func(Of String, String) = If(Not String.IsNullOrEmpty(IDRegex),
                 Function(ID As String) Regex.Match(ID, IDRegex).Value,
@@ -566,11 +568,11 @@ SET_END:    Dim ends = i
                     Let uid As String = If(String.IsNullOrEmpty(GeneObject.GeneName),
                         getID(GeneObject.LocusID),
                         GeneObject.GeneName)
-                    Select GeneObject.InvokeSet(NameOf(GeneObject.LocusID), uid)).ToArray
+                    Select setValue(GeneObject, uid)).ToArray
         Else  ' 仅仅显示基因名称
             anno = (From GeneObject As GeneDumpInfo
                     In anno
-                    Select GeneObject.InvokeSet(NameOf(GeneObject.LocusID), GeneObject.GeneName)).ToArray
+                    Select setValue(GeneObject, GeneObject.GeneName)).ToArray
         End If
 
         Dim LabelGenes As GeneDumpInfo() =
@@ -682,9 +684,12 @@ SET_END:    Dim ends = i
                                      In anno.GeneObjects.AsParallel
                                      Select GeneObject.Product Distinct).ToArray 'RNA的数目很少，所以这里直接使用产物来替代COG来计算颜色了
         Dim Colors = CircosColor.ColorProfiles(COGVector)
-
+        Dim setValue = New SetValue(Of GeneDumpInfo) <= NameOf(GeneDumpInfo.LocusID)
         Dim GeneObjects = GenBank.ExportPTTAsDump(PTT:=anno)
-        GeneObjects = (From obj In GeneObjects.AsParallel Select obj.InvokeSet(Of String)(NameOf(obj.LocusID), obj.Function)).ToArray
+        GeneObjects = LinqAPI.Exec(Of GeneDumpInfo) <=
+            From obj As GeneDumpInfo
+            In GeneObjects.AsParallel
+            Select setValue(obj, obj.Function)
 
         Dim highlightLabel As New HighlightLabel(
             (From GeneObject In GeneObjects
@@ -892,10 +897,11 @@ SET_END:    Dim ends = i
             CircosColor.ColorProfiles((From obj In LQuery
                                        Select obj.COG
                                        Distinct).ToArray)
-        Dim BandsData = (From obj In LQuery.AsParallel
-                         Select obj.band.InvokeSet(Of String)(
-                             NameOf(TripleKeyValuesPair.Key),
-                             Color(obj.COG))).ToArray
+        Dim setValue = New SetValue(Of TripleKeyValuesPair) <= NameOf(TripleKeyValuesPair.Key)
+        Dim BandsData As TripleKeyValuesPair() =
+            LinqAPI.Exec(Of TripleKeyValuesPair) <= From obj
+                                                    In LQuery.AsParallel
+                                                    Select setValue(obj.band, Color(obj.COG))
         Return SetBasicProperty(doc, NT, BandsData, loophole)
     End Function
 

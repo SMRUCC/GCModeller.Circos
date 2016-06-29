@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::a7cca5fb3478ce21bed620e587902795, ..\Circos\CLI\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -42,6 +42,7 @@ Imports LANS.SystemsBiology.SequenceModel.Patterns
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
@@ -133,7 +134,8 @@ Public Module CLI
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".MyvaCOG.csv")
         Dim doc As MGACOG() = MGACOG.LoadDoc(inFile)
-        doc = (From x In doc Select x.InvokeSet(NameOf(x.QueryName), x.QueryName.Split("|"c)(6))).ToArray
+        Dim setName = New SetValue(Of MGACOG) <= NameOf(MGACOG.QueryName)
+        doc = (From x In doc Let n As String = x.QueryName.Split("|"c)(6) Select setName(x, n)).ToArray
         Dim myva = MGACOG.ToMyvaCOG(doc)
 
         If Not String.IsNullOrEmpty(args("/map")) Then
