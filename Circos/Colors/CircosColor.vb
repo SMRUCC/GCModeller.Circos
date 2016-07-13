@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c7d0582f5c7897ca0220b9e86e08dc4e, ..\Circos\Circos\Colors\CircosColor.vb"
+﻿#Region "Microsoft.VisualBasic::c7d0582f5c7897ca0220b9e86e08dc4e, ..\interops\visualize\Circos\Circos\Colors\CircosColor.vb"
 
     ' Author:
     ' 
@@ -226,7 +226,7 @@ Namespace Colors
         <ExportAPI("Color.Profiles",
                    Info:="Mappings each item in the categories into the Circos color name to generates a color profiles for drawing the elements in the circos plot.")>
         <Extension> Public Function ColorProfiles(Of T)(categories As T()) As Dictionary(Of T, String)
-            Dim Colors As String() = CircosColor.RGBColors.Keys.Randomize
+            Dim Colors As String() = CircosColor.RGBColors.Keys.Shuffles
             If categories.IsNullOrEmpty OrElse
                 (categories.Count = 1 AndAlso categories(Scan0) Is Nothing) Then
                 Call $"{NameOf(categories)} is null...".__DEBUG_ECHO

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc1da109b2f06ee6cbff556d170a3c80, ..\Circos\Circos\Colors\ColorAPI.vb"
+﻿#Region "Microsoft.VisualBasic::a0714ef916e172987d50e41fcbf01c23, ..\interops\visualize\Circos\Circos\Colors\ColorAPI.vb"
 
     ' Author:
     ' 
@@ -26,12 +26,12 @@
 #End Region
 
 Imports System.Text
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 
 Namespace Colors
 
@@ -48,7 +48,7 @@ Namespace Colors
                                            Select cId.ToUpper
                                            Distinct
             Dim ColorProfiles As New Dictionary(Of String, String)
-            Dim Colors = ColorAPI.Colors.Randomize.ToList
+            Dim Colors = ColorAPI.Colors.Shuffles.ToList
             Dim i As Integer = 0
 
             Call Colors.Remove(defaultColor.ToLower)
@@ -107,7 +107,7 @@ Namespace Colors
         ''' 
         <ExportAPI("Colors.Maps")>
         Public Function GenerateColors(categories As String()) As Dictionary(Of String, String)
-            Dim Colors = _Colors.Randomize
+            Dim Colors = _Colors.Shuffles
             Dim hash As New Dictionary(Of String, String)
             Dim p As Integer
 
