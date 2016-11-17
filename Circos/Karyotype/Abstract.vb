@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::79d63116d5ca4fe70a23ea906fea78e3, ..\interops\visualize\Circos\Circos\Karyotype\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::5634714a438b45f71e9cb2e55209bc41, ..\interops\visualize\Circos\Circos\Karyotype\Abstract.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -33,6 +34,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
 
 Namespace Karyotype
 
@@ -78,7 +80,7 @@ Namespace Karyotype
             }
         End Sub
 
-        Public Function GenerateDocument(IndentLevel As Integer) As String Implements ICircosDocNode.GenerateDocument
+        Public Function Build(IndentLevel As Integer) As String Implements ICircosDocNode.Build
             Dim sb As New StringBuilder
 
             For Each x As IKaryotype In __karyotypes
@@ -92,7 +94,7 @@ Namespace Karyotype
         End Function
 
         Public Function Save(Optional Path As String = "", Optional encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
-            Return GenerateDocument(Scan0).SaveTo(Path, encoding)
+            Return Build(Scan0).SaveTo(Path, encoding)
         End Function
 
         Public Function Save(Optional Path As String = "", Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save

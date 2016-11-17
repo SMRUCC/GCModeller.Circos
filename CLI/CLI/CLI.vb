@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::36de98d862299c11b13ae5265ffad73b, ..\interops\visualize\Circos\CLI\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::bf844f58bf99f341b8cf8350a9d4c0ce, ..\interops\visualize\Circos\CLI\CLI\CLI.vb"
 
 ' Author:
 ' 
 '       asuka (amethyst.asuka@gcmodeller.org)
 '       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
 ' 
 ' Copyright (c) 2016 GPL3 Licensed
 ' 
@@ -25,11 +26,14 @@
 
 #End Region
 
-Imports SMRUCC.genomics.Visualize.Circos
-Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes
-Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
-Imports SMRUCC.genomics.Visualize.Circos.Documents.Karyotype
-Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
+Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
@@ -37,14 +41,12 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty
 Imports SMRUCC.genomics.SequenceModel.Patterns
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Visualize
-Imports Microsoft.VisualBasic.CommandLine
+Imports SMRUCC.genomics.Visualize.Circos
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
+Imports SMRUCC.genomics.Visualize.Circos.Documents.Karyotype
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
 
 <PackageNamespace("Circos.CLI",
                   Category:=APICategories.CLI_MAN,
@@ -55,20 +57,20 @@ Public Module CLI
                Usage:="/NT.Variation /mla <fasta.fa> [/ref <index/fasta.fa, 0> /out <out.txt> /cut 0.75]")>
     Public Function NTVariation(args As CommandLine) As Integer
         Dim mla As String = args("/mla")
-        Dim ref As String = args("/ref")
+        Dim ref As String = args.GetValue("/ref", "0")
         Dim cut As Double = args.GetValue("/cut", 0.75)
-        Dim source As FastaFile = New FastaFile(mla)
+        Dim source As New FastaFile(mla)
 
         If ref.FileExists Then
             Dim refFa As FastaToken = New FastaToken(ref)
             Dim out As String = args.GetValue("/out", mla.TrimSuffix & "-" & ref.BaseName & ".NTVariations.txt")
             Dim vec = refFa.NTVariations(source, cut)
-            Return vec.FlushAllLines(out).CLICode
+            Return vec.FlushAllLines(out, Encodings.ASCII).CLICode
         Else
-            Dim idx As Integer = Scripting.CastInteger(ref)
+            Dim idx As Integer = source.Index(ref)
             Dim out As String = args.GetValue("/out", mla.TrimSuffix & "." & idx & ".NTVariations.txt")
             Dim vec = NTVariations(source, idx, cut)
-            Return vec.FlushAllLines(out).CLICode
+            Return vec.FlushAllLines(out, Encodings.ASCII).CLICode
         End If
     End Function
 
@@ -90,12 +92,12 @@ Public Module CLI
                           percent = NucleicAcidStaticsProperty.ATPercent(lst(genome), winSize, steps, True)
                       Order By genome Ascending).ToArray
         Dim vector As Double() = __vectorCommon(LQuery.ToArray(Function(genome) genome.percent))
-        Return vector.ToArray(Function(n) CStr(n)).FlushAllLines(out).CLICode
+        Return vector.ToArray(Function(n) CStr(n)).FlushAllLines(out, Encodings.ASCII).CLICode
     End Function
 
     Private Function __propertyVector(method As NtProperty, inFasta As FastaToken, out As String, winSize As Integer, steps As Integer) As Integer
         Dim vector As Double() = method(inFasta, winSize, steps, True)
-        Return vector.ToArray(Function(n) CStr(n)).FlushAllLines(out).CLICode
+        Return vector.ToArray(Function(n) CStr(n)).FlushAllLines(out, Encodings.ASCII).CLICode
     End Function
 
     ''' <summary>
@@ -120,7 +122,7 @@ Public Module CLI
                           skew = SMRUCC.genomics.SequenceModel.NucleotideModels.GCSkew(inFasta(genome), winSize, steps, True)
                       Order By genome Ascending).ToArray  ' 排序是因为可能没有做多序列比对对齐，在这里需要使用第一条序列的长度作为参考
         Dim vector As Double() = __vectorCommon(LQuery.ToArray(Function(genome) genome.skew))
-        Return vector.ToArray(Function(n) CStr(n)).FlushAllLines(out).CLICode
+        Return vector.ToArray(Function(n) CStr(n)).FlushAllLines(out, Encodings.ASCII).CLICode
     End Function
 
     Private Function __vectorCommon(vectors As Double()()) As Double()
@@ -162,7 +164,7 @@ Public Module CLI
     End Function
 
     Public Function bg() As Integer
-        Dim doc = CircosAPI.CreateDoc
+        Dim doc = CircosAPI.CreateDataModel
         doc.chromosomes_units = "10000"
         Dim fa = New FastaToken("F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\1329830.5.ED.fna")
         Call CircosAPI.SetBasicProperty(doc, fa)
@@ -181,7 +183,7 @@ Public Module CLI
         Dim regulations = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\MAST\Regulations.csv".LoadCsv(Of SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint)
         Dim connector = FromVirtualFootprint(regulations, ptt, resistss)
 
-        Call Circos.CircosAPI.AddPlotElement(doc, New Connector(connector))
+        Call Circos.CircosAPI.AddPlotTrack(doc, New Connector(connector))
 
 
 
@@ -202,9 +204,9 @@ Public Module CLI
 
         Dim rMaps = New Circos.TrackDatas.Highlights.Repeat(repeats, nnnt)
 
-        Call Circos.CircosAPI.AddPlotElement(doc, New Plots.HighLight(rMaps))
-        Call Circos.CircosAPI.AddPlotElement(doc, New Plots.Histogram(New TrackDatas.NtProps.GCSkew(fa, 25, 250, True)))
-        Call Circos.CircosAPI.AddPlotElement(doc, New Plots.Histogram(New TrackDatas.NtProps.GCSkew(fa, 25, 250, True)))
+        Call Circos.CircosAPI.AddPlotTrack(doc, New Plots.HighLight(rMaps))
+        Call Circos.CircosAPI.AddPlotTrack(doc, New Plots.Histogram(New TrackDatas.NtProps.GCSkew(fa, 25, 250, True)))
+        Call Circos.CircosAPI.AddPlotTrack(doc, New Plots.Histogram(New TrackDatas.NtProps.GCSkew(fa, 25, 250, True)))
 
         Dim ideo = doc.GetIdeogram
 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::700daa6e8291ec17c9fc1e452fb4b13d, ..\interops\visualize\Circos\Circos\ConfFiles\Circos.vb"
+﻿#Region "Microsoft.VisualBasic::0c7e8022372bfeed197a5312c29de023, ..\interops\visualize\Circos\Circos\ConfFiles\Circos.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -65,6 +66,7 @@ Namespace Configurations
     ''' </remarks>
     Public Class Circos : Inherits CircosConfig
         Implements ICircosDocument
+        Implements IEnumerable(Of ITrackPlot)
 
         ''' <summary>
         ''' The basically genome structure plots: Chromosome name, size and color definition.(基本的数据文件)
@@ -202,7 +204,7 @@ Namespace Configurations
                 If SkeletonKaryotype Is Nothing Then
                     Return 0
                 End If
-                Return _SkeletonKaryotype.Size - SkeletonKaryotype.LoopHole.Value
+                Return _SkeletonKaryotype.Size - SkeletonKaryotype.LoopHole.value
             End Get
         End Property
 
@@ -220,12 +222,22 @@ Namespace Configurations
 
         Dim _plots As New List(Of ITrackPlot)
 
+        ''' <summary>
+        ''' Gets the number of the tracks that defined in this circos model
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property NumberOfTracks As Integer
+            Get
+                Return _plots.Count
+            End Get
+        End Property
+
         Sub New()
             Call MyBase.New("circos.conf", Nothing)
             Me.main = Me
         End Sub
 
-        Public Overrides Function Save(Optional outDIR As String = "", Optional Encoding As Encoding = Nothing) As Boolean
+        Public Overrides Function Save(Optional outDIR$ = "", Optional Encoding As Encoding = Nothing) As Boolean
             If String.IsNullOrEmpty(outDIR) Then
                 outDIR = FileIO.FileSystem.GetParentPath(Me.FilePath)
             End If
@@ -248,19 +260,19 @@ Namespace Configurations
 
             App.CurrentDirectory = outDIR
 
-            Return GenerateDocument(0).SaveTo(FilePath, Encoding.ASCII)
+            Return Build(0).SaveTo(FilePath, Encoding.ASCII)
         End Function
 
         Public Overloads Shared Function CreateObject() As Circos
-            Dim CircosConfig As Circos = New Circos With {
+            Dim circos As New Circos With {
                 .Includes = New List(Of CircosConfig)
             }
 
-            Call CircosConfig.Includes.Add(CircosDistributed.ColorFontsPatterns)
-            Call CircosConfig.Includes.Add(CircosDistributed.HouseKeeping)
-            Call CircosConfig.Includes.Add(CircosDistributed.Image)
+            Call circos.Includes.Add(CircosDistributed.ColorFontsPatterns)
+            Call circos.Includes.Add(CircosDistributed.HouseKeeping)
+            Call circos.Includes.Add(CircosDistributed.Image)
 
-            Return CircosConfig
+            Return circos
         End Function
 
 #Region "默认的图形属性"
@@ -272,16 +284,16 @@ Namespace Configurations
         ''' <summary>
         ''' 函数会根据元素的个数的情况自动的调整在圈内的位置
         ''' </summary>
-        ''' <param name="plotElement"></param>
+        ''' <param name="track"></param>
         ''' <remarks></remarks>
-        Public Sub AddPlotElement(plotElement As ITrackPlot)
-            Call Me._plots.Add(plotElement)
+        Public Sub AddTrack(track As ITrackPlot)
+            Call Me._plots.Add(track)
 
             If Not String.IsNullOrEmpty(stroke_thickness) Then
-                plotElement.stroke_thickness = stroke_thickness
+                track.stroke_thickness = stroke_thickness
             End If
             If Not String.IsNullOrEmpty(stroke_color) Then
-                plotElement.stroke_color = stroke_color
+                track.stroke_color = stroke_color
             End If
 
             Call ForceAutoLayout(Me.Plots)
@@ -297,20 +309,20 @@ Namespace Configurations
         ''' <summary>
         ''' 强制所指定的绘图元素自动布局
         ''' </summary>
-        ''' <param name="elements"></param>
-        Public Shared Sub ForceAutoLayout(elements As ITrackPlot())
-            Dim d = 0.8 / elements.Length / 2
+        ''' <param name="tracks"></param>
+        Public Shared Sub ForceAutoLayout(tracks As ITrackPlot())
+            Dim d = 0.8 / tracks.Length / 2
             Dim p As Double = 0.95
 
-            For Each item In elements
-                item.r1 = p & "r"
+            For Each track As ITrackPlot In tracks
+                track.r1 = p & "r"
                 p -= d
-                item.r0 = p & "r"
+                track.r0 = p & "r"
                 p -= d / 5
             Next
         End Sub
 
-        Protected Overrides Function GenerateDocument(IndentLevel As Integer) As String
+        Protected Overrides Function Build(IndentLevel As Integer) As String
             Dim sb As New StringBuilder(1024)
             Call sb.AppendLine(Me.GenerateIncludes)
             Call sb.AppendLine()
@@ -321,7 +333,7 @@ Namespace Configurations
 
             If Not colors Is Nothing Then
                 Dim line As String =
-                    DirectCast(colors, ICircosDocument).GenerateDocument(Scan0)
+                    DirectCast(colors, ICircosDocument).Build(Scan0)
                 Call sb.AppendLine(line)
             End If
 
@@ -330,7 +342,7 @@ Namespace Configurations
 
                 For Each plotRule In _plots
                     Call sb.AppendLine()
-                    Call sb.AppendLine(plotRule.GenerateDocument(IndentLevel + 2))
+                    Call sb.AppendLine(plotRule.Build(IndentLevel + 2))
                 Next
 
                 Call sb.AppendLine()
@@ -338,6 +350,21 @@ Namespace Configurations
             End If
 
             Return sb.ToString
+        End Function
+
+        Public Shared Operator +(circos As Circos, track As ITrackPlot) As Circos
+            Call circos.AddTrack(track)
+            Return circos
+        End Operator
+
+        Public Iterator Function GetEnumerator() As IEnumerator(Of ITrackPlot) Implements IEnumerable(Of ITrackPlot).GetEnumerator
+            For Each x As ITrackPlot In _plots
+                Yield x
+            Next
+        End Function
+
+        Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+            Yield GetEnumerator()
         End Function
     End Class
 End Namespace

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::70b709b76a9f2023266f887f9875da3e, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\NtProps\GenomeGCContent.vb"
+﻿#Region "Microsoft.VisualBasic::7eb5ea7895661c03ecb4f7276b7e89c3, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\NtProps\GenomeGCContent.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -26,10 +27,10 @@
 #End Region
 
 Imports System.Text
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.SequenceModel.ISequenceModel
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.ISequenceModel
 
 Namespace TrackDatas.NtProps
 

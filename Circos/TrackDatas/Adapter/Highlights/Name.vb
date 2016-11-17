@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2282d0fa72d4a9cef5a9548a47e60755, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Highlights\Name.vb"
+﻿#Region "Microsoft.VisualBasic::2ae8f14586faff9ce5e9f78d9079f19f, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Highlights\Name.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -28,15 +29,15 @@
 Imports System.Drawing
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 
 Namespace TrackDatas.Highlights
 

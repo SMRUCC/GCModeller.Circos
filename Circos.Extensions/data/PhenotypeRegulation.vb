@@ -1,27 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::1c4cec6ff34736a20d480a1c1cbc57d0, ..\interops\visualize\Circos\Circos.Extensions\data\PhenotypeRegulation.vb"
+﻿#Region "Microsoft.VisualBasic::f34eaf4dc29fb21b739601a8993211c7, ..\interops\visualize\Circos\Circos.Extensions\data\PhenotypeRegulation.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -75,11 +76,11 @@ Namespace Documents.Karyotype
                                      In (From item In LQuery Select item.Phenotype Distinct).ToArray
                                      Let AssociatedGene As String() = (From item In LQuery
                                                                        Where String.Equals(Phenotype, item.Phenotype)
-                                                                       Select item.AssociationGenes).MatrixToVector
+                                                                       Select item.AssociationGenes).ToVector
                                      Select New KeyValuePair(Of String, String())(Phenotype, AssociatedGene)).ToArray
             Me.Regulations = (From Regulator As String
                               In (From item In Regulations Select item.TFlocusId Distinct).ToArray
-                              Let RegulatedGene = (From item In Regulations Where String.Equals(item.TFlocusId, Regulator) Select item.RegulatedGenes).MatrixToVector
+                              Let RegulatedGene = (From item In Regulations Where String.Equals(item.TFlocusId, Regulator) Select item.RegulatedGenes).ToVector
                               Select New KeyValuePair(Of String, String())(Regulator, (From strId As String
                                                                                        In RegulatedGene
                                                                                        Select strId Distinct).ToArray)).ToArray

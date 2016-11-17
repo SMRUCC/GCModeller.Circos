@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::a0714ef916e172987d50e41fcbf01c23, ..\interops\visualize\Circos\Circos\Colors\ColorAPI.vb"
+﻿#Region "Microsoft.VisualBasic::504b42227e9afa8cf923129d3406391f, ..\interops\visualize\Circos\Circos\Colors\ColorAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -29,6 +30,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
@@ -106,14 +108,12 @@ Namespace Colors
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Colors.Maps")>
-        Public Function GenerateColors(categories As String()) As Dictionary(Of String, String)
-            Dim Colors = _Colors.Shuffles
+        Public Function GenerateColors(categories$()) As Dictionary(Of String, String)
+            Dim colors$() = _Colors.Shuffles
             Dim hash As New Dictionary(Of String, String)
-            Dim p As Integer
 
-            For Each Key As String In categories
-                Call hash.Add(Key, Colors(p))
-                p += 1
+            For Each key As SeqValue(Of String) In categories.SeqIterator
+                Call hash.Add(key.obj$, colors(key.i%))
             Next
 
             Return hash

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::1e3c3c04f29175cbbc56dba882e3826a, ..\interops\visualize\Circos\Circos\ConfFiles\ComponentModel\SystemPrefix.vb"
+﻿#Region "Microsoft.VisualBasic::c1071086f13ba2ce9bd9b24678a0d4c2, ..\interops\visualize\Circos\Circos\ConfFiles\ComponentModel\SystemPrefix.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -33,7 +34,7 @@ Namespace Configurations
 
     ''' <summary>
     ''' The circos distributed includes files.
-    ''' (这个对象仅仅是为了引用Cricos系统内的预置的配置文件的设立的，故而<see cref="CircosDistributed.GenerateDocument">
+    ''' (这个对象仅仅是为了引用Cricos系统内的预置的配置文件的设立的，故而<see cref="CircosDistributed.Build">
     ''' </see>方法和<see cref="CircosDistributed.Save"></see>方法可以不会被实现)
     ''' </summary>
     ''' <remarks></remarks>
@@ -55,7 +56,7 @@ Namespace Configurations
             Me.Section = name
         End Sub
 
-        Protected Overrides Function GenerateDocument(IndentLevel As Integer) As String
+        Protected Overrides Function Build(IndentLevel As Integer) As String
             Return ""
         End Function
 

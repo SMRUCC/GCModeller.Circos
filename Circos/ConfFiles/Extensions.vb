@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::94c02dfb09070b8d9c69cd4c07dee2d0, ..\interops\visualize\Circos\Circos\ConfFiles\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::647b460725dd32e66b36fb2834d7e3e0, ..\interops\visualize\Circos\Circos\ConfFiles\Extensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -45,35 +46,31 @@ Namespace Configurations
         ''' <param name="data"></param>
         ''' <param name="Tag"></param>
         ''' <param name="IndentLevel"></param>
-        ''' <param name="InsertElements"></param>
+        ''' <param name="inserts"></param>
         ''' <returns></returns>
         <ExportAPI("GenerateDoc", Info:="Generates the docuemtn text data for write circos file.")>
-        <Extension> Public Function GenerateCircosDocumentElement(Of T As CircosDocument) _
-        (data As T,
-         Tag As String,
-         IndentLevel As Integer,
-         InsertElements As IEnumerable(Of ICircosDocNode)) As String
-
-            Dim IndentBlanks As String = New String(" "c, IndentLevel + 2)
+        <Extension>
+        Public Function GenerateCircosDocumentElement(Of T As CircosDocument)(data As T, tag$, indentLevel%, inserts As IEnumerable(Of ICircosDocNode)) As String
+            Dim IndentBlanks As String = New String(" "c, indentLevel + 2)
             Dim sb As New StringBuilder(1024)
 
-            For Each strLine As String In SimpleConfig.GenerateConfigurations(Of T)(data)
+            For Each strLine$ In SimpleConfig.GenerateConfigurations(Of T)(data)
                 Call sb.AppendLine($"{IndentBlanks}{strLine}")
             Next
 
-            If Not InsertElements.IsNullOrEmpty Then
+            If Not inserts.IsNullOrEmpty Then
                 Call sb.AppendLine()
 
-                For Each item In InsertElements
+                For Each item In inserts
                     If item Is Nothing Then
                         Continue For
                     End If
 
-                    Call sb.AppendLine(item.GenerateDocument(IndentLevel + 2))
+                    Call sb.AppendLine(item.Build(indentLevel + 2))
                 Next
             End If
 
-            Return String.Format("<{0}>{1}{2}{1}</{0}>", Tag, vbCrLf, sb.ToString)
+            Return String.Format("<{0}>{1}{2}{1}</{0}>", tag, vbCrLf, sb.ToString)
         End Function
 
         ''' <summary>

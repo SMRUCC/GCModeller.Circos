@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2f54d01423db34462ed996a4889e6c28, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Connector.vb"
+﻿#Region "Microsoft.VisualBasic::f3fcaee5abf762b2a7ac309dd18f57e2, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Connector.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -26,8 +27,8 @@
 #End Region
 
 Imports System.Text
-Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 
 Namespace TrackDatas
 

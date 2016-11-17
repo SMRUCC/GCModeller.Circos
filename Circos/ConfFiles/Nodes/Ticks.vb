@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f18c99536247ee473dc5f065bd9d3277, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\Ticks.vb"
+﻿#Region "Microsoft.VisualBasic::e662ea90e31211546a9bd58b8655ec39, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\Ticks.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -67,8 +68,8 @@ Namespace Configurations.Nodes
             Return New Ticks With {.Ticks = Ticks}
         End Function
 
-        Public Overrides Function GenerateDocument(IndentLevel As Integer) As String
-            Return Me.GenerateCircosDocumentElement("ticks", IndentLevel, InsertElements:=Ticks)
+        Public Overrides Function Build(IndentLevel As Integer) As String
+            Return Me.GenerateCircosDocumentElement("ticks", IndentLevel, inserts:=Ticks)
         End Function
     End Class
 
@@ -106,7 +107,7 @@ Namespace Configurations.Nodes
         <Circos> Public Property grid_color As String = "black"
         <Circos> Public Property grid_thickness As String = "4p"
 
-        Public Overrides Function GenerateDocument(IndentLevel As Integer) As String
+        Public Overrides Function Build(IndentLevel As Integer) As String
             Return Me.GenerateCircosDocumentElement("tick", IndentLevel, Nothing)
         End Function
     End Class

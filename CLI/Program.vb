@@ -1,32 +1,33 @@
-﻿#Region "Microsoft.VisualBasic::ff7690ce1897574ee8fa3afcf9069be8, ..\interops\visualize\Circos\CLI\Program.vb"
+﻿#Region "Microsoft.VisualBasic::e374a63f10594d89b6f6025d400f2204, ..\interops\visualize\Circos\CLI\Program.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.Assembly.NCBI
@@ -77,23 +78,23 @@ Module Program
     Public Function Circos2016228() As Integer
         Dim gb = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File.Load("G:\5.14.circos\KU527068_updated.gb")
         Dim size = gb.Origin.ToFasta.Length
-        Dim doc = Circos.CircosAPI.CreateDoc
+        Dim doc = Circos.CircosAPI.CreateDataModel
         Call Circos.CircosAPI.SetBasicProperty(doc, gb.Origin.ToFasta, loophole:=512)
 
         Dim var = IO.File.ReadAllLines("G:\5.14.circos\01.ZIKV_45_2015_updated_mafft_named.0.NTVariations.txt").ToArray(Function(n) Val(n))
         '  var = ScaleMaps.TrimRanges(var, 0.02, 0.05)
         '  Dim varNode = Circos.ShellScriptAPI.VariationAsDump(var)
         ' Call Circos.ShellScriptAPI.GenerateGeneCircle(doc, varNode)
-        Call Circos.CircosAPI.AddGradientMappings(doc, var, ColorMap.schJet, replaceBase:=True, winSize:=512, extTails:=True)
+        Call Circos.CircosAPI.AddGradientMappings(doc, var, ColorMap.PatternJet, replaceBase:=True, winSize:=512, extTails:=True)
 
         var = IO.File.ReadAllLines("G:\5.14.circos\02.ZIKV_45_2015_updated_mafft_named.ATPercent.txt").ToArray(Function(n) Val(n))
         Dim AT As New Plots.Histogram(New NtProps.GCSkew(var, 5))
-        Call Circos.CircosAPI.AddPlotElement(doc, AT)
+        Call Circos.CircosAPI.AddPlotTrack(doc, AT)
 
 
         var = IO.File.ReadAllLines("G:\5.14.circos\03.ZIKV_45_2015_updated_mafft_named.GCSkew.txt").ToArray(Function(n) Val(n))
         Dim GC As New Plots.Histogram(New NtProps.GCSkew(var, 5))
-        Call Circos.CircosAPI.AddPlotElement(doc, GC)
+        Call Circos.CircosAPI.AddPlotTrack(doc, GC)
 
         doc = Circos.CircosAPI.GenerateGeneCircle(doc, "G:\5.14.circos\KU527068_ann.csv".LoadCsv(Of GeneDumpInfo), False)
 
@@ -102,7 +103,7 @@ Module Program
         'var = ScaleMaps.TrimRanges(var, 0.9, 1)
         '  Dim varNode = Circos.ShellScriptAPI.VariationAsDump(var)
         ' Call Circos.ShellScriptAPI.GenerateGeneCircle(doc, varNode)
-        Call Circos.CircosAPI.AddGradientMappings(doc, var, ColorMap.schJet, replaceBase:=True, winSize:=128, extTails:=True)
+        Call Circos.CircosAPI.AddGradientMappings(doc, var, ColorMap.PatternJet, replaceBase:=True, winSize:=128, extTails:=True)
 
         '        var = IO.File.ReadAllLines("F:\239_GIN_named\Palindrome\enzymeSites.txt").ToArray(Function(n) Val(n))
         '       var = ScaleMaps.TrimRanges(var, 0.65, 1)
@@ -114,7 +115,7 @@ Module Program
         '   var = ScaleMaps.TrimRanges(var, 0, 0.05)
         '  Dim varNode = Circos.ShellScriptAPI.VariationAsDump(var)
         ' Call Circos.ShellScriptAPI.GenerateGeneCircle(doc, varNode)
-        Call Circos.CircosAPI.AddGradientMappings(doc, var, ColorMap.schJet, replaceBase:=True, winSize:=256, extTails:=True)
+        Call Circos.CircosAPI.AddGradientMappings(doc, var, ColorMap.PatternJet, replaceBase:=True, winSize:=256, extTails:=True)
 
 
         'Dim mirror = args("/mirror").LoadCsv(Of SMRUCC.genomics.AnalysisTools.SequenceTools.Topologically.PalindromeLoci)
@@ -137,21 +138,21 @@ Module Program
         ' varNode = Circos.ShellScriptAPI.VariationAsDump(Circos.ShellScriptAPI.SitesFrequency(repeats, size))
         ' Call Circos.ShellScriptAPI.GenerateGeneCircle(doc, varNode)
         '  Dim vector = SMRUCC.genomics.AnalysisTools.SequenceTools.Topologically.RepeatsView.ToVector(repeats, gb.Origin.Size)
-        Call Circos.CircosAPI.AddGradientMappings(doc, repeats, ColorMap.schCool, winSize:=64, replaceBase:=True, extTails:=True) 'vector)
+        Call Circos.CircosAPI.AddGradientMappings(doc, repeats, ColorMap.PatternCool, winSize:=64, replaceBase:=True, extTails:=True) 'vector)
 
         Dim revRepeats = IO.File.ReadAllLines("G:\5.14.circos\07.Repeats-REV.Density.txt").ToArray(Function(n) Val(n)) '.LoadCsv(Of SMRUCC.genomics.AnalysisTools.SequenceTools.Topologically.RevRepeatsView)
         '  revRepeats = ScaleMaps.TrimRanges(revRepeats, 0.85, 0.9)
         '   varNode = Circos.ShellScriptAPI.VariationAsDump(Circos.ShellScriptAPI.SitesFrequency(revRepeats, size))
         '  vector = SMRUCC.genomics.AnalysisTools.SequenceTools.Topologically.RepeatsView.ToVector(revRepeats, gb.Origin.Size)
         ' Call Circos.ShellScriptAPI.GenerateGeneCircle(doc, varNode)
-        Call Circos.CircosAPI.AddGradientMappings(doc, revRepeats, ColorMap.schSummer, winSize:=64, replaceBase:=True, extTails:=True)
+        Call Circos.CircosAPI.AddGradientMappings(doc, revRepeats, ColorMap.PatternSummer, winSize:=64, replaceBase:=True, extTails:=True)
 
         Dim mirror = IO.File.ReadAllLines("G:\5.14.circos\08.mirror.txt").ToArray(Function(n) Val(n)) '.LoadCsv(Of SMRUCC.genomics.AnalysisTools.SequenceTools.Topologically.RevRepeatsView)
         '  revRepeats = ScaleMaps.TrimRanges(revRepeats, 0.85, 0.9)
         '   varNode = Circos.ShellScriptAPI.VariationAsDump(Circos.ShellScriptAPI.SitesFrequency(revRepeats, size))
         '  vector = SMRUCC.genomics.AnalysisTools.SequenceTools.Topologically.RepeatsView.ToVector(revRepeats, gb.Origin.Size)
         ' Call Circos.ShellScriptAPI.GenerateGeneCircle(doc, varNode)
-        Call Circos.CircosAPI.AddGradientMappings(doc, revRepeats, ColorMap.schJet, winSize:=64, replaceBase:=True, extTails:=True)
+        Call Circos.CircosAPI.AddGradientMappings(doc, revRepeats, ColorMap.PatternJet, winSize:=64, replaceBase:=True, extTails:=True)
 
 
 
@@ -170,41 +171,41 @@ Module Program
         '                                      New Double() {1.82441176470588, 1.62794117647058},
         '                                      New Double() {1.59264705882353, 1.40617647058823}})
 
-        Call Circos.CircosAPI.WriteData(doc, "G:\5.14.circos\circos", Debug:=False)
+        Call Circos.CircosAPI.WriteData(doc, "G:\5.14.circos\circos", debug:=False)
 
         Return 0
     End Function
 
     <ExportAPI("--circos", Usage:="--circos /gbk <sequence.gb> /variation <variation.txt> /mirror <mirror.csv> /Palindrome <palindrome.csv> /repeats <repeats.csv> /rev-repeats <rev-repeats.csv> [/out <circos.conf>]")>
     Public Function CircosFromGBK() As Integer
-        Dim gb = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File.Load("G:\5.14.circos\6.7\sequence.gb")
+        Dim gb = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File.Load("C:\Users\Admin\Desktop\EBOV\EBOV\sequence.gb")
         Dim size = gb.Origin.ToFasta.Length
-        Dim doc = Circos.CircosAPI.CreateDoc
+        Dim doc = Circos.CircosAPI.CreateDataModel
         Call Circos.CircosAPI.SetBasicProperty(doc, gb.Origin.ToFasta, loophole:=512)
 
-        Dim var = IO.File.ReadAllLines("G:\5.14.circos\6.7\231\EBOV_LBR_231_mafft.0.NTVariations.txt").ToArray(Function(n) Val(n))
+        Dim var = IO.File.ReadAllLines("C:\Users\Admin\Desktop\EBOV\EBOV\257\EBOV_GIN_257_6_maffta.0.NTVariations.txt").ToArray(Function(n) Val(n))
         '   var = ScaleMaps.TrimRanges(var, 0.02, 0.05)
         '  Dim varNode = Circos.ShellScriptAPI.VariationAsDump(var)
         ' Call Circos.ShellScriptAPI.GenerateGeneCircle(doc, varNode)
-        Call Circos.CircosAPI.AddGradientMappings(doc, var, ColorMap.schJet, replaceBase:=True, winSize:=128, extTails:=True)
+        Call Circos.CircosAPI.AddGradientMappings(doc, var, ColorMap.PatternJet, replaceBase:=True, winSize:=128, extTails:=True)
 
-        var = IO.File.ReadAllLines("G:\5.14.circos\6.7\231\EBOV_LBR_231_mafft.ATPercent.txt").ToArray(Function(n) Val(n))
+        var = IO.File.ReadAllLines("C:\Users\Admin\Desktop\EBOV\EBOV\257\EBOV_GIN_257_6_maffta.ATPercent.txt").ToArray(Function(n) Val(n))
         Dim AT As New Plots.Histogram(New NtProps.GCSkew(var, 5))
-        Call Circos.CircosAPI.AddPlotElement(doc, AT)
+        Call Circos.CircosAPI.AddPlotTrack(doc, AT)
 
 
-        var = IO.File.ReadAllLines("G:\5.14.circos\6.7\231\EBOV_LBR_231_mafft.GCSkew.txt").ToArray(Function(n) Val(n))
+        var = IO.File.ReadAllLines("C:\Users\Admin\Desktop\EBOV\EBOV\257\EBOV_GIN_257_6_maffta.GCSkew.txt").ToArray(Function(n) Val(n))
         Dim GC As New Plots.Histogram(New NtProps.GCSkew(var, 5))
-        Call Circos.CircosAPI.AddPlotElement(doc, GC)
+        Call Circos.CircosAPI.AddPlotTrack(doc, GC)
 
         doc = Circos.CircosAPI.GenerateGeneElements(doc, gb, splitOverlaps:=False)
 
 
-        var = IO.File.ReadAllLines("G:\5.14.circos\6.7\231\hairpinks.txt").ToArray(Function(n) Val(n))
+        var = IO.File.ReadAllLines("C:\Users\Admin\Desktop\EBOV\EBOV\257\hairpinks-EBOV_GIN_257_6_maffta.txt").ToArray(Function(n) Val(n))
         'var = ScaleMaps.TrimRanges(var, 0.9, 1)
         '  Dim varNode = Circos.ShellScriptAPI.VariationAsDump(var)
         ' Call Circos.ShellScriptAPI.GenerateGeneCircle(doc, varNode)
-        Call Circos.CircosAPI.AddGradientMappings(doc, var, ColorMap.schJet, replaceBase:=True, winSize:=64, extTails:=True)
+        Call Circos.CircosAPI.AddGradientMappings(doc, var, ColorMap.PatternJet, replaceBase:=True, winSize:=64, extTails:=True)
 
         '        var = IO.File.ReadAllLines("F:\239_GIN_named\Palindrome\enzymeSites.txt").ToArray(Function(n) Val(n))
         '       var = ScaleMaps.TrimRanges(var, 0.65, 1)
@@ -212,18 +213,18 @@ Module Program
         ' Call Circos.ShellScriptAPI.GenerateGeneCircle(doc, varNode)
         '      Call Circos.ShellScriptAPI.AddGradientMappings(doc, var, ColorMap.schHot, replaceBase:=True, winSize:=128, extTails:=True)
 
-        var = IO.File.ReadAllLines("G:\5.14.circos\6.7\231\Palindrome.perfects.txt").ToArray(Function(n) Val(n))
+        var = IO.File.ReadAllLines("C:\Users\Admin\Desktop\EBOV\EBOV\257\EBOV_GIN_257_6_maffta-Palindrome.perfects.txt").ToArray(Function(n) Val(n))
         '   var = ScaleMaps.TrimRanges(var, 0, 0.05)
         '  Dim varNode = Circos.ShellScriptAPI.VariationAsDump(var)
         ' Call Circos.ShellScriptAPI.GenerateGeneCircle(doc, varNode)
-        Call Circos.CircosAPI.AddGradientMappings(doc, var, ColorMap.schJet, replaceBase:=True, winSize:=256, extTails:=True)
+        Call Circos.CircosAPI.AddGradientMappings(doc, var, ColorMap.PatternJet, replaceBase:=True, winSize:=256, extTails:=True)
 
 
-        Dim mirror = IO.File.ReadAllLines("G:\5.14.circos\6.7\231\EBOV_LBR_231_mafft.Mirror.Mirror.Vector.txt").ToArray(Function(n) Val(n))
+        '   Dim mirror = IO.File.ReadAllLines("G:\5.14.circos\6.7\231\EBOV_LBR_231_mafft.Mirror.Mirror.Vector.txt").ToArray(Function(n) Val(n))
         'Call Circos.ShellScriptAPI.AddSites(doc, mirror)
         ' varNode = Circos.ShellScriptAPI.VariationAsDump(Circos.ShellScriptAPI.SitesFrequency(mirror, size))
         '  Call Circos.ShellScriptAPI.GenerateGeneCircle(doc, varNode)
-        Call Circos.CircosAPI.AddGradientMappings(doc, mirror, ColorMap.schCool, winSize:=768, replaceBase:=True, extTails:=True) 'vector)
+        '  Call Circos.CircosAPI.AddGradientMappings(doc, mirror, ColorMap.PatternCool, winSize:=768, replaceBase:=True, extTails:=True) 'vector)
         'Dim palindrome = args("/palindrome").LoadCsv(Of SMRUCC.genomics.AnalysisTools.SequenceTools.Topologically.PalindromeLoci)
         'Call Circos.ShellScriptAPI.AddSites(doc, palindrome)
         '  varNode = Circos.ShellScriptAPI.VariationAsDump(Circos.ShellScriptAPI.SitesFrequency(palindrome, size))
@@ -234,19 +235,19 @@ Module Program
         'Call Circos.ShellScriptAPI.AddPlotElement(doc, GCSkew)
 
 
-        Dim repeats = IO.File.ReadAllLines("G:\5.14.circos\6.7\231\Repeats.Density.txt").ToArray(Function(n) Val(n)) ' args("/repeats").LoadCsv(Of SMRUCC.genomics.AnalysisTools.SequenceTools.Topologically.RepeatsView)
+        Dim repeats = IO.File.ReadAllLines("C:\Users\Admin\Desktop\EBOV\EBOV\257\EBOV_GIN_257_6_maffta-Repeats.Density.txt").ToArray(Function(n) Val(n)) ' args("/repeats").LoadCsv(Of SMRUCC.genomics.AnalysisTools.SequenceTools.Topologically.RepeatsView)
         '    repeats = ScaleMaps.TrimRanges(repeats, 0.85, 0.9)
         ' varNode = Circos.ShellScriptAPI.VariationAsDump(Circos.ShellScriptAPI.SitesFrequency(repeats, size))
         ' Call Circos.ShellScriptAPI.GenerateGeneCircle(doc, varNode)
         '  Dim vector = SMRUCC.genomics.AnalysisTools.SequenceTools.Topologically.RepeatsView.ToVector(repeats, gb.Origin.Size)
-        Call Circos.CircosAPI.AddGradientMappings(doc, repeats, ColorMap.schCool, winSize:=32, replaceBase:=True, extTails:=True) 'vector)
+        Call Circos.CircosAPI.AddGradientMappings(doc, repeats, ColorMap.PatternCool, winSize:=32, replaceBase:=True, extTails:=True) 'vector)
 
-        Dim revRepeats = IO.File.ReadAllLines("G:\5.14.circos\6.7\231\Repeats-REV.Density.txt").ToArray(Function(n) Val(n)) '.LoadCsv(Of SMRUCC.genomics.AnalysisTools.SequenceTools.Topologically.RevRepeatsView)
+        Dim revRepeats = IO.File.ReadAllLines("C:\Users\Admin\Desktop\EBOV\EBOV\257\EBOV_GIN_257_6_maffta-Repeats-REV.Density.txt").ToArray(Function(n) Val(n)) '.LoadCsv(Of SMRUCC.genomics.AnalysisTools.SequenceTools.Topologically.RevRepeatsView)
         '  revRepeats = ScaleMaps.TrimRanges(revRepeats, 0.85, 0.9)
         '   varNode = Circos.ShellScriptAPI.VariationAsDump(Circos.ShellScriptAPI.SitesFrequency(revRepeats, size))
         '  vector = SMRUCC.genomics.AnalysisTools.SequenceTools.Topologically.RepeatsView.ToVector(revRepeats, gb.Origin.Size)
         ' Call Circos.ShellScriptAPI.GenerateGeneCircle(doc, varNode)
-        Call Circos.CircosAPI.AddGradientMappings(doc, revRepeats, ColorMap.schSummer, winSize:=32, replaceBase:=True, extTails:=True)
+        Call Circos.CircosAPI.AddGradientMappings(doc, revRepeats, ColorMap.PatternSummer, winSize:=32, replaceBase:=True, extTails:=True)
 
         Call Circos.CircosAPI.SetIdeogramWidth(Circos.GetIdeogram(doc), 0)
         Call Circos.CircosAPI.ShowTicksLabel(doc, True)
@@ -263,7 +264,9 @@ Module Program
         '                                      New Double() {1.82441176470588, 1.62794117647058},
         '                                      New Double() {1.59264705882353, 1.40617647058823}})
 
-        Call Circos.CircosAPI.WriteData(doc, "G:\5.14.circos\6.7\231", Debug:=False)
+        Call Circos.CircosAPI.WriteData(doc, "C:\Users\Admin\Desktop\EBOV\EBOV\257", Debug:=False)
+
+        Pause()
 
         Return 0
     End Function

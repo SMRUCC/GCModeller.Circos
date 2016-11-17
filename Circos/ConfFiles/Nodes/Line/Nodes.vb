@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::28719103370899ce0c06a9f0c3c17273, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\Line\Nodes.vb"
+﻿#Region "Microsoft.VisualBasic::46c682bb7521482fb3e51d77a76e355c, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\Line\Nodes.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -36,7 +37,7 @@ Namespace Configurations.Nodes.Plots.Lines
         <Circos> Public Property thickness As String = "1"
         <Circos> Public Property spacing As String = "0.025r"
 
-        Public Overrides Function GenerateDocument(IndentLevel As Integer) As String
+        Public Overrides Function Build(IndentLevel As Integer) As String
             Return Me.GenerateCircosDocumentElement("axis", IndentLevel, Nothing)
         End Function
     End Class
@@ -48,7 +49,7 @@ Namespace Configurations.Nodes.Plots.Lines
         <Circos> Public Property y1 As String = "0.002"
         <Circos> Public Property y0 As String = "0.006"
 
-        Public Overrides Function GenerateDocument(IndentLevel As Integer) As String
+        Public Overrides Function Build(IndentLevel As Integer) As String
             Return Me.GenerateCircosDocumentElement("background", IndentLevel, Nothing)
         End Function
     End Class
