@@ -76,6 +76,7 @@ Namespace Configurations.Nodes.Plots
         Property fill_color As String
         Property stroke_thickness As String
         Property stroke_color As String
+        Property thickness As String
 
         ReadOnly Property TracksData As Idata
 
@@ -134,7 +135,7 @@ Namespace Configurations.Nodes.Plots
         ''' ``etc/tracks/histogram.conf`` In the Circos distribution.
         ''' </summary>
         ''' <returns></returns>
-        <Circos> Public Property thickness As String = "2p"
+        <Circos> Public Property thickness As String = "2p" Implements ITrackPlot.thickness
         <Circos> Public Property stroke_thickness As String = "0" Implements ITrackPlot.stroke_thickness
         <Circos> Public Property stroke_color As String = "grey" Implements ITrackPlot.stroke_color
 
@@ -210,7 +211,7 @@ Namespace Configurations.Nodes.Plots
 
         Protected Overridable Function GeneratePlotsElementListChunk() As Dictionary(Of String, List(Of CircosDocument))
             If Not Rules.IsNullOrEmpty Then
-                Return New Dictionary(Of String, List(Of CircosDocument)) From {{"rules", (From item In Rules Select DirectCast(item, CircosDocument)).ToList}}
+                Return New Dictionary(Of String, List(Of CircosDocument)) From {{"rules", (From item In Rules Select DirectCast(item, CircosDocument)).AsList}}
             Else
                 Return Nothing
             End If
@@ -221,7 +222,7 @@ Namespace Configurations.Nodes.Plots
         End Function
 
         Public Function Save(Optional Path As String = "", Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
-            Return Save(Path, encoding.GetEncodings)
+            Return Save(Path, encoding.CodePage)
         End Function
     End Class
 End Namespace

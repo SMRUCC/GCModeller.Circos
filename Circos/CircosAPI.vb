@@ -29,23 +29,19 @@
 Imports System.Drawing
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
-Imports System.Text
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.ComponentModel.DataStructures
-Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Mathematical
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Terminal.Utility
 Imports SMRUCC.genomics.Assembly.DOOR
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
@@ -132,6 +128,8 @@ Bitmap or vector images can be created from GFF-style data inputs and hierarchic
 
 circos - generate circularly composited information graphics")>
 Public Module CircosAPI
+
+
 
     <ExportAPI("IdentityColors")>
     Public Function IdentityColors([default] As String) As IdentityColors
@@ -254,12 +252,15 @@ different with the ideogram configuration document was not included in the circo
     Public Function SetRadius(circos As Configurations.Circos, r As IEnumerable(Of Double())) As Configurations.Circos
         Dim idx As Integer
 
-        For Each plot In circos.Plots
+        For Each plot As ITrackPlot In circos.Plots
             Dim rD As Double() = r(idx)
             Dim r1 = rD(0)
             Dim r2 = rD(1)
-            plot.r1 = CStr(r1) & "r"
-            plot.r0 = CStr(r2) & "r"
+
+            With plot
+                .r1 = CStr(r1) & "r"
+                .r0 = CStr(r2) & "r"
+            End With
 
             idx += 1
         Next
@@ -274,7 +275,7 @@ different with the ideogram configuration document was not included in the circo
         Dim dd = d * 0.2
         Dim r As Double = rMax - dd
 
-        For Each plot In circos.Plots
+        For Each plot As ITrackPlot In circos.Plots
             Dim r1 = r
             Dim r2 = r1 - d
 
@@ -368,8 +369,33 @@ different with the ideogram configuration document was not included in the circo
         Return New SeperatorCircle(Length, width)
     End Function
 
+    ''' <summary>
+    ''' <see cref="yes"/>, <see cref="no"/>
+    ''' </summary>
+    ''' <param name="b"></param>
+    ''' <returns></returns>
     <Extension>
-    Public Function AddMotifSites(circos As Configurations.Circos, motifs As IEnumerable(Of IMotifSite)) As Configurations.Circos
+    Public Function CircosOption(b As Boolean) As String
+        Return If(b, yes, no)
+    End Function
+
+    ''' <summary>
+    ''' Mapping details:
+    ''' 
+    ''' ```
+    ''' <see cref="IMotifSite.Type"/> -> <see cref="Color"/>
+    ''' <see cref="IMotifSite.Name"/> -> display title label
+    ''' ```
+    ''' </summary>
+    ''' <param name="circos"></param>
+    ''' <param name="motifs"></param>
+    ''' <param name="snuggle_refine"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function AddMotifSites(circos As Configurations.Circos,
+                                  motifs As IEnumerable(Of IMotifSite),
+                                  Optional snuggle_refine As Boolean = True) As Configurations.Circos
+
         Dim sites As IMotifSite() = motifs.ToArray
         Dim motifTrack As New MotifSites(sites)
         Dim highlightLabel As New HighlightLabel(
@@ -378,7 +404,13 @@ different with the ideogram configuration document was not included in the circo
              Where Not String.IsNullOrEmpty(gene.Name)
              Select gene).ToArray)
 
-        circos += New TextLabel(New HighlightLabel(highlightLabel))
+        Dim snuggle_refine_option As String =
+            If(snuggle_refine, yes, no)
+
+        circos += New TextLabel(New HighlightLabel(highlightLabel)) With {
+            .snuggle_refine = snuggle_refine_option,
+            .label_snuggle = .snuggle_refine
+        }
         circos += New HighLight(motifTrack)
 
         Return circos
@@ -388,7 +420,8 @@ different with the ideogram configuration document was not included in the circo
     Public Function AddScoredMotifs(circos As Configurations.Circos,
                                     motifs As IEnumerable(Of IMotifScoredSite),
                                     Optional levels% = 100,
-                                    Optional mapName$ = ColorMap.PatternJet) As Configurations.Circos
+                                    Optional mapName$ = ColorMap.PatternJet,
+                                    Optional snuggle_refine As Boolean = True) As Configurations.Circos
 
         Dim sites As IMotifScoredSite() = motifs.ToArray
         Dim motifTrack As New MotifSites(sites, levels, mapName)
@@ -398,7 +431,10 @@ different with the ideogram configuration document was not included in the circo
              Where Not String.IsNullOrEmpty(gene.Name)
              Select gene).ToArray)
 
-        circos += New TextLabel(New HighlightLabel(highlightLabel))
+        circos += New TextLabel(New HighlightLabel(highlightLabel)) With {
+            .snuggle_refine = snuggle_refine.CircosOption,
+            .label_snuggle = .snuggle_refine
+        }
         circos += New HighLight(motifTrack)
 
         Return circos
@@ -528,7 +564,7 @@ different with the ideogram configuration document was not included in the circo
 
     <ExportAPI("Plots.add.Gene_Elements")>
     <Extension>
-    Public Function GenerateGeneElements(doc As Configurations.Circos,
+    Public Function AddGenbankData(doc As Configurations.Circos,
                                          GBK As GenBank.GBFF.File,
                                          Optional splitOverlaps As Boolean = False,
                                          Optional dumpAll As Boolean = False) As Configurations.Circos
@@ -538,14 +574,15 @@ different with the ideogram configuration document was not included in the circo
             splitOverlaps:=splitOverlaps)
     End Function
 
-    <ExportAPI("Plots.add.Gene_Elements")>
+    <ExportAPI("Plots.add.genes_track")>
     <Extension>
-    Public Function GenerateGeneElements(circos As Configurations.Circos,
-                                         GBK As GenBank.GBFF.File,
-                                         COGs As IEnumerable(Of MyvaCOG),
-                                         Optional splitOverlaps As Boolean = False,
-                                         Optional dumpAll As Boolean = False) As Configurations.Circos
-        Dim dump As GeneDumpInfo() = FeatureDumps(GBK, dumpAll:=dumpAll)
+    Public Function AddGeneInfoTrack(circos As Configurations.Circos,
+                                        gbk As GenBank.GBFF.File,
+                                       COGs As IEnumerable(Of MyvaCOG),
+                     Optional splitOverlaps As Boolean = False,
+                     Optional dumpAll As Boolean = False) As Configurations.Circos
+
+        Dim dump As GeneDumpInfo() = FeatureDumps(gbk, dumpAll:=dumpAll)
         Dim hash = (From x As MyvaCOG
                     In COGs
                     Select x
@@ -607,6 +644,7 @@ different with the ideogram configuration document was not included in the circo
             Loop
 SET_END:    Dim ends = i
             Dim chun As Double() = New Double(ends - start - 1) {}
+
             Call Array.ConstrainedCopy(pre, start, chun, Scan0, chun.Length)
 
             Dim aavg As Double
@@ -716,7 +754,7 @@ SET_END:    Dim ends = i
                 Where gene.Location.Strand = strands
                 Select gene
         Else
-            list = anno.ToList
+            list = anno.AsList
         End If
 
         Dim circles As New List(Of HighLight)
@@ -729,7 +767,6 @@ SET_END:    Dim ends = i
                               Let r = gene.Location.GetRelationship(gg.Location)
                               Where Not gg.Equals(gene) AndAlso (
                                   r = SegmentRelationships.Cover OrElse
-                                  r = SegmentRelationships.DownStreamOverlap OrElse
                                   r = SegmentRelationships.Equals OrElse
                                   r = SegmentRelationships.InnerAntiSense OrElse
                                   r = SegmentRelationships.Inside)
@@ -970,7 +1007,7 @@ SET_END:    Dim ends = i
     ''' <param name="steps"></param>
     ''' <returns></returns>
     <ExportAPI("Karyotype.doc.gcSkew", Info:="Creates the circos circle plots of the genome gcskew.")>
-    Public Function CreateGCSkewPlots(SequenceModel As I_PolymerSequenceModel,
+    Public Function CreateGCSkewPlots(SequenceModel As IPolymerSequenceModel,
                                       <Parameter("SlideWindow.Size")> SlideWindowSize As Integer,
                                       steps As Integer) As NtProps.GCSkew
         Return New NtProps.GCSkew(SequenceModel, SlideWindowSize, steps, True)
@@ -1072,7 +1109,7 @@ SET_END:    Dim ends = i
                                      Optional loophole As Integer = 0) As Boolean
         Dim LQuery = (From Operon As Operon In DOOR_API.Load(DOOR)
                       Let Loci = (From obj In Operon Select {obj.Value.Location.Left, obj.Value.Location.Right}).Unlist
-                      Let COG As String = New String((From c In (From obj As KeyValuePair(Of String, GeneBrief)
+                      Let COG As String = New String((From c In (From obj As KeyValuePair(Of String, OperonGene)
                                                                  In Operon
                                                                  Select obj.Value.COG_number.GetCOGCategory.ToArray).Unlist
                                                       Select c
@@ -1114,15 +1151,15 @@ SET_END:    Dim ends = i
     <Extension>
     Public Function WriteData(circos As Configurations.Circos,
                               Optional outDIR$ = "",
-                              Optional debug As Boolean = False) As String
+                              Optional debug As DebugGroups = DebugGroups.NULL) As String
 
         Dim perlRun$ = GetCircosScript().CLIPath.Replace("\", "/")
         Dim conf$ = circos.FilePath.CLIPath.Replace("\", "/")
 
         Call circos.Save(outDIR)
-        Call $"perl {perlRun} -conf {conf}{If(debug, CircosAPI.DEBUG, "")}".SaveTo(outDIR & "/run.bat")
+        Call $"perl {perlRun} -conf {conf}{debug.GetOptions}".SaveTo(outDIR & "/run.bat")
         Call ("#! /bin/bash" & vbCrLf &
-             $"perl {perlRun} -conf {conf}{If(debug, CircosAPI.DEBUG, "")}").SaveTo(outDIR & "/run.sh")
+             $"perl {perlRun} -conf {conf}{debug.GetOptions}").SaveTo(outDIR & "/run.sh")
 
         Return circos.FilePath
     End Function
@@ -1174,6 +1211,15 @@ SET_END:    Dim ends = i
         Return __includesRemoveCommon(Configurations.Circos.TicksConf, doc)
     End Function
 
+    <Extension>
+    Public Function RemoveStroke(Of Track As ITrackPlot)(t As Track) As Track
+        t.thickness = "0p"
+        t.stroke_color = t.fill_color
+        t.stroke_thickness = "0"
+
+        Return t
+    End Function
+
     Private Function __includesRemoveCommon(conf As String, doc As Configurations.Circos) As Boolean
         If doc.Includes.IsNullOrEmpty Then
             Return True
@@ -1202,8 +1248,6 @@ SET_END:    Dim ends = i
         End If
         Return True
     End Function
-
-    Const DEBUG As String = " -debug_group angle,anglepos,axis,background,bezier,brush,cache,chrfilter,color,conf,counter,cover,eval,font,heatmap,ideogram,image,io,karyotype,layer,legend,link,output,parse,png,rule,scale,spacing,stats,summary,svg,text,textplace,tick,tile,timer,unit,url,zoom"
 
     <ExportAPI("Circos.Draw",
                Info:="Invoke the Perl program to drawing the circos plots. before you can using this method, you should switch the terminal
@@ -1323,7 +1367,7 @@ then you can using this method to adding the legends on your circos plots image 
 
             For Each ID As NamedValue(Of String) In AlignmentData
                 Call Device.Graphics.DrawString(ID.Name, Font, Brushes.Black, New Point(X, Y))
-                Call Device.Graphics.FillRectangle(New SolidBrush(CircosColor.FromKnownColorName(ID.x)), New Rectangle(New Point(X - ColorBlockSize.Width - 10, Y), ColorBlockSize))
+                Call Device.Graphics.FillRectangle(New SolidBrush(CircosColor.FromKnownColorName(ID.Value)), New Rectangle(New Point(X - ColorBlockSize.Width - 10, Y), ColorBlockSize))
 
                 Y += dh + 3
             Next

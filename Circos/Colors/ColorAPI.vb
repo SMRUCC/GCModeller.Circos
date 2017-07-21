@@ -50,7 +50,7 @@ Namespace Colors
                                            Select cId.ToUpper
                                            Distinct
             Dim ColorProfiles As New Dictionary(Of String, String)
-            Dim Colors = ColorAPI.Colors.Shuffles.ToList
+            Dim Colors = ColorAPI.Colors.Shuffles.AsList
             Dim i As Integer = 0
 
             Call Colors.Remove(defaultColor.ToLower)
@@ -113,7 +113,7 @@ Namespace Colors
             Dim hash As New Dictionary(Of String, String)
 
             For Each key As SeqValue(Of String) In categories.SeqIterator
-                Call hash.Add(key.obj$, colors(key.i%))
+                Call hash.Add(key.value$, colors(key.i%))
             Next
 
             Return hash

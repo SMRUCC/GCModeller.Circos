@@ -29,9 +29,9 @@
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -87,7 +87,7 @@ Partial Module CLI
             Let sp = CInt(Val(t(1)))
             Select New Location(st, sp)
 
-        Dim csv As New DocumentStream.File
+        Dim csv As New IO.File
 
         csv.Add({"Item", "genome.avg", "genome.max", "genome.min"}.Join(
                 sites.Select(Function(p)
@@ -96,7 +96,7 @@ Partial Module CLI
                              End Function).IteratesALL))
 
         For Each file$ In ls - l - r - "*.txt" <= vectorDIR
-            Dim vector#() = file.LoadDblArray
+            Dim vector#() = file.LoadAsNumericVector
             Dim sliWins = vector.SlideWindows(winSize, steps).ToArray
             Dim avg#() = sliWins _
                 .Select(Function(block) block.Average) _

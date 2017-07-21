@@ -81,11 +81,11 @@ Namespace Colors
                                                                   ColorValue = Regex.Replace(strM, Tokens.First & "\s*=\s*", "").Trim.Split.First
                                                               Select New NamedValue(Of String) With {
                                                                   .Name = ClName,
-                                                                  .x = ColorValue
+                                                                  .Value = ColorValue
                                                               }
             Dim RGBValue = (From item As NamedValue(Of String)
                             In Value.AsParallel
-                            Let RGB = Regex.Match(item.x, "\d+,\d+,\d+").Value
+                            Let RGB = Regex.Match(item.Value, "\d+,\d+,\d+").Value
                             Where Not String.IsNullOrEmpty(RGB)
                             Select item,
                                 ClName = item.Name.Trim,
@@ -153,7 +153,7 @@ Namespace Colors
             End If
         End Function
 
-        Public ReadOnly Property DefaultCOGColor As String = CircosColor.FromColor(Color.Brown)
+        Public ReadOnly Property DefaultCOGColor As String = Color.Brown.RGBExpression
 
         ''' <summary>
         ''' Gets circos color name from the .NET color object R,G,B value.
@@ -250,7 +250,7 @@ Namespace Colors
 
             Return categories _
                 .SeqIterator _
-                .ToDictionary(Function(cl) cl.obj,
+                .ToDictionary(Function(cl) cl.value,
                               Function(cl) Colors(cl.i))
         End Function
 

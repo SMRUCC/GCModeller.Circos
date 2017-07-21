@@ -1,37 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::ac27f5e207afd6a78a75a5c8b67a6d41, ..\interops\visualize\Circos\Circos.Extensions\data\DeltaDiff.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Text
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel.DataStructures
-Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
-Imports SMRUCC.genomics.Interops.NCBI.Extensions
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
+Imports Microsoft.VisualBasic.ListExtensions
+Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 
@@ -42,29 +39,29 @@ Namespace Documents.Karyotype.NtProps
         Dim _Steps As Integer
         Dim dbufs As Double()
 
-        Sub New(SequenceModel As I_PolymerSequenceModel, SlideWindowSize As Integer, Steps As Integer)
+        Sub New(SequenceModel As IPolymerSequenceModel, SlideWindowSize As Integer, Steps As Integer)
             Me._Steps = Steps
             Dim NT = New NucleotideModels.NucleicAcid(SequenceModel)
             Dim SW = NT.ToArray.CreateSlideWindows(SlideWindowSize, Steps)
             Dim NT_Cache = New NucleicAcid(NT.ToArray)
             Dim ChunkBuffer = (From n In SW.AsParallel
                                Select n.Left,
-                                   d = Sigma(NT_Cache, New NucleotideModels.NucleicAcid(n.Elements))
+                                   d = Sigma(NT_Cache, New NucleotideModels.NucleicAcid(n.Items))
                                Order By Left Ascending).ToArray
 
-            Dim LastSegment = SW.Last.Elements.ToList
+            Dim LastSegment = SW.Last.Items.AsList
             Dim TempChunk As List(Of NucleotideModels.DNA)
             Dim p As Long = SW.Last.Left
             Dim NT_Array = NT.ToArray
             Dim List = New List(Of Double)
 
             For i As Integer = 0 To LastSegment.Count - 1 Step Steps
-                TempChunk = LastSegment.Skip(i).ToList
+                TempChunk = LastSegment.Skip(i).AsList
                 Call TempChunk.AddRange(NT_Array.Take(i).ToArray)
                 Call List.Add(Sigma(NT_Cache, New NucleotideModels.NucleicAcid(TempChunk.ToArray)))
             Next
 
-            Dim MergeList = (From item In ChunkBuffer Select item.d).ToList
+            Dim MergeList = (From item In ChunkBuffer Select item.d).AsList
             Call MergeList.AddRange(List)
             Me.dbufs = MergeList.ToArray
         End Sub

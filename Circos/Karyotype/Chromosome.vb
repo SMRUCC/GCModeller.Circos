@@ -26,12 +26,10 @@
 
 #End Region
 
-Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.SequenceModel
@@ -92,7 +90,7 @@ Namespace Karyotype
                 LinqAPI.Exec(Of Karyotype) <= From nt As SeqValue(Of FastaToken)
                                               In chrs.SeqIterator(offset:=1)
                                               Let name As String =
-                                                  nt.obj.Title _
+                                                  nt.value.Title _
                                                         .Split("."c).First _
                                                         .NormalizePathString(True) _
                                                         .Replace(" ", "_")
@@ -102,11 +100,11 @@ Namespace Karyotype
                                                   .chrLabel = name,
                                                   .color = colors(clInd),
                                                   .start = 0,
-                                                  .end = nt.obj.Length
-                                              }.nt.SetValue(nt.obj).As(Of Karyotype)
+                                                  .end = nt.value.Length
+                                              }.nt.SetValue(nt.value).As(Of Karyotype)
 
             Return New KaryotypeChromosomes With {
-                .__karyotypes = ks.ToList
+                .__karyotypes = ks.AsList
             }
         End Function
 
@@ -124,8 +122,8 @@ Namespace Karyotype
             Dim bands As List(Of Band) =
                 LinqAPI.MakeList(Of Band) <= From x As SeqValue(Of BlastnMapping)
                                              In source.SeqIterator(offset:=1)
-                                             Let chr As String = labels(x.obj.Reference).chrName
-                                             Let loci As NucleotideLocation = x.obj.MappingLocation
+                                             Let chr As String = labels(x.value.Reference).chrName
+                                             Let loci As NucleotideLocation = x.value.MappingLocation
                                              Select New Band With {
                                                  .chrName = chr,
                                                  .start = loci.Left,
@@ -133,7 +131,7 @@ Namespace Karyotype
                                                  .color = "",
                                                  .bandX = "band" & x.i,
                                                  .bandY = "band" & x.i
-                                             }.MapsRaw.SetValue(x.obj).As(Of Band)
+                                             }.MapsRaw.SetValue(x.value).As(Of Band)
 
             Dim nts As Dictionary(Of String, SimpleSegment) =
                 chrs.ToDictionary(
@@ -157,7 +155,7 @@ Namespace Karyotype
                 band.color = props.GC(GC)
             Next
 
-            ks.__bands = bands.OrderBy(Function(x) x.chrName).ToList
+            ks.__bands = bands.OrderBy(Function(x) x.chrName).AsList
 
             Return ks
         End Function
