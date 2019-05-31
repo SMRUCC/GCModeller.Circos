@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b63bc9c2ce16d6bb4d10237794c850cc, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\Base\Rule.vb"
+﻿#Region "Microsoft.VisualBasic::3f2f41c37fe977bdf2752fcc20ccfd8f, visualize\Circos\Circos\ConfFiles\Nodes\Base\Rule.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class ConditionalRule
+    ' 
+    '         Properties: color, condition
+    ' 
+    '         Function: Build
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

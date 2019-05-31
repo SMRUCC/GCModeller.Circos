@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::3c9bb45de680d239756d0f6af5e0f2b8, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\DataExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::2d797df998619a940700514759fd1db1, visualize\Circos\Circos\TrackDatas\Adapter\DataExtensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,19 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module DataExtensions
+    ' 
+    '         Function: GetchrLabels, Hits, Identities, IdentitiesTracks
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

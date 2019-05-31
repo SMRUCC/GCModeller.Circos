@@ -1,28 +1,48 @@
-﻿#Region "Microsoft.VisualBasic::bf844f58bf99f341b8cf8350a9d4c0ce, ..\interops\visualize\Circos\CLI\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::251ab6aff17d646dc96cfa2355f37a1a, visualize\Circos\CLI\CLI\CLI.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module CLI
+    ' 
+    '     Function: __propertyVector, __vectorCommon, AlignmentTableDump, ATContent, GCSkew
+    '               MGA2Myva, NTVariation
+    '     Class tRNA
+    ' 
+    '         Properties: [end], AntiCodon, seqName, start, strand
+    '                     tRNAType
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -62,7 +82,7 @@ Public Module CLI
         Dim source As New FastaFile(mla)
 
         If ref.FileExists Then
-            Dim refFa As FastaToken = New FastaToken(ref)
+            Dim refFa As FastaSeq = New FastaSeq(ref)
             Dim out As String = args.GetValue("/out", mla.TrimSuffix & "-" & ref.BaseName & ".NTVariations.txt")
             Dim vec = refFa.NTVariations(source, cut)
             Return vec.FlushAllLines(out, Encodings.ASCII).CLICode
@@ -95,7 +115,7 @@ Public Module CLI
         Return vector.Select(Function(n) CStr(n)).FlushAllLines(out, Encodings.ASCII).CLICode
     End Function
 
-    Private Function __propertyVector(method As NtProperty, inFasta As FastaToken, out As String, winSize As Integer, steps As Integer) As Integer
+    Private Function __propertyVector(method As NtProperty, inFasta As FastaSeq, out As String, winSize As Integer, steps As Integer) As Integer
         Dim vector As Double() = method(inFasta, winSize, steps, True)
         Return vector.Select(Function(n) CStr(n)).FlushAllLines(out, Encodings.ASCII).CLICode
     End Function

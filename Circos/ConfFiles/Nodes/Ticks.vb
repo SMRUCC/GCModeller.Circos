@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::e662ea90e31211546a9bd58b8655ec39, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\Ticks.vb"
+﻿#Region "Microsoft.VisualBasic::68c2243853f80d7fc2cac1d654193972, visualize\Circos\Circos\ConfFiles\Nodes\Ticks.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,31 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Ticks
+    ' 
+    '         Properties: color, label_offset, label_separation, label_size, min_label_distance_to_edge
+    '                     multiplier, radius, size, skip_first_label, skip_last_label
+    '                     thickness, tick_separation, Ticks
+    ' 
+    '         Function: Build, DefaultConfiguration
+    ' 
+    '     Class Tick
+    ' 
+    '         Properties: color, format, grid, grid_color, grid_thickness
+    '                     label_offset, label_size, show_label, size, spacing
+    '                     suffix
+    ' 
+    '         Function: Build
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

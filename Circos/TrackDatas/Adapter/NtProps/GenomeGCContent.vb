@@ -1,28 +1,43 @@
-﻿#Region "Microsoft.VisualBasic::7eb5ea7895661c03ecb4f7276b7e89c3, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\NtProps\GenomeGCContent.vb"
+﻿#Region "Microsoft.VisualBasic::87395104e44ef49ba32b99e983a946d5, visualize\Circos\Circos\TrackDatas\Adapter\NtProps\GenomeGCContent.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class GenomeGCContent
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: __sourceGC, FillData, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -39,7 +54,7 @@ Namespace TrackDatas.NtProps
     ''' </summary>
     Public Class GenomeGCContent : Inherits data(Of ValueTrackData)
 
-        Sub New(nt As FastaToken, Optional SegmentLength As Integer = -1, Optional steps As Integer = 10, Optional avg As Boolean = True)
+        Sub New(nt As FastaSeq, Optional SegmentLength As Integer = -1, Optional steps As Integer = 10, Optional avg As Boolean = True)
             Call MyBase.New(
                 __sourceGC(nt, If(SegmentLength <= 0, 10, SegmentLength), steps, avg))
         End Sub
@@ -52,7 +67,7 @@ Namespace TrackDatas.NtProps
             MyBase.New(data)
         End Sub
 
-        Private Overloads Shared Function __sourceGC(nt As FastaToken, segLen As Integer, steps As Integer, usingAvg As Boolean) As NASegment_GC()
+        Private Overloads Shared Function __sourceGC(nt As FastaSeq, segLen As Integer, steps As Integer, usingAvg As Boolean) As NASegment_GC()
             Dim source As NASegment_GC() = GCProps.GetGCContentForGENOME(
                 nt,
                 winSize:=segLen,
@@ -99,7 +114,7 @@ Namespace TrackDatas.NtProps
 
             out = New NASegment_GC(slides.Length - 1) {}
 
-            For Each x In slides.SeqIterator
+            For Each x As SeqValue(Of SlideWindow(Of NASegment_GC)) In slides.SeqIterator
                 out(x.i) = x.value.First
                 out(x.i).value = x.value.Average(Function(o) o.value)
                 out(x.i).end = x.value.Last.end
@@ -108,7 +123,7 @@ Namespace TrackDatas.NtProps
             If usingAvg Then
                 Dim avg# = out.Average(Function(x) x.value)
 
-                For Each x In out
+                For Each x As NASegment_GC In out
                     x.value -= avg#
                 Next
             End If

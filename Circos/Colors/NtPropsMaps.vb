@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::7e435fd0567ecf067e4e5b4b98a9c683, ..\interops\visualize\Circos\Circos\Colors\NtPropsMaps.vb"
+﻿#Region "Microsoft.VisualBasic::83ddf0d3c053d2bf62d6a9dd0ad58991, visualize\Circos\Circos\Colors\NtPropsMaps.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module NtPropsMapsExtensions
+    ' 
+    '         Function: FromAT, FromGC, PropertyMaps
+    ' 
+    '     Structure NtPropsMaps
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -54,7 +72,7 @@ Namespace Colors
         End Function
 
         <Extension>
-        Public Function PropertyMaps(source As IEnumerable(Of FastaToken)) As NtPropsMaps
+        Public Function PropertyMaps(source As IEnumerable(Of FastaSeq)) As NtPropsMaps
             Dim genome As New FastaFile(source)
             Dim props As GeneObjectGC() = GCProps.GetGCContentForGenes(genome)
             Dim AT As Mappings() = props.FromAT

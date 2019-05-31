@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::1e4e979eb7565acb8537fc7e22948a42, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Highlights\Highlights.vb"
+﻿#Region "Microsoft.VisualBasic::db734a6283fdb6e1ae46c6e83e74592c, visualize\Circos\Circos\TrackDatas\Adapter\Highlights\Highlights.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Highlights
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Sub: __throwSourceNullEx
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -48,7 +63,7 @@ Namespace TrackDatas.Highlights
             "(at least should parts of the genes in the genome have COG assigned value)."
 
         Protected Sub __throwSourceNullEx(Of T)(source As IEnumerable(Of T))
-            If source.IsNullOrEmpty Then
+            If source Is Nothing OrElse Not source.Any Then
                 Dim exMsg As String =
                     $"{Me.GetType.FullName}, data Is null!" &
                     vbCrLf &

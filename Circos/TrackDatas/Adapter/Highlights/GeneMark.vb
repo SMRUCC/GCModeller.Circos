@@ -1,28 +1,48 @@
-﻿#Region "Microsoft.VisualBasic::7bc26d5c0089f51276e92d43c71c2661, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Highlights\Gene.vb"
+﻿#Region "Microsoft.VisualBasic::3584a31f184e055ac852a7643228e92a, visualize\Circos\Circos\TrackDatas\Adapter\Highlights\GeneMark.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class GeneMark
+    ' 
+    '         Properties: COGColors
+    ' 
+    '         Constructor: (+4 Overloads) Sub New
+    ' 
+    '         Function: LegendsDrawing
+    ' 
+    '         Sub: __motifSitesCommon
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -55,7 +75,7 @@ Namespace TrackDatas.Highlights
  _
                 From gene As IGeneBrief
                 In annos
-                Let COG As String = If(String.IsNullOrEmpty(gene.COG), "-", gene.COG)
+                Let COG As String = If(String.IsNullOrEmpty(gene.Feature), "-", gene.Feature)
                 Let fill As String = If(
                     Color.ContainsKey(COG),
                     Color(COG),

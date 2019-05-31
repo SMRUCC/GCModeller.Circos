@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::5634714a438b45f71e9cb2e55209bc41, ..\interops\visualize\Circos\Circos\Karyotype\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::686210fe64f8faae0ad29c5cc0b30fd2, visualize\Circos\Circos\Karyotype\Abstract.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,23 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class SkeletonInfo
+    ' 
+    '         Properties: Size
+    ' 
+    '         Function: Build, (+2 Overloads) Save
+    ' 
+    '         Sub: __karyotype
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -90,12 +108,12 @@ Namespace Karyotype
             Return sb.ToString
         End Function
 
-        Public Function Save(Optional Path As String = "", Optional encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
+        Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Return Build(Scan0).SaveTo(Path, encoding)
         End Function
 
-        Public Function Save(Optional Path As String = "", Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
-            Return Save(Path, encoding.CodePage)
+        Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+            Return Save(path, encoding.CodePage)
         End Function
     End Class
 End Namespace

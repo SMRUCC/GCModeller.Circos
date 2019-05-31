@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::972c80957c50e215dd8322fcf2092e5f, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\Base\TrackPlots.vb"
+﻿#Region "Microsoft.VisualBasic::b1905141719b6e4aba3ffea3915bfc51, visualize\Circos\Circos\ConfFiles\Nodes\Base\TrackPlots.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -24,18 +25,38 @@
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Interface ITrackPlot
+    ' 
+    '         Properties: file, fill_color, orientation, r0, r1
+    '                     stroke_color, stroke_thickness, thickness, TracksData, type
+    ' 
+    '         Function: Save
+    ' 
+    '     Class TracksPlot
+    ' 
+    '         Properties: file, fill_color, max, min, orientation
+    '                     r0, r1, Rules, stroke_color, stroke_thickness
+    '                     thickness, TracksData
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: Build, GeneratePlotsElementListChunk, (+2 Overloads) Save, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
+
 #End Region
 
 Imports System.Text
-Imports SMRUCC.genomics.Visualize.Circos.Configurations
-Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
-Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.ComponentModel.Ranges
-Imports Microsoft.VisualBasic.ComponentModel.Settings
-Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 
 Namespace Configurations.Nodes.Plots
 
@@ -217,12 +238,16 @@ Namespace Configurations.Nodes.Plots
             End If
         End Function
 
-        Public Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean Implements ICircosDocument.Save, ITrackPlot.Save
+        Public Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ICircosDocument.Save
             Return TracksData.GetDocumentText.SaveTo(FilePath, Encoding)
         End Function
 
-        Public Function Save(Optional Path As String = "", Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+        Public Function Save(Path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
             Return Save(Path, encoding.CodePage)
+        End Function
+
+        Private Function ITrackPlot_Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean Implements ITrackPlot.Save
+            Return Save(FilePath, Encoding)
         End Function
     End Class
 End Namespace

@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::6312870b61952d012c2e3ca9f9888133, ..\interops\visualize\Circos\Circos\CircosAPI.vb"
+﻿#Region "Microsoft.VisualBasic::f5906f81ceb2e3ceede689c8587a2ca4, visualize\Circos\Circos\CircosAPI.vb"
 
 ' Author:
 ' 
 '       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
 '       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
 ' 
-' Copyright (c) 2016 GPL3 Licensed
+' Copyright (c) 2018 GPL3 Licensed
 ' 
 ' 
 ' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
 ' 
 ' This program is free software: you can redistribute it and/or modify
 ' it under the terms of the GNU General Public License as published by
@@ -24,6 +25,28 @@
 ' You should have received a copy of the GNU General Public License
 ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
+
+' /********************************************************************************/
+
+' Summaries:
+
+' Module CircosAPI
+' 
+'     Function: __createGenomeCircle, (+2 Overloads) __geneHighlights, __includesRemoveCommon, AddGenbankData, AddGeneInfoTrack
+'               (+2 Overloads) AddGradientMappings, AddMotifSites, AddPlotTrack, AddScoredMotifs, AddSites
+'               CircosOption, CreateDataModel, CreateGCContent, CreateGCSkewPlots, CreateGenomeCircle
+'               DrawingImageAddLegend, GenerateBlastnAlignment, GenerateGeneCircle, GetCircosScript, GetGenomeCircle
+'               GetIdeogram, (+2 Overloads) IdentityColors, PlotsSeperatorLine, PTT2Dump, RemoveIdeogram
+'               RemoveStroke, RemoveTicks, RNAVisualize, (+3 Overloads) SetBasicProperty, (+2 Overloads) SetIdeogramRadius
+'               SetIdeogramWidth, SetPlotElementPosition, (+2 Overloads) SetRadius, SetTrackFillColor, SetTrackOrientation
+'               Shell, SitesFrequency, SkeletonFromDoor, VariantsHighlights, VariationAsDump
+'               WriteData
+' 
+'     Sub: __addDisplayName, __STDOUT_Threads, setProperty, ShowTicksLabel
+' 
+' /********************************************************************************/
+
 #End Region
 
 Imports System.Drawing
@@ -36,6 +59,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.FileIO.Path
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Language
@@ -488,7 +512,7 @@ different with the ideogram configuration document was not included in the circo
 
         If Not highlightsTrack.IsNullOrEmpty Then
             If highlightsTrack.Length = 1 AndAlso
-                Not highlightsTrack.First.Highlights.IsNullOrEmpty Then
+                Not highlightsTrack.First.Highlights.Count = 0 Then
 
                 Dim htrack As HighLight = highlightsTrack(Scan0)
                 htrack.r0 = "0.86r"
@@ -497,7 +521,7 @@ different with the ideogram configuration document was not included in the circo
                 Call doc.AddTrack(htrack)
             Else
                 For Each circle As HighLight In highlightsTrack
-                    If circle.Highlights.IsNullOrEmpty Then
+                    If circle.Highlights.Count = 0 Then
                         Continue For
                     End If
                     Call doc.AddTrack(circle)
@@ -508,8 +532,7 @@ different with the ideogram configuration document was not included in the circo
         highlightsTrack = __geneHighlights(anno, Colors, Strands.Reverse, splitOverlaps)
 
         If Not highlightsTrack.IsNullOrEmpty Then
-            If highlightsTrack.Length = 1 AndAlso
-                Not highlightsTrack.First.Highlights.IsNullOrEmpty Then
+            If highlightsTrack.Length = 1 AndAlso highlightsTrack.First.Highlights.Count > 0 Then
 
                 Dim hTrack As HighLight = highlightsTrack(Scan0)
                 hTrack.r0 = "0.82r"
@@ -520,7 +543,7 @@ different with the ideogram configuration document was not included in the circo
                 Call doc.AddTrack(hTrack)
             Else
                 For Each circle In highlightsTrack
-                    If circle.Highlights.IsNullOrEmpty Then
+                    If circle.Highlights.Count = 0 Then
                         Continue For
                     End If
                     Call doc.AddTrack(circle)
@@ -624,7 +647,7 @@ different with the ideogram configuration document was not included in the circo
 
     <ExportAPI("Variation.As.Dump")>
     Public Function VariationAsDump(var As IEnumerable(Of Double)) As GeneDumpInfo()
-        Dim regions As New List(Of TripleKeyValuesPair(Of Double))
+        Dim regions As New List(Of (value#, start%, end%))
         Dim pre As Double() = var.ToArray
 
         For i As Integer = 0 To pre.Length - 1
@@ -657,17 +680,13 @@ SET_END:    Dim ends = i
                 aavg = chun.Average
             End If
 
-            regions += New TripleKeyValuesPair(Of Double) With {
-                .Value3 = aavg,
-                .Value1 = CDbl(start),
-                .Value2 = CDbl(ends)
-            }
+            regions += (aavg, start, ends)
         Next
 
         Dim genesPretend = regions.Select(
             Function(r) New GeneDumpInfo With {
-                .Location = New NucleotideLocation(CInt(r.Value1), CInt(r.Value2)),
-                .GC_Content = CDbl(r.Value3)
+                .Location = New NucleotideLocation(r.start, r.end),
+                .GC_Content = r.value
             }).ToArray
         Dim mapsSrc As Integer() = genesPretend.Select(Function(g) g.GC_Content).GenerateMapping(100)
 
@@ -825,7 +844,7 @@ SET_END:    Dim ends = i
     '''
     <ExportAPI("RNA.Visualize")>
     <Extension>
-    Public Function RNAVisualize(doc As Configurations.Circos, anno As PTT)
+    Public Function RNAVisualize(doc As Configurations.Circos, anno As PTT) As Configurations.Circos
         Dim COGVector As String() = anno.GeneObjects _
             .Select(Function(g) g.Product) _
             .Distinct _
@@ -871,7 +890,7 @@ SET_END:    Dim ends = i
     <ExportAPI("Plots.GC%", Info:="Adds the GC% content on the circos plots.")>
     Public Function CreateGCContent(<Parameter("NT.Fasta",
                                                "The original nt sequence in the fasta format for the calculation of the GC% content in each slidewindow")>
-                                    nt As FastaToken, winSize%, steps%) As NtProps.GenomeGCContent
+                                    nt As FastaSeq, winSize%, steps%) As NtProps.GenomeGCContent
         Return New NtProps.GenomeGCContent(nt, winSize, steps)
     End Function
 
@@ -980,7 +999,7 @@ SET_END:    Dim ends = i
     ''' <returns></returns>
     <ExportAPI("Plots.Genome_Circle.From.GenbankDump",
                Info:="Creates the circos outside gene circle from the export csv data of the genbank database file.")>
-    Public Function CreateGenomeCircle(anno As IEnumerable(Of GeneDumpInfo), genome As FastaToken, Optional defaultColor As String = "blue") As PTTMarks
+    Public Function CreateGenomeCircle(anno As IEnumerable(Of GeneDumpInfo), genome As FastaSeq, Optional defaultColor As String = "blue") As PTTMarks
         Dim track As New PTTMarks(anno.ToArray, genome, defaultColor)
         Return track
     End Function
@@ -1054,7 +1073,7 @@ SET_END:    Dim ends = i
     End Function
 
     <ExportAPI("Set.Property.Basic")>
-    Public Function SetBasicProperty(doc As Configurations.Circos, nt As FASTA.FastaToken, Optional loophole As Integer = 0) As Boolean
+    Public Function SetBasicProperty(doc As Configurations.Circos, nt As FASTA.FastaSeq, Optional loophole As Integer = 0) As Boolean
         Return SetBasicProperty(doc, nt, Nothing, loophole)
     End Function
 
@@ -1068,8 +1087,8 @@ SET_END:    Dim ends = i
     ''' <returns></returns>
     <ExportAPI("Skeleton.With.Bands")>
     Public Function SetBasicProperty(circos As Configurations.Circos,
-                                     NT As FASTA.FastaToken,
-                                     bands As IEnumerable(Of TripleKeyValuesPair),
+                                     NT As FastaSeq,
+                                     bands As IEnumerable(Of NamedTuple(Of String)),
                                      Optional loopHole As Integer = 0) As Boolean
         Call circos.Includes.Add(New Ticks(Circos:=circos))
         Call circos.Includes.Add(New Ideogram(circos))
@@ -1077,7 +1096,7 @@ SET_END:    Dim ends = i
         circos.SkeletonKaryotype = New KaryotypeChromosomes(
             Len(NT.SequenceData) + loopHole,
             "white",
-            If(bands Is Nothing, Nothing, bands.ToArray))
+            bands.SafeQuery.ToArray)
         circos.SkeletonKaryotype.LoopHole.value = loopHole
         circos.karyotype = "./data/genome_skeleton.txt"
 
@@ -1106,7 +1125,7 @@ SET_END:    Dim ends = i
 
     <ExportAPI("Skeleton.From.Door", Info:="Creates the basic Karyotype document for the circos plot.")>
     Public Function SkeletonFromDoor(doc As Configurations.Circos,
-                                     NT As FastaToken,
+                                     NT As FastaSeq,
                                      <Parameter("Door.File", "The file path of the door operon prediction data.")> DOOR As String,
                                      Optional loophole As Integer = 0) As Boolean
         Dim LQuery = (From Operon As Operon In DOOR_API.Load(DOOR)
@@ -1118,18 +1137,18 @@ SET_END:    Dim ends = i
                                                       Distinct
                                                       Order By c Ascending).ToArray)
                       Select COG,
-                          band = New TripleKeyValuesPair With {
-                            .Value1 = CStr(Loci.Min),
-                            .Value2 = CStr(Loci.Max)}).ToArray
+                          band = New NamedTuple(Of String)(CStr(Loci.Min), CStr(Loci.Max))).ToArray
         Dim Color As Dictionary(Of String, String) =
             CircosColor.ColorProfiles((From obj In LQuery
                                        Select obj.COG
                                        Distinct).ToArray)
-        Dim setValue = New SetValue(Of TripleKeyValuesPair) <= NameOf(TripleKeyValuesPair.Key)
-        Dim BandsData As TripleKeyValuesPair() =
-            LinqAPI.Exec(Of TripleKeyValuesPair) <= From obj
-                                                    In LQuery.AsParallel
-                                                    Select setValue(obj.band, Color(obj.COG))
+        Dim setValue = New SetValue(Of NamedTuple(Of String)) <= NameOf(NamedTuple(Of String).Name)
+        Dim BandsData = LinqAPI.Exec(Of NamedTuple(Of String)) _
+ _
+            () <= From obj
+                  In LQuery
+                  Select setValue(obj.band, Color(obj.COG))
+
         Return SetBasicProperty(doc, NT, BandsData, loophole)
     End Function
 
@@ -1172,10 +1191,11 @@ SET_END:    Dim ends = i
     ''' <returns></returns>
     <ExportAPI("Circos.pl", Info:="Gets the circos Perl script file location automatically by search on the file system.")>
     Public Function GetCircosScript() As String
-        Dim libs = ProgramPathSearchTool.SearchDirectory("circos", "")
+        Dim libs = ProgramPathSearchTool.SearchDirectory("circos")
 
         For Each DIR As String In libs
-            Dim circos$() = ProgramPathSearchTool.SearchScriptFile(DIR, "circos")
+            Dim circos$() = ProgramPathSearchTool.SearchScriptFile(DIR, "circos").ToArray
+
             If Not circos.IsNullOrEmpty Then
                 Return circos.First
             End If
@@ -1255,12 +1275,13 @@ SET_END:    Dim ends = i
                Info:="Invoke the Perl program to drawing the circos plots. before you can using this method, you should switch the terminal
                work directory to the directory which contains the circos.conf plots configuration file.")>
     Public Function Shell(Optional conf As String = "") As Boolean
-        Dim Directories = Microsoft.VisualBasic.ProgramPathSearchTool.SearchDirectory("perl", "")
+        Dim Directories = ProgramPathSearchTool.SearchDirectory("perl", "")
         Dim Perl As String = ""
         Dim Circos As String = GetCircosScript()
 
         For Each Dir As String In Directories
-            Dim Files = Microsoft.VisualBasic.ProgramPathSearchTool.SearchProgram(Dir, "perl")
+            Dim Files = ProgramPathSearchTool.SearchProgram(Dir, "perl").ToArray
+
             If Not Files.IsNullOrEmpty Then
                 Perl = Files.First
                 Call $"Perl program find at ""{Perl.ToFileURL}""".__DEBUG_ECHO

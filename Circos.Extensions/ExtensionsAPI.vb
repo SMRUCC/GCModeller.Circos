@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::81c20b1f1690378f67be65cb49980178, ..\interops\visualize\Circos\Circos.Extensions\ExtensionsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::b4dc1dc4a46132e4b1d2df711c5fb3c8, visualize\Circos\Circos.Extensions\ExtensionsAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,20 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module ExtensionsAPI
+    ' 
+    '     Function: CreateDeltaDiffPlots, FromRegulons, (+2 Overloads) FromVirtualFootprint
+    ' 
+    '     Sub: GeneratePhenotypeRegulations
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -83,7 +98,7 @@ Public Module ExtensionsAPI
                                                     PTT As PTT,
                                                     Optional selects As IEnumerable(Of Name) = Nothing) As Connection()
 
-        If Not selects.IsNullOrEmpty Then
+        If Not selects Is Nothing Then
             Dim filters = (From x As Name In selects Select x.Loci, x).ToArray
             footprints = (From x As PredictedRegulationFootprint
                               In footprints
@@ -109,7 +124,7 @@ Public Module ExtensionsAPI
     Public Function FromRegulons(DIR As String, PTT As PTT, Optional requiredMaps As Boolean = False) As HighlightLabel
         Dim bbh = (From file As String
                    In FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
-                   Select file.LoadXml(Of BacteriaGenome).Regulons.Regulators).ToArray.Unlist
+                   Select file.LoadXml(Of BacteriaRegulome).regulons.regulators).ToArray.Unlist
         If requiredMaps Then
             Dim Maps As Dictionary(Of String, String) = PTT.LocusMaps
             For Each x As Regulator In bbh
@@ -122,10 +137,10 @@ Public Module ExtensionsAPI
         End If
         Dim LQuery = (From x As Regulator
                       In bbh
-                      Where Not String.IsNullOrEmpty(x.Pathway)
+                      Where Not String.IsNullOrEmpty(x.pathway)
                       Let locus As String() = x.Regulates.Select(Function(g) g.LocusId)
                       Let parts = ContinuouParts(locus)
-                      Select parts.Select(Function(xx) New With {.func = x.Pathway, .locus_tags = xx})).Unlist
+                      Select parts.Select(Function(xx) New With {.func = x.pathway, .locus_tags = xx})).Unlist
         Dim trims = (From x In LQuery Where x.locus_tags.Length > 1 Select x Group x By x.func Into Group).ToArray
         LQuery = (From x In trims
                   Let locus As String() = x.Group.Select(Function(xx) xx.locus_tags).ToVector

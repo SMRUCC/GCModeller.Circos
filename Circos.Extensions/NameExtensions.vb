@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::ccdf27961368d441c13aa350985d6fb4, ..\interops\visualize\Circos\Circos.Extensions\NameExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::bb44267d3566cb6c26f7b6d7f4ecfb66, visualize\Circos\Circos.Extensions\NameExtensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,18 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module NameExtensions
+    ' 
+    '     Function: __loadCommon, DumpNames, RegulonRegulators
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -52,9 +65,9 @@ Public Module NameExtensions
     Private Function __loadCommon(DIR As String, gb As PTT) As KeyValuePair(Of String, GeneBrief)()
         Dim bbh = (From file As String
                    In FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
-                   Select file.LoadXml(Of BacteriaGenome).Regulons.Regulators).ToArray.Unlist
+                   Select file.LoadXml(Of BacteriaRegulome).regulons.regulators).ToArray.Unlist
         Dim Maps = gb.LocusMaps
-        Dim regLocus = (From x In bbh Select New With {.Family = x.Family, .Locus = x.LocusId}).ToArray
+        Dim regLocus = (From x In bbh Select New With {.Family = x.family, .Locus = x.LocusId}).ToArray
 
         For i As Integer = 0 To regLocus.Length - 1
             Dim s As String = regLocus(i).Locus

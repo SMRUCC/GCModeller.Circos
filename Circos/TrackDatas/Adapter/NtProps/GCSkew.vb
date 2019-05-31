@@ -1,28 +1,43 @@
-﻿#Region "Microsoft.VisualBasic::a2a10675a00b99e7aa2a1d2cb98d83ca, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\NtProps\GCSkew.vb"
+﻿#Region "Microsoft.VisualBasic::b940ffca2d632cb118e1bef2ea5b7791, visualize\Circos\Circos\TrackDatas\Adapter\NtProps\GCSkew.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class GCSkew
+    ' 
+    '         Constructor: (+3 Overloads) Sub New
+    '         Function: __avgData, __sourceGC, CreateLineData
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -61,7 +76,7 @@ Namespace TrackDatas.NtProps
         ''' <param name="SlideWindowSize"></param>
         ''' <param name="Steps"></param>
         ''' <param name="Circular"></param>
-        Sub New(genome As IEnumerable(Of FastaToken),
+        Sub New(genome As IEnumerable(Of FastaSeq),
                 karyotype As Karyotype.SkeletonInfo,
                 SlideWindowSize As Integer,
                 Steps As Integer,
@@ -72,7 +87,7 @@ Namespace TrackDatas.NtProps
                 Function(x) x.chrLabel,
                 Function(x) x.chrName)
 
-            For Each nt As FastaToken In genome
+            For Each nt As FastaSeq In genome
                 Dim raw As Double() = NucleotideModels.GCSkew(
                     nt,
                     SlideWindowSize,

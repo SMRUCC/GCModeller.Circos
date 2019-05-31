@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::3d5029a8ef96504ba8e64305bf592426, ..\interops\visualize\Circos\Circos\Karyotype\Karyotype.vb"
+﻿#Region "Microsoft.VisualBasic::ff1d9ccd57e10c601281f58b1703a81b, visualize\Circos\Circos\Karyotype\Karyotype.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,38 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module KaryotypeExtensions
+    ' 
+    '         Function: LoopHole, MapsRaw, nt
+    ' 
+    '     Class Karyotype
+    ' 
+    '         Properties: [end], chrLabel, chrName, color, start
+    ' 
+    '         Function: ToString
+    ' 
+    '     Interface IKaryotype
+    ' 
+    '         Properties: [end], chrName, color, start
+    ' 
+    '         Function: GetData
+    ' 
+    '     Class Band
+    ' 
+    '         Properties: [end], bandX, bandY, chrName, color
+    '                     start
+    ' 
+    '         Function: GetData, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -54,8 +87,8 @@ Namespace Karyotype
         ''' <param name="x"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function nt(x As Karyotype) As PropertyValue(Of FastaToken)
-            Return PropertyValue(Of FastaToken).Read(Of Karyotype)(x, NameOf(nt))
+        Public Function nt(x As Karyotype) As PropertyValue(Of FastaSeq)
+            Return PropertyValue(Of FastaSeq).Read(Of Karyotype)(x, NameOf(nt))
         End Function
 
         <Extension>

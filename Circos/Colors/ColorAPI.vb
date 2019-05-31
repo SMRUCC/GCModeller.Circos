@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::504b42227e9afa8cf923129d3406391f, ..\interops\visualize\Circos\Circos\Colors\ColorAPI.vb"
+﻿#Region "Microsoft.VisualBasic::10258731df83f45a59780875686a197d, visualize\Circos\Circos\Colors\ColorAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,27 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module ColorAPI
+    ' 
+    '         Properties: Colors
+    ' 
+    '         Function: GenerateColors, GetCogColorProfile
+    '         Class __innerProfiles
+    ' 
+    '             Constructor: (+1 Overloads) Sub New
+    '             Function: GetColor
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

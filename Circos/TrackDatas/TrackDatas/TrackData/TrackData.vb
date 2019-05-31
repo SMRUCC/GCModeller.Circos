@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::b96c3570fbeb706ddec4c0230f763866, ..\interops\visualize\Circos\Circos\TrackDatas\TrackDatas\TrackData.vb"
+﻿#Region "Microsoft.VisualBasic::9470ffcd034ad9fae9239ce005f7fbf8, visualize\Circos\Circos\TrackDatas\TrackDatas\TrackData\TrackData.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,21 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class TrackData
+    ' 
+    '         Properties: [end], chr, comment, formatting, start
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -144,5 +160,8 @@ Namespace TrackDatas
 
         Protected MustOverride Function __trackData() As String
 
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+            Me.start = address
+        End Sub
     End Class
 End Namespace

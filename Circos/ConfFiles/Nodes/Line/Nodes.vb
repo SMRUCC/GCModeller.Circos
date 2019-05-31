@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::46c682bb7521482fb3e51d77a76e355c, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\Line\Nodes.vb"
+﻿#Region "Microsoft.VisualBasic::558fc0a1e20a94a4197215e9e4ae5790, visualize\Circos\Circos\ConfFiles\Nodes\Line\Nodes.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -23,6 +24,27 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Axis
+    ' 
+    '         Properties: color, spacing, thickness
+    ' 
+    '         Function: Build
+    ' 
+    '     Class Background
+    ' 
+    '         Properties: color, y0, y1
+    ' 
+    '         Function: Build
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,28 +1,50 @@
-﻿#Region "Microsoft.VisualBasic::2ac6cc4806d84e58bb134135ea3c1807, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\NtProps\GC.vb"
+﻿#Region "Microsoft.VisualBasic::7374bb77419cedbe007a87a2128d5a79, visualize\Circos\Circos\TrackDatas\Adapter\NtProps\GC.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module GCProps
+    ' 
+    '         Function: GetGCContentForGenes, GetGCContentForGENOME
+    ' 
+    '     Class GeneObjectGC
+    ' 
+    '         Properties: Title
+    ' 
+    '     Class NASegment_GC
+    ' 
+    '         Properties: AT, GC_AT, length, value
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -53,14 +75,14 @@ Namespace TrackDatas.NtProps
         ''' <returns></returns>
         <ExportAPI("Get.Genes.GC")>
         <Extension>
-        Public Function GetGCContentForGenes(FASTA As IEnumerable(Of FastaToken)) As GeneObjectGC()
+        Public Function GetGCContentForGenes(FASTA As IEnumerable(Of FastaSeq)) As GeneObjectGC()
             Dim LQuery As GeneObjectGC() =
-                LinqAPI.Exec(Of GeneObjectGC) <= From fa As FastaToken
+                LinqAPI.Exec(Of GeneObjectGC) <= From fa As FastaSeq
                                                  In FASTA
                                                  Let gc As Double = GCContent(fa.SequenceData.ToUpper)
                                                  Let at As Double = 1 - gc
                                                  Select New GeneObjectGC With {
-                                                     .Title = fa.Attributes.First,
+                                                     .Title = fa.Headers.First,
                                                      .value = gc,
                                                      .AT = at,
                                                      .GC_AT = (gc / at)
@@ -69,9 +91,9 @@ Namespace TrackDatas.NtProps
         End Function
 
         <ExportAPI("Get.Genome.GC")>
-        Public Function GetGCContentForGENOME(FASTA As FastaToken, winSize As Integer, steps As Integer) As NASegment_GC()
+        Public Function GetGCContentForGENOME(FASTA As FastaSeq, winSize As Integer, steps As Integer) As NASegment_GC()
             Dim NT As DNA() = NucleicAcid.CreateObject(FASTA.SequenceData).ToArray
-            Dim slideWins = NT.CreateSlideWindows(slideWindowSize:=winSize, offset:=steps)
+            Dim slideWins = NT.CreateSlideWindows(winSize, offset:=steps)
             Dim LQuery As List(Of NASegment_GC) = LinqAPI.MakeList(Of NASegment_GC) <=
  _
                 From seg As SlideWindow(Of DNA)

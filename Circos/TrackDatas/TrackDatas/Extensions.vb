@@ -1,15 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::93e64e58f72398d4b4396c4e4b7c3f7a, ..\interops\visualize\Circos\Circos\TrackDatas\TrackDatas\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::0b2fc7420d7b42ce7d36fdcd51e4d0c8, visualize\Circos\Circos\TrackDatas\TrackDatas\Extensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
     '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
     ' 
-    ' Copyright (c) 2016 GPL3 Licensed
+    ' Copyright (c) 2018 GPL3 Licensed
     ' 
     ' 
     ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
     ' 
     ' This program is free software: you can redistribute it and/or modify
     ' it under the terms of the GNU General Public License as published by
@@ -24,10 +25,23 @@
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Module Extensions
+    ' 
+    '         Function: Distinct, FromColorMapping, Ranges
+    ' 
+    ' 
+    ' /********************************************************************************/
+
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Linq
 
 Namespace TrackDatas
