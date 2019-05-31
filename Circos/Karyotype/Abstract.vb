@@ -65,17 +65,20 @@ Namespace Karyotype
         ''' <returns></returns>
         Public Overridable ReadOnly Property Size As Integer
             Get
-                Return __karyotypes.Select(Function(x) Math.Abs(x.end - x.start)).Sum
+                Return Aggregate karyo As Karyotype
+                       In karyos
+                       Let len As Integer = Math.Abs(karyo.end - karyo.start)
+                       Into Sum(len)
             End Get
         End Property
 
-        Protected __karyotypes As List(Of Karyotype)
-        Protected __bands As List(Of Band)
+        Protected karyos As List(Of Karyotype)
+        Protected bands As List(Of Band)
 
         Public ReadOnly Iterator Property Karyotypes As IEnumerable(Of Karyotype)
             Get
-                For Each x As Karyotype In __karyotypes
-                    Yield x
+                For Each karyo As Karyotype In karyos
+                    Yield karyo
                 Next
             End Get
         End Property
@@ -84,7 +87,7 @@ Namespace Karyotype
         ''' 只有一个基因组的时候可以调用这个方法
         ''' </summary>
         Protected Sub __karyotype(Optional color As String = "black")
-            Me.__karyotypes = New List(Of Karyotype) From {
+            Me.karyos = New List(Of Karyotype) From {
                 New Karyotype With {
                     .chrLabel = "1",
                     .chrName = "chr1",
@@ -95,13 +98,13 @@ Namespace Karyotype
             }
         End Sub
 
-        Public Function Build(IndentLevel As Integer) As String Implements ICircosDocNode.Build
+        Public Function Build(IndentLevel As Integer, directory$) As String Implements ICircosDocNode.Build
             Dim sb As New StringBuilder
 
-            For Each x As IKaryotype In __karyotypes
+            For Each x As IKaryotype In karyos
                 Call sb.AppendLine(x.GetData)
             Next
-            For Each x As IKaryotype In __bands.SafeQuery
+            For Each x As IKaryotype In bands.SafeQuery
                 Call sb.AppendLine(x.GetData)
             Next
 
@@ -109,7 +112,7 @@ Namespace Karyotype
         End Function
 
         Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
-            Return Build(Scan0).SaveTo(Path, encoding)
+            Return Build(Scan0, directory:=Path.ParentPath).SaveTo(Path, encoding)
         End Function
 
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
