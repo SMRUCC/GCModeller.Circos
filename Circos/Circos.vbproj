@@ -246,7 +246,8 @@
     <Compile Include="ConfFiles\Nodes\Connector.vb" />
     <Compile Include="ConfFiles\Nodes\Line\Nodes.vb" />
     <Compile Include="ConfFiles\Nodes\Line\Line.vb" />
-    <Compile Include="Karyotype\Abstract.vb" />
+    <Compile Include="Karyotype\Adapters\ChromosomeGenerator.vb" />
+    <Compile Include="Karyotype\SkeletonInfo.vb" />
     <Compile Include="Karyotype\Karyotype.vb" />
     <Compile Include="CircosDebugger.vb" />
     <Compile Include="Karyotype\Extensions.vb" />
