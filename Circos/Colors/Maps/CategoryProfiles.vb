@@ -51,7 +51,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Namespace Colors
 
     <Package("Circos.COGs.ColorAPI")>
-    Public Module ColorAPI
+    Public Module CategoryProfiles
 
         <ExportAPI("COG.Colors")>
         Public Function GetCogColorProfile(MyvaCOG As MyvaCOG(), defaultColor As String) As Func(Of String, String)
