@@ -79,15 +79,15 @@ Namespace Colors
             Dim titleFont As New Font(FontFace.MicrosoftYaHei, 64, FontStyle.Regular)
             Dim sz As SizeF = g.Graphics.MeasureString(title, titleFont)
 
-            Call g.Graphics.DrawString(title, titleFont, Brushes.Black, New Point)
+            Call g.DrawString(title, titleFont, Brushes.Black, New Point)
 
             Dim Y As Integer = CInt(5 + sz.Height) - 20
             Dim X As Double = 5
             Dim maps As New ColorMap(mapLevel * 2)
-            Dim clSequence As Color() = ColorSequence(maps, mapName).Reverse.ToArray
-            Dim offset = CInt(clSequence.Length * offsetPercentage)
+            Dim colorSeq As Color() = ColorSequence(maps, mapName).Reverse.ToArray
+            Dim offset = CInt(colorSeq.Length * offsetPercentage)
             Dim drWidth As Integer = g.Width - 5 * 2
-            Dim dx As Double = drWidth / (clSequence.Length - offset)
+            Dim dx As Double = drWidth / (colorSeq.Length - offset)
             Dim drHeight As Integer = CInt((g.Height - sz.Height) * 0.85)
 
             Dim sMin, sMax As String
@@ -103,8 +103,8 @@ Namespace Colors
 
             Call g.DrawString(sMin, ruleFont, Brushes.Black, New Point(CInt(X), Y + drHeight))
 
-            For idx As Integer = offset To clSequence.Length - 1
-                Dim color As Color = clSequence(idx)
+            For idx As Integer = offset To colorSeq.Length - 1
+                Dim color As Color = colorSeq(idx)
                 Dim currX As Integer = CInt(X)
 
                 X += dx
@@ -191,8 +191,8 @@ Namespace Colors
 
                 Return New Mappings With {
                     .value = value,
-                    .Level = lv,
-                    .Color = Color
+                    .level = lv,
+                    .color = Color
                 }
             End Function
         End Structure

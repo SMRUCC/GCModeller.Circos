@@ -45,7 +45,6 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
@@ -107,8 +106,7 @@ Namespace Colors
                               item.Key
                          Group By clName Into Group
 
-            CircosColor.RGBColors = colors.ToDictionary(Function(x) x.ClName,
-                                                        Function(x) x.Group.First.Key)
+            CircosColor.RGBColors = colors.ToDictionary(Function(x) x.clName, Function(x) x.Group.First.Key)
             CircosColor.RGBColors = (From Color
                                      In CircosColor.RGBColors
                                      Where Color.Value.R <> 0 AndAlso Color.Value.G <> 0 AndAlso Color.Value.B <> 0
@@ -264,6 +262,7 @@ Namespace Colors
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("From.Color", Info:="Gets the Circos color name from the .NET color object RGB value.")>
+        <Extension>
         Public Function FromColor(Color As Drawing.Color) As String
             Return FromRGB(Color.R, Color.G, Color.B)
         End Function
@@ -276,13 +275,11 @@ Namespace Colors
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("Color.Profiles",
-                   Info:="Mappings each item in the categories into the Circos color name to generates a color profiles for drawing the elements in the circos plot.")>
+        <ExportAPI("Color.Profiles", Info:="Mappings each item in the categories into the Circos color name to generates a color profiles for drawing the elements in the circos plot.")>
         <Extension> Public Function ColorProfiles(Of T)(categories As T()) As Dictionary(Of T, String)
             Dim Colors As String() = CircosColor.RGBColors.Keys.Shuffles
 
-            If categories.IsNullOrEmpty OrElse
-                (categories.Count = 1 AndAlso categories(Scan0) Is Nothing) Then
+            If categories.IsNullOrEmpty OrElse (categories.Count = 1 AndAlso categories(Scan0) Is Nothing) Then
                 Call $"{NameOf(categories)} is null...".Warning
                 categories = New T() {}
             End If
