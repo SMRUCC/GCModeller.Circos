@@ -72,6 +72,8 @@ Namespace Colors
         Dim ColorNames As KeyValuePair(Of Color, String)()
         Dim RGBColors As Dictionary(Of String, Color) = CircosColor.loadResource
 
+#Region "Initialize"
+
         ''' <summary>
         ''' 从资源文件之中加载可以被使用的CIRCOS颜色映射数据，这个函数会在模块的构造函数之中自动调用
         ''' </summary>
@@ -163,6 +165,7 @@ Namespace Colors
                           .Value = color
                       }
         End Function
+#End Region
 
         Public ReadOnly Property AllCircosColors As String()
             Get
@@ -287,7 +290,9 @@ Namespace Colors
             Return categories _
                 .SeqIterator _
                 .ToDictionary(Function(cl) cl.value,
-                              Function(cl) Colors(cl.i))
+                              Function(cl)
+                                  Return Colors(cl.i)
+                              End Function)
         End Function
 
         ''' <summary>

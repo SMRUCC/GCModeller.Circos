@@ -228,9 +228,9 @@
   <ItemGroup>
     <Compile Include="ConfFiles\Nodes\Base\ITrackPlot.vb" />
     <Compile Include="DebugGroups.vb" />
-    <Compile Include="Colors\NtPropsMaps.vb" />
+    <Compile Include="Colors\Maps\NtPropsMaps.vb" />
     <Compile Include="Colors\Mappings.vb" />
-    <Compile Include="Colors\GradientMaps.vb" />
+    <Compile Include="Colors\Maps\GradientMaps.vb" />
     <Compile Include="ConfFiles\ComponentModel\Interface.vb" />
     <Compile Include="ConfFiles\ComponentModel\DocAbstract.vb" />
     <Compile Include="ConfFiles\Extensions.vb" />
@@ -256,7 +256,7 @@
     <Compile Include="TrackDatas\TrackDatas\TrackData\LinkConnector.vb" />
     <Compile Include="TrackDatas\TrackDatas\TrackData\TrackData.vb" />
     <Compile Include="Karyotype\Adapters\PPTMarks.vb" />
-    <Compile Include="Colors\ColorAPI.vb" />
+    <Compile Include="Colors\Maps\ColorAPI.vb" />
     <Compile Include="TrackDatas\Adapter\NtProps\GCSkew.vb" />
     <Compile Include="TrackDatas\Adapter\NtProps\GenomeGCContent.vb" />
     <Compile Include="TrackDatas\Adapter\Connector.vb" />
