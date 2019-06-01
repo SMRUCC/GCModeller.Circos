@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4b381de392598f23b894254db6e257d, Circos\ConfFiles\ComponentModel\Interface.vb"
+﻿#Region "Microsoft.VisualBasic::f4234b4a13ddabd137f3fb8bfbe37590, Circos\ConfFiles\ComponentModel\Interface.vb"
 
     ' Author:
     ' 
@@ -50,7 +50,7 @@
 
 Imports Microsoft.VisualBasic.ComponentModel
 
-Namespace Configurations
+Namespace Configurations.ComponentModel
 
     Public MustInherit Class CircosDocument : Implements ICircosDocNode
         Public MustOverride Function Build(indents As Integer, directory As String) As String Implements ICircosDocNode.Build

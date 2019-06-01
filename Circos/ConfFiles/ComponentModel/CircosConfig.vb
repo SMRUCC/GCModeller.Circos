@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af97c1549e788bfe04ed2005b84b8f52, Circos\ConfFiles\ComponentModel\DocAbstract.vb"
+﻿#Region "Microsoft.VisualBasic::ec32c7cff75a4a510df0345f7438317c, Circos\ConfFiles\ComponentModel\CircosConfig.vb"
 
     ' Author:
     ' 
@@ -51,7 +51,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
 
-Namespace Configurations
+Namespace Configurations.ComponentModel
 
     ''' <summary>
     ''' Abstract of the circos config files.
@@ -96,7 +96,7 @@ Namespace Configurations
             Dim refPath As String = Tools.TrimPath(include)
 
             If TypeOf include Is CircosDistributed Then
-                Dim name As String = DirectCast(include, CircosDistributed).Section
+                Dim name As String = DirectCast(include, CircosDistributed).section
 
                 If Not String.IsNullOrEmpty(name) Then
                     Call sb.AppendLine($"<{name}>")
@@ -144,7 +144,7 @@ Namespace Configurations
         ''' <param name="directory"></param>
         ''' <param name="Encoding"></param>
         ''' <returns></returns>
-        Public Function Save(directory$, Encoding As Encoding) As Boolean Implements ICircosDocument.Save
+        Public Overridable Function Save(directory$, Encoding As Encoding) As Boolean Implements ICircosDocument.Save
             If TypeOf Me Is CircosDistributed Then
                 Return True ' 系统自带的不需要进行保存了
             End If

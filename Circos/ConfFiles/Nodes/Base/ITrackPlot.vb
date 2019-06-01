@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1dae810ea5238797b2dfd452c2400260, Circos\ConfFiles\Nodes\Base\ITrackPlot.vb"
+﻿#Region "Microsoft.VisualBasic::69d1c9de09add05de7798adc54b0a67d, Circos\ConfFiles\Nodes\Base\ITrackPlot.vb"
 
     ' Author:
     ' 
@@ -42,7 +42,7 @@
     '     Interface ITrackPlot
     ' 
     '         Properties: file, fill_color, orientation, r0, r1
-    '                     stroke_color, stroke_thickness, thickness, TracksData, type
+    '                     stroke_color, stroke_thickness, thickness, tracksData, type
     ' 
     '         Function: Save
     ' 
@@ -52,6 +52,7 @@
 #End Region
 
 Imports System.Text
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 
 Namespace Configurations.Nodes.Plots
@@ -100,8 +101,8 @@ Namespace Configurations.Nodes.Plots
         Property stroke_color As String
         Property thickness As String
 
-        ReadOnly Property TracksData As Idata
+        ReadOnly Property tracksData As Idata
 
-        Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
+        Function Save(filePath As String, Encoding As Encoding) As Boolean
     End Interface
 End Namespace

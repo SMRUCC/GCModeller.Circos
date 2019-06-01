@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0847e59ec7634e7e2cc0b8a838a24659, Circos\ConfFiles\Nodes\Base\Rule.vb"
+﻿#Region "Microsoft.VisualBasic::abca3c17e94c74b1cf291af8f3bb1199, Circos\ConfFiles\Nodes\Base\Rule.vb"
 
     ' Author:
     ' 
@@ -42,7 +42,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.Settings
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 
 Namespace Configurations.Nodes.Plots
 

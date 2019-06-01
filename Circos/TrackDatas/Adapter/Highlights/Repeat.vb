@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4edb9b02f711953f857ea8dd770ca568, Circos\TrackDatas\Adapter\Highlights\Repeat.vb"
+﻿#Region "Microsoft.VisualBasic::2989dcc2dbc8860d88a4a760d862f105, Circos\TrackDatas\Adapter\Highlights\Repeat.vb"
 
     ' Author:
     ' 
@@ -41,14 +41,8 @@
 
 #End Region
 
-Imports System.Drawing
-Imports System.Text
-Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace TrackDatas.Highlights
 

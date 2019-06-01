@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1bba0cfacf3ca18c5cc23ca22ad7b53f, Circos\ConfFiles\Nodes\SeperatorCircle.vb"
+﻿#Region "Microsoft.VisualBasic::32a97cb02dfe0239bac5b238d4f98537, Circos\ConfFiles\Nodes\SeperatorCircle.vb"
 
     ' Author:
     ' 
@@ -48,11 +48,11 @@ Namespace Configurations.Nodes.Plots
 
     Public Class SeperatorCircle : Inherits Histogram
 
-        Dim Width As Integer
+        Dim width As Integer
 
-        Sub New(Length As Integer, Width As Integer)
-            Call MyBase.New(data:=NtProps.GCSkew.CreateLineData(Length, Width))
-            Me.Width = Width
+        Sub New(length As Integer, width As Integer)
+            Call MyBase.New(data:=NtProps.GCSkew.CreateLineData(length, width))
+            Me.width = width
         End Sub
     End Class
 End Namespace

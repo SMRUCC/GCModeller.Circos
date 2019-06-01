@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b1bf8ffb0aa767ad49720d3b768f1b69, Circos\ConfFiles\Ideogram.vb"
+﻿#Region "Microsoft.VisualBasic::1de644f6578f1e481cb850b0cd1bd684, Circos\ConfFiles\Ideogram.vb"
 
     ' Author:
     ' 
@@ -44,6 +44,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 
 Namespace Configurations
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f988baffbdccf4aaae76b0ae02a6358, Circos\Karyotype\Adapters\DOOROperon.vb"
+﻿#Region "Microsoft.VisualBasic::ab7a27b9786d4a7ff11950b710ae2234, Circos\Karyotype\Adapters\DOOROperon.vb"
 
     ' Author:
     ' 
@@ -58,7 +58,7 @@ Namespace Karyotype
             Dim DOOR As DOOR = DOOR_API.Load(DoorFile)
             Me.bands = New List(Of Band)(GenerateDocument(DOOR))
             Me.Size = bands.Select(Function(x) {x.start, x.end}).IteratesALL.Max
-            Call __karyotype()
+            Call singleKaryotypeChromosome()
         End Sub
 
         Private Overloads Iterator Function GenerateDocument(DOOR As DOOR) As IEnumerable(Of Band)

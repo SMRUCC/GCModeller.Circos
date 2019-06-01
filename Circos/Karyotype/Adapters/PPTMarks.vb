@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c6b9d3d89ee90e70bf300623ba8d73c1, Circos\Karyotype\Adapters\PPTMarks.vb"
+﻿#Region "Microsoft.VisualBasic::e7f5aa69a625817f1f357087bf592d22, Circos\Karyotype\Adapters\PPTMarks.vb"
 
     ' Author:
     ' 
@@ -72,7 +72,7 @@ Namespace Karyotype.GeneObjects
                 bands = PTTMarks.Generate(genome, MyvaCog, defaultColor).AsList
             End If
 
-            Call __karyotype()
+            Call singleKaryotypeChromosome()
         End Sub
 
         Sub New(genes As GeneDumpInfo(), nt As FastaSeq, Optional defaultColor As String = "blue")
@@ -86,7 +86,7 @@ Namespace Karyotype.GeneObjects
                 }
             Dim genome = PTTDbLoader.CreateObject(genes, nt)
             bands = PTTMarks.Generate(genome, MyvaCog, defaultColor).AsList
-            Call __karyotype()
+            Call singleKaryotypeChromosome()
         End Sub
 
         Private Shared Iterator Function Generate(GenomeBrief As PTTDbLoader, MyvaCog As MyvaCOG(), Optional defaultColor As String = "blue") As IEnumerable(Of Band)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8be0a68e3ca83f6a6e084b42a31eb87, Circos\ConfFiles\Circos.vb"
+﻿#Region "Microsoft.VisualBasic::5602d23362b89d7b93b50c9c83676406, Circos\ConfFiles\Circos.vb"
 
     ' Author:
     ' 
@@ -54,10 +54,10 @@
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
 Imports SMRUCC.genomics.Visualize.Circos.Karyotype
 
@@ -223,6 +223,8 @@ Namespace Configurations
         ''' <returns></returns>
         Public Property skeletonKaryotype As SkeletonInfo
 
+        ReadOnly plotTracks As New List(Of ITrackPlot)
+
         ''' <summary>
         ''' The genome size.(基因组的大小，当<see cref="SkeletonKaryotype"/>为空值的时候返回数值0)
         ''' </summary>
@@ -232,7 +234,7 @@ Namespace Configurations
                 If skeletonKaryotype Is Nothing Then
                     Return 0
                 End If
-                Return _skeletonKaryotype.Size - skeletonKaryotype.LoopHole.value
+                Return _skeletonKaryotype.size - skeletonKaryotype.LoopHole.value
             End Get
         End Property
 
@@ -244,11 +246,9 @@ Namespace Configurations
         ''' <remarks></remarks>
         Public ReadOnly Property Plots As ITrackPlot()
             Get
-                Return _plots.ToArray
+                Return plotTracks.ToArray
             End Get
         End Property
-
-        Dim _plots As New List(Of ITrackPlot)
 
         ''' <summary>
         ''' Gets the number of the tracks that defined in this circos model
@@ -256,7 +256,7 @@ Namespace Configurations
         ''' <returns></returns>
         Public ReadOnly Property numberOfTracks As Integer
             Get
-                Return _plots.Count
+                Return plotTracks.Count
             End Get
         End Property
 
@@ -265,22 +265,23 @@ Namespace Configurations
             Me.main = Me
         End Sub
 
-        Public Overloads Function Save(directory$, Encoding As Encoding) As Boolean
+        Public Overloads Overrides Function Save(directory$, encoding As Encoding) As Boolean
             Dim base = directory Or FilePath.ParentPath.AsDefault
             Dim dataDIR As String = $"{base}/data/"
 
             Call FilePath.SetValue($"{base}/{FileIO.FileSystem.GetFileInfo(FilePath).Name}")
             Call FileIO.FileSystem.CreateDirectory(dataDIR)
 
-            For Each i As SeqValue(Of ITrackPlot) In _plots.SeqIterator
+            For Each i As SeqValue(Of ITrackPlot) In plotTracks.SeqIterator
                 Dim track As ITrackPlot = i.value
                 Dim path$ = $"data/{track.type}_data_{i.i + 1}.txt"
 
+                ' 首先保存数据文件
                 track.file = path
-                track.Save(path, Encoding.ASCII)  ' 首先保存数据文件
+                track.Save($"{directory}/{path}", Encoding.ASCII)
             Next
 
-            Call _skeletonKaryotype.Save(karyotype, encoding:=Encoding.ASCII)
+            Call _skeletonKaryotype.Save($"{base}/{karyotype}", encoding:=Encoding.ASCII)
 
             ' 最后在这里生成配置文件
             Return Build(0, directory:=base).SaveTo(FilePath, Encoding.ASCII)
@@ -310,7 +311,7 @@ Namespace Configurations
         ''' <param name="track"></param>
         ''' <remarks></remarks>
         Public Sub AddTrack(track As ITrackPlot)
-            Call Me._plots.Add(track)
+            Call Me.plotTracks.Add(track)
 
             If Not String.IsNullOrEmpty(stroke_thickness) Then
                 track.stroke_thickness = stroke_thickness
@@ -363,7 +364,7 @@ Namespace Configurations
             If Not Plots.IsNullOrEmpty Then
                 Call sb.AppendLine(vbCrLf & "<plots>")
 
-                For Each plotRule In _plots
+                For Each plotRule As ITrackPlot In plotTracks
                     Call sb.AppendLine()
                     Call sb.AppendLine(plotRule.Build(IndentLevel + 2, directory))
                 Next
@@ -381,7 +382,7 @@ Namespace Configurations
         End Operator
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of ITrackPlot) Implements IEnumerable(Of ITrackPlot).GetEnumerator
-            For Each x As ITrackPlot In _plots
+            For Each x As ITrackPlot In plotTracks
                 Yield x
             Next
         End Function

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9ec1a260d806db68314505f5b8ca1bb1, Circos\ConfFiles\Ticks.vb"
+﻿#Region "Microsoft.VisualBasic::4c2dbfe5dcb86cc769b1107bacfb6a33, Circos\ConfFiles\Ticks.vb"
 
     ' Author:
     ' 
@@ -45,6 +45,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Settings
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 Imports System.Text
 
 Namespace Configurations

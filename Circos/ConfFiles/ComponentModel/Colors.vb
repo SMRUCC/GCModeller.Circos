@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a8997a73acbccf37163a132790115db6, Circos\ConfFiles\ComponentModel\Colors.vb"
+﻿#Region "Microsoft.VisualBasic::a6a64e59022f8a942ca9f87b55515ed3, Circos\ConfFiles\ComponentModel\Colors.vb"
 
     ' Author:
     ' 
@@ -48,7 +48,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace Configurations
+Namespace Configurations.ComponentModel
 
     ''' <summary>
     ''' Use ``<see cref="Circos.chromosomes_color"/>`` to change
@@ -89,8 +89,8 @@ Namespace Configurations
 
             Call sb.AppendLine("<colors>")
 
-            For Each x As NamedValue(Of String) In colors.Values
-                Call sb.AppendLine($"  {x.Name} = {x.Value}")
+            For Each color As NamedValue(Of String) In colors.Values
+                Call sb.AppendLine($"  {color.Name} = {color.Value}")
             Next
 
             Call sb.AppendLine("</colors>")

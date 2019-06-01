@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::52a0348287eead8beed496c59df76d9f, Circos\Tools.vb"
+﻿#Region "Microsoft.VisualBasic::089c4ce9ef49985d2e797b661bcc754b, Circos\Tools.vb"
 
     ' Author:
     ' 
@@ -43,7 +43,7 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.Visualize.Circos.Configurations
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 
 Module Tools
 

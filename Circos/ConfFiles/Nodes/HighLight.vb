@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc47e11ff958d70daec586ff6dbd8182, Circos\ConfFiles\Nodes\HighLight.vb"
+﻿#Region "Microsoft.VisualBasic::2cad5da027789e826ecfded4462cc4b2, Circos\ConfFiles\Nodes\HighLight.vb"
 
     ' Author:
     ' 
@@ -58,15 +58,15 @@ Namespace Configurations.Nodes.Plots
             End Get
         End Property
 
-        Sub New(HighlightsDataModel As Highlights)
-            Call MyBase.New(HighlightsDataModel)
-        End Sub
-
         <Circos> Public Overrides ReadOnly Property type As String
             Get
                 Return "highlight"
             End Get
         End Property
+
+        Sub New(HighlightsDataModel As Highlights)
+            Call MyBase.New(HighlightsDataModel)
+        End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Overrides Function GetProperties() As String()
