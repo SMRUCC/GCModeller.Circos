@@ -228,7 +228,6 @@
   <ItemGroup>
     <Compile Include="Colors\Maps\LevelMapGenerator.vb" />
     <Compile Include="Colors\Maps\NtPropsMapsExtensions.vb" />
-    <Compile Include="Colors\Maps\MvyaColorProfile.vb" />
     <Compile Include="Colors\PerlColor.vb" />
     <Compile Include="ConfFiles\Nodes\Base\ITrackPlot.vb" />
     <Compile Include="DebugGroups.vb" />
@@ -247,6 +246,7 @@
     <Compile Include="ConfFiles\Nodes\Line\Nodes.vb" />
     <Compile Include="ConfFiles\Nodes\Line\Line.vb" />
     <Compile Include="Karyotype\Adapters\ChromosomeGenerator.vb" />
+    <Compile Include="Karyotype\Adapters\PPTMarks.vb" />
     <Compile Include="Karyotype\SkeletonInfo.vb" />
     <Compile Include="Karyotype\Karyotype.vb" />
     <Compile Include="CircosDebugger.vb" />
@@ -261,12 +261,10 @@
     <Compile Include="TrackDatas\TrackDatas\TrackData\Tracks.vb" />
     <Compile Include="TrackDatas\TrackDatas\TrackData\LinkConnector.vb" />
     <Compile Include="TrackDatas\TrackDatas\TrackData\TrackData.vb" />
-    <Compile Include="Karyotype\Adapters\PPTMarks.vb" />
     <Compile Include="Colors\Maps\CategoryProfiles.vb" />
     <Compile Include="TrackDatas\Adapter\NtProps\GCSkew.vb" />
     <Compile Include="TrackDatas\Adapter\NtProps\GenomeGCContent.vb" />
     <Compile Include="TrackDatas\Adapter\Connector.vb" />
-    <Compile Include="TrackDatas\Adapter\Highlights\BlastMaps\BlastMaps.vb" />
     <Compile Include="TrackDatas\Adapter\Highlights\BlastMaps\IdentityColors.vb" />
     <Compile Include="TrackDatas\Adapter\Highlights\Labels.vb" />
     <Compile Include="TrackDatas\Adapter\Highlights\GeneMark.vb" />
