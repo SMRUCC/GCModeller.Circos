@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::785d313e9e2ad84192c62e3be7304a9e, Circos\Circos.Extensions\localblast\PPTMarksHelper.vb"
+﻿#Region "Microsoft.VisualBasic::193df83410fe57dca009a58d6bdb879c, Circos\CLI\Module1.vb"
 
     ' Author:
     ' 
@@ -31,15 +31,22 @@
 
     ' Summaries:
 
-    ' Module PPTMarksHelper
+    ' Module Module1
     ' 
-    ' 
+    '     Sub: Main
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Module PPTMarksHelper
+Imports SMRUCC.genomics.Visualize
 
+Module Module1
+
+    Sub Main()
+        Dim doc As Circos.Configurations.Circos = Circos.CreateDataModel
+
+
+    End Sub
 End Module
 
